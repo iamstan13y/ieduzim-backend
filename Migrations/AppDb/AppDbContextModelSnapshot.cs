@@ -370,6 +370,9 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
@@ -513,6 +516,9 @@ namespace IEduZimAPI.Migrations.AppDb
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
