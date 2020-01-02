@@ -59,8 +59,12 @@ namespace IEduZimAPI.Services.AccountServices
         {
             var user = userManager.FindByNameAsync(login.Username).Result.ValidateUser(login.Username);
             var tempPassword = new VerificationService(userManager).GetTempPassword(user);
-            if (!userManager.IsEmailConfirmedAsync(user).Result)
+
+            var account = _context.Students.Where(x => x.UserId == user.Id).FirstOrDefault();
+
+            if (!account.IsActive)
                 throw new Exception($"Your account is not active");
+
             if (!userManager.CheckPasswordAsync(user, login.Password).Result)
             {
                 var t = Crypto.VerifyHashedPassword(user.PasswordHash, login.Password);
