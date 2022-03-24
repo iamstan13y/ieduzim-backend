@@ -1,0 +1,12 @@
+<b *ngIf="field.value != null">
+    <span *ngIf="field.type < 6 || !field.type">{{field.value}}</span>
+    <span *ngIf="field.type == 12">{{field.value | currency}}</span>
+
+    <span *ngIf="(field.type == 6)">
+        <span *ngFor="let item of field['selectedValue']">{{item}}</span>
+    </span>
+
+    <span *ngIf="field.type == 7">{{field.value | date : 'dd MMM yyyy'}}</span>
+    <nz-switch *ngIf="field.type == 9" [(ngModel)]="field.value" [nzDisabled]="true"></nz-switch>
+</b>
+<b *ngIf="field.value == null">&nbsp;<i nz-icon nzType="minus" nzTheme="outline"></i>&nbsp;</b>

@@ -1,0 +1,25 @@
+<div class="p-4">
+    <h2 class="text-center">
+      Payment Settings
+    </h2><br/>
+<nz-tabset nzType="card">
+    <nz-tab>
+        <a nz-tab-link [routerLink]="['currencies']" style="color: darkgreen; text-decoration: none;" routerLinkActive>Currencies</a>
+        <ng-template nz-tab>
+          <router-outlet></router-outlet>
+        </ng-template>
+      </nz-tab>
+      <nz-tab>
+        <a nz-tab-link style="color: darkgreen; text-decoration: none;" [routerLink]="['payment-periods']">Payment Periods</a>
+        <ng-template nz-tab>
+          <router-outlet></router-outlet>
+        </ng-template>
+      </nz-tab>
+      <nz-tab>
+        <a nz-tab-link style="color: darkgreen; text-decoration: none;" [routerLink]="['banks']">Bank Account Types</a>
+        <ng-template nz-tab>
+          <router-outlet></router-outlet>
+        </ng-template>
+      </nz-tab>
+  </nz-tabset>
+  </div>

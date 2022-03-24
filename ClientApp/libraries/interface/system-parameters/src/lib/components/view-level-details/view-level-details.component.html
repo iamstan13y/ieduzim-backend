@@ -1,0 +1,22 @@
+<div class="p-4">
+    <div class="text-left">
+        <a [routerLink]="['/admin/levels']" routerLinkActive>
+            <button nz-button nzType="primary" class="pb-3" [nzSize]="'small'" nz-tooltip nzTooltipTitle="Back">
+              &nbsp;<i nz-icon nzType="double-left"></i>&nbsp;
+            </button>
+          </a>
+    </div>
+    <h1 class="text-center" style="display: flex; justify-content: center;">
+      {{level ? level.name : 'Level Details'}}&nbsp;
+      <button nz-button nzType="primary" class="pb-3" [nzSize]="'small'" style="margin-top: 0.3em;" (click)="loadForm()"
+      nzGhost nz-tooltip nzTooltipTitle="Edit">
+        &nbsp;<i nz-icon nzType="edit"></i>&nbsp;
+      </button>
+    </h1><br/>
+</div>
+<nz-drawer *ngIf="visible" [nzClosable]="true" [nzVisible]="visible" [nzTitle]="'Update Level'"
+  (nzOnClose)="toggleDrawer(false)" nzWidth="30%">
+  <app-form *ngIf="form" [form]="form"></app-form>
+</nz-drawer>
+<br/>
+<app-subjects [level]="level" *ngIf="level"></app-subjects>

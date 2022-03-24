@@ -1,0 +1,57 @@
+<div class="center pt-5">
+    <nz-avatar nzIcon="user" [nzSize]="100" nzSrc="https://i.ibb.co/QXJ8khp/admin-user-icon-12-removebg-preview.png">
+    </nz-avatar>
+</div>
+<div class="row ml-1 mr-1">
+    <div class="col-6 offset-3 card p-4">
+        <ul style="list-style: none; padding-right: 3em;">
+            <li>
+                {{user ? user.userName : ''}}
+                <span class="text-right forbidden">
+                    <i nz-icon nzType="lock" nzTheme="fill"></i>
+                </span>
+            </li>
+            <hr>
+            <li>
+                {{user ? user.email : ''}}
+                <span class="text-right cursor">
+                    <i nz-icon nzType="edit" nzTheme="fill" (click)="updateDetails({email: user.email, title: 'Email'})"></i>
+                </span>
+            </li>
+            <hr>
+            <li>
+                {{user ? user.phoneNumber : ''}}
+                <span class="text-right cursor">
+                    <i nz-icon nzType="edit" nzTheme="fill"
+                        (click)="updateDetails({phoneNumber: user.phoneNumber, title: 'Phone Number'})"></i>
+                </span>
+            </li>
+            <hr>
+            <li>
+                {{user ? user.role : ''}}
+                <span class="text-right forbidden">
+                    <i nz-icon nzType="lock" nzTheme="fill"></i>
+                </span>
+            </li>
+            <hr />
+            <li>
+                Password
+                <span class="text-right cursor">
+                    <i nz-icon nzType="edit" nzTheme="fill" (click)="toggleReset(true)"></i>
+                </span>
+            </li>
+            <hr />
+        </ul><br />
+    </div>
+</div>
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" [nzTitle]="'Update '+title" (nzOnClose)="toggleDrawer(false)" [nzWidth]="'30%'">
+    <app-form *ngIf="form" [form]="form"></app-form>
+</nz-drawer>
+
+<nz-drawer [nzClosable]="false" [nzVisible]="reset" nzPlacement="right" [nzTitle]="'Reset Password'"(nzOnClose)="toggleReset(false)" [nzWidth]="'30%'">
+    <app-reset-password (toggle)="toggleReset(false)"></app-reset-password>
+</nz-drawer>
+
+
+
+`

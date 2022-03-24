@@ -1,0 +1,19 @@
+<div class="p-4">
+    <h2 class="text-center">
+      Users
+    </h2><br/>
+<nz-tabset nzType="card">
+    <nz-tab>
+        <a nz-tab-link style="color: darkgreen; text-decoration: none;" [routerLink]="['teachers']" routerLinkActive>Teachers</a>
+        <ng-template nz-tab>
+          <router-outlet></router-outlet>
+        </ng-template>
+      </nz-tab>
+      <nz-tab>
+        <a nz-tab-link style="color: darkgreen; text-decoration: none;" [routerLink]="['students']">Students</a>
+        <ng-template nz-tab>
+          <router-outlet></router-outlet>
+        </ng-template>
+      </nz-tab>
+  </nz-tabset>
+  </div>

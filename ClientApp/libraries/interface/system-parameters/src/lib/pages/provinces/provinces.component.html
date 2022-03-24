@@ -1,0 +1,47 @@
+
+<div class="p-4">
+    <!-- <h2 class="text-center">
+      Provinces
+    </h2> -->
+    <div class="text-right">
+      <h3>Provinces &nbsp;
+        <button nz-button nzType="primary" (click)="toggleDrawer(true)">Add New</button>
+        </h3>
+    </div><br/>
+    <nz-table *ngIf="provinces" #dataTable [nzData]="provinces.data" [(nzPageIndex)]="index" (nzPageIndexChange)="getProvinces($event)"
+    [nzFrontPagination]="false" [nzPageSize]="provinces.pageSize"
+    [nzTotal]="provinces.totalItems">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th style="width: 15%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of dataTable.data">
+            <td>{{data.name }}</td>
+            <td>
+              <nz-switch [(ngModel)]="data.active" (ngModelChange)="changeStatus($event, data)" nz-tooltip
+              [nzTooltipTitle]="data.active ? 'Deactivate Province' : 'Activate Province'"></nz-switch>
+            </td>
+            <td style="width: 15%;" class="text-right">
+              <nz-button-group>
+              <button nz-button nzType="primary" [nzSize]="'small'" (click)="edit(data)">
+                <i nz-icon nzType="edit"></i>
+              </button>
+              <button nz-button nzType="danger" [nzSize]="'small'" nzGhost
+                nz-popconfirm nzPopconfirmTitle="Delete {{ data.name }}" nzPopconfirmPlacement="right"  nz-tooltip [nzTooltipTitle]="'Delete'"
+                        (nzOnConfirm)="delete(data)" (nzOnCancel)="toggleDrawer(false)">
+                <i nz-icon nzType="delete"></i>
+              </button>
+              </nz-button-group>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      </div>
+      <nz-drawer [nzClosable]="true" [nzVisible]="visible"
+       [nzTitle]="province ? 'Update Province': 'Add Province'" (nzOnClose)="toggleDrawer(false)"  nzWidth="30%">
+            <app-form *ngIf="form" [form]="form"></app-form>
+      </nz-drawer>

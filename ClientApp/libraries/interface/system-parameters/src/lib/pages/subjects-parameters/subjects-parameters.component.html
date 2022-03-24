@@ -1,0 +1,19 @@
+<div class="p-4">
+    <h2 class="text-center">
+      Subject Parameters
+    </h2><br/>
+<nz-tabset nzType="card">
+    <nz-tab>
+        <a nz-tab-link [routerLink]="['lession-locations']" style="color: darkgreen; text-decoration: none;" routerLinkActive>Lession Locations</a>
+        <ng-template nz-tab>
+          <router-outlet></router-outlet>
+        </ng-template>
+      </nz-tab>
+      <nz-tab>
+        <a nz-tab-link style="color: darkgreen; text-decoration: none;" [routerLink]="['exam-types']">Exam Types</a>
+        <ng-template nz-tab>
+          <router-outlet></router-outlet>
+        </ng-template>
+      </nz-tab>
+  </nz-tabset>
+  </div>

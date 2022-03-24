@@ -1,0 +1,47 @@
+
+<div class="p-4">
+<!-- <h2 class="text-center">
+  Cities
+</h2> -->
+<div class="text-right">
+  <h3>Cities &nbsp;
+    <button nz-button nzType="primary" (click)="toggleDrawer(true)">Add New</button>
+  </h3>
+</div><br/>
+<nz-table *ngIf="cities" #dataTable [nzData]="cities.data" [(nzPageIndex)]="index" (nzPageIndexChange)="getCities($event)"
+[nzFrontPagination]="false" [nzPageSize]="cities.pageSize"
+[nzTotal]="cities.totalItems">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th style="width: 15%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of dataTable.data">
+        <td>{{data.name }}</td>
+        <td>
+          <nz-switch [(ngModel)]="data.active" (ngModelChange)="changeStatus($event, data)" nz-tooltip
+          [nzTooltipTitle]="data.active ? 'Deactivate City' : 'Activate City'"></nz-switch>
+        </td>
+        <td style="width: 15%;" class="text-right">
+          <nz-button-group>
+          <button nz-button nzType="primary" [nzSize]="'small'" (click)="edit(data)">
+            <i nz-icon nzType="edit"></i>
+          </button>
+          <button nz-button nzType="danger" [nzSize]="'small'" nzGhost
+            nz-popconfirm nzPopconfirmTitle="Delete {{ data.name }}" nzPopconfirmPlacement="right"  nz-tooltip [nzTooltipTitle]="'Delete'"
+                    (nzOnConfirm)="delete(data)" (nzOnCancel)="toggleDrawer(false)">
+            <i nz-icon nzType="delete"></i>
+          </button>
+          </nz-button-group>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  </div>
+  <nz-drawer [nzClosable]="true" [nzVisible]="visible"
+   [nzTitle]="city ? 'Update City': 'Add City'" (nzOnClose)="toggleDrawer(false)"  nzWidth="30%">
+        <app-form *ngIf="form" [form]="form"></app-form>
+  </nz-drawer>
