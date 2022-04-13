@@ -55,7 +55,7 @@ namespace IEduZimAPI.Services
                 .Where(a => a.LevelId == request.LevelId).AsQueryable();
             if (request.AutoLoad == true) return subjects.ToList();
             List<LessonStructure> subsList = new List<LessonStructure>();
-            if (request.Subjects.Count > 0)
+            if (request.Subjects?.Count > 0)
                 request.Subjects.ForEach(a =>
                 {
                     subsList.AddRange(GetSubject(subjects, a, request.ExamType, request.LessonLocation));
