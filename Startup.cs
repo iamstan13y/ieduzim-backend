@@ -17,6 +17,7 @@ using IEduZimAPI.CoreClasses;
 using IEduZimAPI.CoreClasses.BaseFiles;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using IEduZimAPI.Models.Repository;
 
 namespace IEduZimAPI
 {
@@ -40,11 +41,16 @@ namespace IEduZimAPI
                                .AllowAnyMethod();
                     });
             });
+
+            services.AddScoped<IExchangeRateRepository, ExchangeRateRepository>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             configuration = Configuration;
             services.AddMvc().AddXmlSerializerFormatters();
 
             string connectionString = Configuration.GetConnectionString("Connection");
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(connectionString));
             services.AddDbContext<IEduContext>(options =>
                 options.UseSqlServer(connectionString));
             services.AddIdentity<IdentityUser, IdentityRole>()
