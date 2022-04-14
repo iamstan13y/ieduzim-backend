@@ -4,7 +4,7 @@ namespace IEduZimAPI.CoreClasses
 {
     public class Result<T>
     {
-        public bool Succeeded { get; set; }
+        public bool Succeeded { get; set; } = true;
         public string Message { get; set; }
         public T Data { set; get; }
         public static Result<T> Success(string message) => new Result<T> { Succeeded = true, Message = message };
@@ -19,6 +19,8 @@ namespace IEduZimAPI.CoreClasses
             Message = message;
             Data = data;
         }
+
+        public Result(T data) => Data = data;
 
         public static Result<T> FromException(Exception exception)
         {
