@@ -35,9 +35,16 @@ namespace IEduZimAPI.Models.Repository
             throw new System.NotImplementedException();
         }
 
-        public Task<Result<ExchangeRate>> UpdateAsync(ExchangeRate exchangeRate)
+        public async Task<Result<ExchangeRate>> UpdateAsync(ExchangeRate exchangeRate)
         {
-            throw new System.NotImplementedException();
+            var rate = await _context.ExchangeRates.FirstOrDefaultAsync(x => x.Id == exchangeRate.Id);
+            if (rate == null) return new Result<ExchangeRate>(false, "Exchange rate does not exist.", null);
+
+            rate.Rate = exchangeRate.Rate;
+            _context.Update(rate);
+            await _context.SaveChangesAsync();
+
+            return new Result<ExchangeRate>(rate);
         }
     }
 }

@@ -36,5 +36,16 @@ namespace IEduZimAPI.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(Result<IEnumerable<ExchangeRate>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll() => Ok(await _exchangeRateRepository.GetAllAsync());
+
+        [HttpPut("update-rate")]
+        [ProducesResponseType(typeof(Result<ExchangeRate>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Update(UpdateExchangeRateRequest request)
+        {
+            var result = await _exchangeRateRepository.UpdateAsync(new ExchangeRate { Id = request.RateId, Rate = request.NewRate });
+
+            if (!result.Succeeded) return NotFound(result);
+
+            return Ok(result);
+        }
     }
 }
