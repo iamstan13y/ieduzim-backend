@@ -4,6 +4,7 @@ using IEduZimAPI.Models.Local;
 using IEduZimAPI.Models.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IEduZimAPI.Controllers
@@ -31,5 +32,9 @@ namespace IEduZimAPI.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(Result<IEnumerable<ExchangeRate>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll() => Ok(await _exchangeRateRepository.GetAllAsync());
     }
 }

@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,9 +24,10 @@ namespace IEduZimAPI.Models.Repository
             return new Result<ExchangeRate>(exchangeRate);
         }
 
-        public Task<Result<IEnumerable<ExchangeRate>>> GetAllAsync()
+        public async Task<Result<IEnumerable<ExchangeRate>>> GetAllAsync()
         {
-            throw new System.NotImplementedException();
+            var rates = await _context.ExchangeRates.Include(x => x.Currencies).ToListAsync();
+            return new Result<IEnumerable<ExchangeRate>>(rates);
         }
 
         public Task<Result<ExchangeRate>> GetByIdAsync(int id)
