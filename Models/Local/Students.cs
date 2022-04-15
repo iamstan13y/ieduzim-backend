@@ -7,5 +7,6 @@
         public string Surname { get; set; }
         public int TitleId { get; set; }
         public string Gender { get; set; }
+        public double AccountBalance { get; set; }
     }
 }

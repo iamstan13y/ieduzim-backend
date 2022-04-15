@@ -10,5 +10,6 @@ namespace IEduZimAPI.Models
 
         }
         public DbSet<ExchangeRate> ExchangeRates { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
     }
 }
