@@ -13,8 +13,8 @@ namespace IEduZimAPI.Controllers
     public class SearchLocationsController : Controller
     {
         private new SearchLocationsService service;
-        public SearchLocationsController(IEduContext context) =>
-            service = new SearchLocationsService(context);
+        public SearchLocationsController(IEduContext context, AppDbContext appDbContext) =>
+            service = new SearchLocationsService(context, appDbContext);
 
         [HttpGet]
         [Route("search")]

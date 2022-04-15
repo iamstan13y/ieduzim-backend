@@ -4,6 +4,7 @@ using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,10 +13,12 @@ namespace IEduZimAPI.Services
     public class SearchLocationsService:BaseService<Address>
     {
         private IEduContext context;
+        private readonly AppDbContext _appDbContext;
 
-        public SearchLocationsService(IEduContext eduContext)
+        public SearchLocationsService(IEduContext eduContext, AppDbContext appDbContext)
         {
             this.context = eduContext;
+            _appDbContext = appDbContext;
         }
 
         public Paginator<Address> GetPagedLocationsByCriteria(LocationSearchRequest request)
@@ -49,17 +52,22 @@ namespace IEduZimAPI.Services
             return new Paginator<Address>(request, total, addresses);
         }
 
+
         public List<LessonStructure> GetRequestedSubjects(LocationSearchRequest request)
         {
             var subjects = context.LessonStructures.Include(l => l.Level).Include(s => s.Subject).ThenInclude(a => a.Currency)
                 .Where(a => a.LevelId == request.LevelId).AsQueryable();
+
             if (request.AutoLoad == true) return subjects.ToList();
             List<LessonStructure> subsList = new List<LessonStructure>();
             if (request.Subjects?.Count > 0)
                 request.Subjects.ForEach(a =>
                 {
                     subsList.AddRange(GetSubject(subjects, a, request.ExamType, request.LessonLocation));
-                }); 
+                });
+
+            foreach (var subject in subsList) subject.Subject.ZwlPrice = CalculateZwlPrice(subject.Subject.Price);
+            
             return subsList;
         }
 
@@ -68,7 +76,17 @@ namespace IEduZimAPI.Services
             var sub = subjects.Include(c => c.Level).Include(b => b.Subject).Where(a => a.SubjectId == subjectId).ToList();
             if (examType != 0) sub = sub.Where(e => e.ExamTypeId.Contains(examType.ToString())).ToList();
             if (lessonLocation != 0) sub = sub.Where(l => l.LessonLocationId.Contains(lessonLocation.ToString())).ToList();
+            
+            foreach(var subject in sub) subject.Subject.ZwlPrice = CalculateZwlPrice(subject.Subject.Price);
+
             return sub;
+        }
+
+        private double CalculateZwlPrice(string UsdPrice)
+        {
+            var rate = _appDbContext.ExchangeRates.Where(x => x.CurrencyId == 2).FirstOrDefault().Rate;
+
+            return Math.Round(Convert.ToDouble(UsdPrice) * rate, 2);
         }
     }
 }
