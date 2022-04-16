@@ -1,4 +1,6 @@
-﻿using IEduZimAPI.Models.Repository;
+﻿using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Local;
+using IEduZimAPI.Models.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -36,6 +38,19 @@ namespace IEduZimAPI.Controllers
             if (locations.Data == null) return NotFound(locations);
 
             return Ok(locations);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(LocationRequest request)
+        {
+            var result = await _locationsRepository.AddAsync(new Location
+            {
+                Area = request.Area,
+                CityId = request.CityId,
+                Distance = request.Distance
+            });
+
+            return Ok(result);
         }
     }
 }
