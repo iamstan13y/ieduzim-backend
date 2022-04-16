@@ -43,6 +43,7 @@ namespace IEduZimAPI
             });
 
             services.AddScoped<IExchangeRateRepository, ExchangeRateRepository>();
+            services.AddScoped<ILocationsRepository, LocationsRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             configuration = Configuration;
