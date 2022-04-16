@@ -11,6 +11,6 @@ namespace IEduZimAPI.Models.Repository
         Task<Result<Location>> UpdateAsync(Location location);
         Task<Result<IEnumerable<Location>>> GetAllAsync();
         Task<Result<IEnumerable<Location>>> GetByCityIdAsync();
-        Task<Result<Location>> GetByIdAsync();
+        Task<Result<Location>> GetByIdAsync(int id);
     }
 }

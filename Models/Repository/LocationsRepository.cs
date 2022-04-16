@@ -31,9 +31,10 @@ namespace IEduZimAPI.Models.Repository
             throw new System.NotImplementedException();
         }
 
-        public Task<Result<Location>> GetByIdAsync()
+        public async Task<Result<Location>> GetByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var location = await _context.Locations.FindAsync(id);
+            return new Result<Location>(location);
         }
 
         public Task<Result<Location>> UpdateAsync(Location location)

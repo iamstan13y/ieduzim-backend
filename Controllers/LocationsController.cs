@@ -19,5 +19,14 @@ namespace IEduZimAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() =>
             Ok(await _locationsRepository.GetAllAsync());
+
+        [HttpGet("get-by-id/{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var location = await _locationsRepository.GetByIdAsync(id);
+            if (location.Data == null) return NotFound(location);
+
+            return Ok(location);
+        }
     }
 }
