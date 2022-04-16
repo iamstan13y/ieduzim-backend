@@ -28,5 +28,14 @@ namespace IEduZimAPI.Controllers
 
             return Ok(location);
         }
+
+        [HttpGet("get-by-city-id/{cityId}")]
+        public async Task<IActionResult> GetByCityId(int cityId)
+        {
+            var locations = await _locationsRepository.GetByCityIdAsync(cityId);
+            if (locations.Data == null) return NotFound(locations);
+
+            return Ok(locations);
+        }
     }
 }

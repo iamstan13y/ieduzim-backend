@@ -2,6 +2,7 @@
 using IEduZimAPI.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IEduZimAPI.Models.Repository
@@ -26,9 +27,10 @@ namespace IEduZimAPI.Models.Repository
             return new Result<IEnumerable<Location>>(locations);
         }
 
-        public Task<Result<IEnumerable<Location>>> GetByCityIdAsync()
+        public async Task<Result<IEnumerable<Location>>> GetByCityIdAsync(int cityId)
         {
-            throw new System.NotImplementedException();
+            var locations = await _context.Locations.Where(x => x.CityId == cityId).ToListAsync();
+            return new Result<IEnumerable<Location>>(locations);
         }
 
         public async Task<Result<Location>> GetByIdAsync(int id)
