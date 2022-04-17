@@ -1,8 +1,10 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace IEduZimAPI.Models.Repository
@@ -28,6 +30,28 @@ namespace IEduZimAPI.Models.Repository
         {
             var locations = await _context.Locations.ToListAsync();
             return new Result<IEnumerable<Location>>(locations);
+        }
+
+        public Task<Paginator<Location>> GetAllPagedAsync(PageRequest request)
+        {
+            if (request == null) request = new PageRequest() { PageNumber = 1, PageSize = 10 };
+            var req = _context.Set<Location>().AsQueryable<Location>();
+            if (request.SortParam != null)
+                req = Sort(req, request);
+            var total = req.CountAsync().Result;
+            req = req.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize);
+            return Task.FromResult(new Paginator<Location>(request, total, req));
+        }
+
+        public IQueryable<Location> Sort(IQueryable<Location> req, PageRequest request)
+        {
+            var param = Expression.Parameter(typeof(Location), "item");
+            var sortExpression = Expression.Lambda<Func<Location, object>>
+                    (Expression.Convert(Expression.Property(param, request.SortParam), typeof(object)), param);
+            if (request.Desc)
+                req = req.OrderByDescending(sortExpression);
+            else req = req.OrderBy(sortExpression);
+            return req;
         }
 
         public async Task<Result<IEnumerable<Location>>> GetByCityIdAsync(int cityId)

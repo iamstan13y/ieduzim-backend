@@ -1,4 +1,5 @@
-﻿using IEduZimAPI.Models.Data;
+﻿using IEduZimAPI.CoreClasses;
+using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Local;
 using IEduZimAPI.Models.Repository;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,10 @@ namespace IEduZimAPI.Controllers
 
             return Ok(locations);
         }
+
+        [HttpGet("paged")]
+        public Pagination<Paginator<Location>> GetPaged([FromQuery] PageRequest request) =>
+            Pagination<Paginator<Location>>.FromObject(_locationsRepository.GetAllPagedAsync(request).Result);
 
         [HttpPost]
         public async Task<IActionResult> Add(LocationRequest request)

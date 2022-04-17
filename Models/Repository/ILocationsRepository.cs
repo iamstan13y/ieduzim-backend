@@ -12,5 +12,6 @@ namespace IEduZimAPI.Models.Repository
         Task<Result<IEnumerable<Location>>> GetAllAsync();
         Task<Result<IEnumerable<Location>>> GetByCityIdAsync(int cityId);
         Task<Result<Location>> GetByIdAsync(int id);
+        Task<Paginator<Location>> GetAllPagedAsync(PageRequest request);
     }
 }
