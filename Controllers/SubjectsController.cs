@@ -21,7 +21,6 @@ namespace IEduZimAPI.Controllers
             _subjectRepository = subjectRepository;
         }
 
-
         [HttpGet]
         [Route("paged/by-level/{levelId}")]
         public virtual Pagination<Paginator<Subject>> GetPaged([FromQuery] PageRequest request, int levelId) =>
@@ -29,5 +28,10 @@ namespace IEduZimAPI.Controllers
 
         [HttpGet]
         public override Result<IEnumerable<Subject>> Get() => _subjectRepository.GetAllSubjectsAsync().Result;
+
+        [HttpGet("paged")]
+        public override Pagination<Paginator<Subject>> GetPaged([FromQuery] PageRequest request) => 
+            Pagination<Paginator<Subject>>.FromObject(_subjectRepository.GetAllSubjectsPagedAsync(request).Result);
+
     }
 }
