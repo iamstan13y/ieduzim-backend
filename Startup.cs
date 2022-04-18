@@ -18,6 +18,7 @@ using IEduZimAPI.CoreClasses.BaseFiles;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using IEduZimAPI.Models.Repository;
+using IEduZimAPI.Services;
 
 namespace IEduZimAPI
 {
@@ -45,7 +46,8 @@ namespace IEduZimAPI
             services.AddScoped<IExchangeRateRepository, ExchangeRateRepository>();
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
-
+            services.AddScoped<ILessonStructureRepository, LessonStructureRepository>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             configuration = Configuration;
             services.AddMvc().AddXmlSerializerFormatters();
