@@ -31,13 +31,12 @@ namespace IEduZimAPI.Models.Repository
         public Task<Paginator<Subject>> GetAllSubjectsPagedAsync(PageRequest request)
         {
             if (request == null) request = new PageRequest() { PageNumber = 1, PageSize = 10 };
-            var req = _context.Set<Subject>().AsQueryable<Subject>();
+            var req = _context.Set<Subject>().Include(x => x.Level).AsQueryable().ToList();
             if (request.SortParam != null)
-                req = Sort(req, request);
-            var total = req.CountAsync().Result;
-            req.ForEachAsync(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
-            req.Include(x => x.Level).AsQueryable();
-            req = req.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize);
+                req = Sort((IQueryable<Subject>)req, request).ToList();
+            var total = req.Count;
+            req.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
+            req = req.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
             return Task.FromResult(new Paginator<Subject>(request, total, req));
         }
 
