@@ -15,7 +15,5 @@ namespace IEduZimAPI.Models.Local
         public string UserId { get; set; }
         public bool Verified { get; set; }
         public bool Subscribed { get; set; }
-
-
     }
 }

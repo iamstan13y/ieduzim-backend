@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using IEduZimAPI.Models.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IEduZimAPI.Models.Local
 {
@@ -11,5 +12,6 @@ namespace IEduZimAPI.Models.Local
         public int CurrencyId { get; set; }
         public int LevelId { get; set; }
         public bool Active { get; set; }
+        public Teacher Teacher { get; set; }
     }
 }

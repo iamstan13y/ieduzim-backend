@@ -47,6 +47,7 @@ namespace IEduZimAPI
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<ILessonStructureRepository, LessonStructureRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             configuration = Configuration;
