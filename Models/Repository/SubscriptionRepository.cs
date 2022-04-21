@@ -3,6 +3,7 @@ using IEduZimAPI.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IEduZimAPI.Models.Repository
@@ -45,9 +46,11 @@ namespace IEduZimAPI.Models.Repository
             return new Result<Subscription>(subscription);
         }
 
-        public Task<Result<IEnumerable<Subscription>>> GetByStudentIdAsync()
+        public async Task<Result<IEnumerable<Subscription>>> GetByStudentIdAsync(int studentId)
         {
-            throw new NotImplementedException();
+            var subscriptions = await _context.Subscriptions.Where(x => x.StudentId == studentId).ToListAsync();
+
+            return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
         public Task<Result<IEnumerable<Subscription>>> GetByTeacherIdAsync()
