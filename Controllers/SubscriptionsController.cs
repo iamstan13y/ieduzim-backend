@@ -22,5 +22,16 @@ namespace IEduZimAPI.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(Result<IEnumerable<Subscription>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get() => Ok(await _subscriptionRepository.GetAllAsync());
+
+        [HttpGet("get-by-id/{id}")]
+        [ProducesResponseType(typeof(Result<Subscription>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<Subscription>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _subscriptionRepository.GetByIdAsync(id);
+            if (result.Data == null) return NotFound(result);
+            return Ok(result);
+
+        }
     }
 }

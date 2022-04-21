@@ -40,6 +40,8 @@ namespace IEduZimAPI.Models.Repository
         public async Task<Result<Subscription>> GetByIdAsync(int id)
         {
             var subscription = await _context.Subscriptions.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (subscription == null) return new Result<Subscription>(false, "Subscription not found", null);
             return new Result<Subscription>(subscription);
         }
 
