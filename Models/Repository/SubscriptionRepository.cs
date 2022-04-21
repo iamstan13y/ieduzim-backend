@@ -36,5 +36,5 @@ namespace IEduZimAPI.Models.Repository
             var subscriptions = await _context.Subscriptions.ToListAsync();
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
-;    }
+    }
 }

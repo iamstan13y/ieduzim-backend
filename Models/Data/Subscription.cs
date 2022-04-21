@@ -7,7 +7,7 @@ namespace IEduZimAPI.Models.Data
     {
         public int Id { get; set; }
         public int SubjectId { get; set; }
-        public string StudentId { get; set; }
+        public int StudentId { get; set; }
         public int HoursRemaining { get; set; }
         public DateTime DateCreated { get; set; }
         [ForeignKey("SubjectId")]

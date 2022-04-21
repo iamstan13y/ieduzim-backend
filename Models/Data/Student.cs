@@ -7,6 +7,5 @@ namespace IEduZimAPI.Models.Data
         public int Id { get; set; }
         public virtual IdentityUser User { get; set; }
         public virtual Title Title { get; set; }
-
     }
 }

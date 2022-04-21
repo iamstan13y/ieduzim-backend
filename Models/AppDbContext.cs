@@ -13,5 +13,6 @@ namespace IEduZimAPI.Models
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
     }
 }
