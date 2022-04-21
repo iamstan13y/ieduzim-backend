@@ -36,5 +36,21 @@ namespace IEduZimAPI.Models.Repository
             var subscriptions = await _context.Subscriptions.ToListAsync();
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
+
+        public async Task<Result<Subscription>> GetByIdAsync(int id)
+        {
+            var subscription = await _context.Subscriptions.FirstOrDefaultAsync(x => x.Id == id);
+            return new Result<Subscription>(subscription);
+        }
+
+        public Task<Result<IEnumerable<Subscription>>> GetByStudentIdAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result<IEnumerable<Subscription>>> GetByTeacherIdAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

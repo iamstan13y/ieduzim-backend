@@ -9,5 +9,8 @@ namespace IEduZimAPI.Models.Repository
     {
         Task<Result<Subscription>> AddAsync(Subscription subscription);
         Task<Result<IEnumerable<Subscription>>> GetAllAsync();
+        Task<Result<Subscription>> GetByIdAsync(int id);
+        Task<Result<IEnumerable<Subscription>>> GetByStudentIdAsync();
+        Task<Result<IEnumerable<Subscription>>> GetByTeacherIdAsync();
     }
 }
