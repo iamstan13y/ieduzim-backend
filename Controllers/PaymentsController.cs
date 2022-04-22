@@ -37,7 +37,7 @@ namespace IEduZimAPI.Controllers
                 Amount = request.Amount,
                 Description = "Lesson Subscription Payment",
                 PaymentStatus = PaymentStatus.Initiated,
-                Reference = $"IEZ{DateTime.Now.ToShortTimeString()}.{DateTime.Now.Ticks}",
+                Reference = $"IEZ{DateTime.Now.Year}.{DateTime.Now.Ticks}",
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 StudentId = request.StudentId,
