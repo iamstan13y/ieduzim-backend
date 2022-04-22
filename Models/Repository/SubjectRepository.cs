@@ -22,7 +22,8 @@ namespace IEduZimAPI.Models.Repository
 
         public async Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync()
         {
-            var subjects = await _context.Subjects.Include(x => x.Level).ToListAsync();
+            var subjects = await _appDbContext.Subjects.Include(x => x.Level).ToListAsync();
+            
             subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
 
             return new Result<IEnumerable<Subject>>(subjects);

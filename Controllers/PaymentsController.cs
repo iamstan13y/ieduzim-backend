@@ -1,11 +1,14 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Enums;
+using IEduZimAPI.Models.Local;
+using IEduZimAPI.Models.Repository;
 using IEduZimAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using Webdev.Payments;
+using System.Threading.Tasks;
 
 namespace IEduZimAPI.Controllers
 {
@@ -14,50 +17,67 @@ namespace IEduZimAPI.Controllers
     //[Authorize]
     public class PaymentsController : Controller
     {
-        private new PaymentsService service;
-        public PaymentsController() =>
-            service = new PaymentsService();
-        //[HttpPost]
-        //[Route("subscribe")]
-        //public Result<Payments> PaySubscription(Models.Local.Subscription subscription)
-        //{
-        //    var paynow = new Paynow(Startup.configuration["Payment:IntegrationId"], Startup.configuration["Payment:IntegrationKey"]);
-        //    var payment = paynow.CreatePayment(DateTime.Now.Ticks.ToString(), Startup.configuration["Payment:Email"]);
-        //    payment.Add(subscription.Title, subscription.Amount);
-        //    var result = paynow.SendMobile(payment, subscription.PhoneNumber, subscription.PaymentMethod);
-        //    if (!result.Success()) throw new Exception(result.Errors());
-        //    return ExecutionService<Payments>.Execute(() => service.AddPayment(new Models.Local.Payment
-        //    {
-        //        AccountNumber = subscription.PhoneNumber,
-        //        Payer = subscription.Payer,
-        //        PaymentMethod = subscription.PaymentMethod,
-        //        PollUrl = result.PollUrl(),
-        //        Status = result.Success() ? "Success" : "Failed",
-        //        UserId = subscription.UserId,
-        //        Amount = subscription.Amount,
-        //        Currency = subscription.Currency,
-        //        Description = subscription.Title
-        //    }, subscription.Payer, payment.Reference, subscription.PaymentPeriod, subscription.Currency, subscription.Email));
-        //}
+        //private new PaymentsService service;
+        private readonly IPaymentRepository _paymentRepository;
+        private readonly ISubscriptionRepository _subscriptionRepository;
 
-        [HttpGet]
-        [Route("paged")]
-        public Pagination<Paginator<Payments>> GetPaged([FromQuery] PageRequest request) =>
-          PagedExecution<Paginator<Payments>>.Execute(() => service.GetPaged(request));
+        public PaymentsController(IPaymentRepository paymentRepository, ISubscriptionRepository subscriptionRepository)
+        {
+            //this.service = service;
+            _paymentRepository = paymentRepository;
+            _subscriptionRepository = subscriptionRepository;
+        }
 
-        [HttpGet]
-        [Route("paged/by-user-id/{userId}")]
-        public Pagination<Paginator<Payments>> GetPagedByUser([FromQuery] PageRequest request, string userId) =>
-         PagedExecution<Paginator<Payments>>.Execute(() => service.GetPagedByUser(request, userId));
+        [HttpPost("subscribe")]
+        public async Task<IActionResult> PaySubscription(SubscriptionRequest request)
+        {
+            var payment = await _paymentRepository.AddAsync(new Payment
+            {
+                AccountNumber = request.PhoneNumber,
+                Amount = request.Amount,
+                Description = "Lesson Subscription Payment",
+                PaymentStatus = PaymentStatus.Initiated,
+                Reference = $"IEZ{DateTime.Now.ToShortTimeString()}.{DateTime.Now.Ticks}",
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                StudentId = request.StudentId,
+                PaymentMethod = request.PaymentMethod
+            });
 
-        [HttpGet]
-        [Route("paged/by-reference/{referenceNumber}")]
-        public Result<Payments> GetPagedByReference(string referenceNumber) =>
-         ExecutionService<Payments>.Execute(() => service.GetByReferenceNumber(referenceNumber));
+            if (!payment.Succeeded) return BadRequest(payment);
 
-        [HttpPut]
-        [Route("status/{status}/{referenceNumber}")]
-        public Result<Payments> UpdateStatus(string status, string referenceNumber) =>
-         ExecutionService<Payments>.Execute(() => service.UpdateStatus(status,referenceNumber));
+            var subscription = await _subscriptionRepository.AddAsync(new Subscription
+            {
+                StudentId = request.StudentId,
+                PaymentId = payment.Data.Id,
+                HoursRemaining = request.PaymentPeriod,
+                SubjectId = request.SubjectId,
+                DateCreated = DateTime.Now,
+            });
+
+            if(!subscription.Succeeded) return BadRequest(subscription);
+
+            return Ok(subscription);
+        }
+
+        //[HttpGet]
+        //[Route("paged")]
+        //public Pagination<Paginator<Payment>> GetPaged([FromQuery] PageRequest request) =>
+        //  PagedExecution<Paginator<Payment>>.Execute(() => service.GetPaged(request));
+
+        //[HttpGet]
+        //[Route("paged/by-user-id/{userId}")]
+        //public Pagination<Paginator<Payment>> GetPagedByUser([FromQuery] PageRequest request, string userId) =>
+        // PagedExecution<Paginator<Payment>>.Execute(() => service.GetPagedByUser(request, userId));
+
+        //[HttpGet]
+        //[Route("paged/by-reference/{referenceNumber}")]
+        //public Result<Payment> GetPagedByReference(string referenceNumber) =>
+        // ExecutionService<Payment>.Execute(() => service.GetByReferenceNumber(referenceNumber));
+
+        //[HttpPut]
+        //[Route("status/{status}/{referenceNumber}")]
+        //public Result<Payment> UpdateStatus(string status, string referenceNumber) =>
+        // ExecutionService<Payment>.Execute(() => service.UpdateStatus(status,referenceNumber));
     }
 }

@@ -75,12 +75,12 @@ namespace IEduZimAPI.Services
             return new Paginator<Teacher>(request, total, req);
         }
 
-        public Teacher UpdateSubscriptionStatus(Teacher teacher, string userId)
-        {
-            var payment = context.Payments.FirstOrDefault(a => a.UserId == userId);
-            if (payment == null) throw new Exception("An Initial Payment has to be made first to mark teacher as subscribed.");
-            return base.Update(teacher.Id, teacher, null);
-        }
+        //public Teacher UpdateSubscriptionStatus(Teacher teacher, string userId)
+        //{
+        //    var payment = context.Payments.FirstOrDefault(a => a.UserId == userId);
+        //    if (payment == null) throw new Exception("An Initial Payment has to be made first to mark teacher as subscribed.");
+        //    return base.Update(teacher.Id, teacher, null);
+        //}
 
     }
 }

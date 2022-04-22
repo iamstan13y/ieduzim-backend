@@ -40,9 +40,9 @@ namespace IEduZimAPI.Controllers
         public Pagination<Paginator<Teacher>> UnSubscribed([FromQuery] PageRequest request) =>
         PagedExecution<Paginator<Teacher>>.Execute(() => service.GetUnsubcribed(request));
 
-        [HttpPut]
-        [Route("unsubscribed/{userId}")]
-        public Result<Teacher> UnSubscribedUpdate(Teacher teacher,string userId) =>
-        ExecutionService<Teacher>.Execute(() => service.UpdateSubscriptionStatus(teacher, userId));
+        //[HttpPut]
+        //[Route("unsubscribed/{userId}")]
+        //public Result<Teacher> UnSubscribedUpdate(Teacher teacher,string userId) =>
+        //ExecutionService<Teacher>.Execute(() => service.UpdateSubscriptionStatus(teacher, userId));
     }
 } 
