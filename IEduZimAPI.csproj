@@ -10,6 +10,8 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +38,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Paynow" Version="1.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
@@ -56,6 +59,11 @@
     <Folder Include="CoreClasses\Utility\" />
     <Folder Include="Models\Objects\" />
     <Folder Include="Services\AccountServices\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
