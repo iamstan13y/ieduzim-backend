@@ -17,13 +17,13 @@ namespace IEduZimAPI.Controllers
     //[Authorize]
     public class PaymentsController : Controller
     {
-        //private new PaymentsService service;
+        private readonly StudentService service;
         private readonly IPaymentRepository _paymentRepository;
         private readonly ISubscriptionRepository _subscriptionRepository;
 
         public PaymentsController(IPaymentRepository paymentRepository, ISubscriptionRepository subscriptionRepository)
         {
-            //this.service = service;
+            service = new StudentService();
             _paymentRepository = paymentRepository;
             _subscriptionRepository = subscriptionRepository;
         }
@@ -31,6 +31,7 @@ namespace IEduZimAPI.Controllers
         [HttpPost("subscribe")]
         public async Task<IActionResult> PaySubscription(SubscriptionRequest request)
         {
+            var student = service.GetByUserId(request.UserId);
             var payment = await _paymentRepository.AddAsync(new Payment
             {
                 AccountNumber = request.PhoneNumber,
@@ -40,7 +41,7 @@ namespace IEduZimAPI.Controllers
                 Reference = $"IEZ{DateTime.Now.Year}.{DateTime.Now.Ticks}",
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
-                StudentId = request.StudentId,
+                StudentId = student.Id,
                 PaymentMethod = request.PaymentMethod
             });
 
@@ -48,7 +49,7 @@ namespace IEduZimAPI.Controllers
 
             var subscription = await _subscriptionRepository.AddAsync(new Subscription
             {
-                StudentId = request.StudentId,
+                StudentId = student.Id,
                 PaymentId = payment.Data.Id,
                 HoursRemaining = request.PaymentPeriod,
                 SubjectId = request.SubjectId,
