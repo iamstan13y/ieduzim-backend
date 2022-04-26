@@ -19,13 +19,13 @@ namespace IEduZimAPI.Services
         {
             Paynow paynow = new(_configuration["Payment:IntegrationId"], _configuration["Payment:IntegrationKey"]);
 
-            var payment = paynow.CreatePayment(request.Reference, request.Email);
+            var payment = paynow.CreatePayment(request.Reference, "iedudevzw@gmail.com");
 
             payment.Add(request.Description, (decimal)request.Amount);
 
             var response = paynow.SendMobile(payment, request.AccountNumber, request.PaymentMethod.ToString());
 
-            var paynowResponse = new PaynowResponse()
+           var paynowResponse = new PaynowResponse()
             {
                 PollUrl = response.PollUrl(),
                 Success = response.Success(),
