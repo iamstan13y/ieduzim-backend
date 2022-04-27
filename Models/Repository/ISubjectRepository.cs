@@ -9,5 +9,6 @@ namespace IEduZimAPI.Models.Repository
     {
         Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync();
         Task<Paginator<Subject>> GetAllSubjectsPagedAsync(PageRequest request);
+        Task<Result<Subject>> AddAsync(Subject subject);
     }
 }

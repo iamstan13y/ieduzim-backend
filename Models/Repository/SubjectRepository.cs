@@ -20,6 +20,21 @@ namespace IEduZimAPI.Models.Repository
             _appDbContext = appDbContext;
         }
 
+        public async Task<Result<Subject>> AddAsync(Subject subject)
+        {
+            try
+            {
+                await _appDbContext.Subjects.AddAsync(subject);
+                await _appDbContext.SaveChangesAsync();
+
+                return new Result<Subject>(subject);
+            }
+            catch (Exception ex)
+            {
+                return new Result<Subject>(false, ex.ToString(), null);
+            }
+        }
+
         public async Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync()
         {
             var subjects = await _appDbContext.Subjects.Include(x => x.Level).ToListAsync();
