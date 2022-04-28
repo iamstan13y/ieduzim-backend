@@ -22,10 +22,10 @@ namespace IEduZimAPI.Controllers
             _subjectRepository = subjectRepository;
         }
 
-        [HttpGet]
-        [Route("paged/by-level/{levelId}")]
-        public virtual Pagination<Paginator<Subject>> GetPaged([FromQuery] PageRequest request, int levelId) =>
-           PagedExecution<Paginator<Subject>>.Execute(() => service.GetPagedByLevel(request, levelId));
+        //[HttpGet]
+        //[Route("paged/by-level/{levelId}")]
+        //public virtual Pagination<Paginator<Subject>> GetPaged([FromQuery] PageRequest request, int levelId) =>
+        //   PagedExecution<Paginator<Subject>>.Execute(() => service.GetPagedByLevel(request, levelId));
 
         [HttpGet]
         public Result<IEnumerable<Subject>> Get() => _subjectRepository.GetAllSubjectsAsync().Result;

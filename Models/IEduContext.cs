@@ -18,7 +18,7 @@ namespace IEduZimAPI.Models
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<Subject> Subjects { get; set; }
+       // public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<Title> Titles { get; set; }
         public virtual DbSet<TeacherSchedule> TeacherSchedules { get; set; }
