@@ -4,7 +4,6 @@
     {
         Initiated = 0,
         Success,
-        Failed,
-        Timeout
+        Failed
     }
 }

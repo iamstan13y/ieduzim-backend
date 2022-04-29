@@ -7,5 +7,6 @@ namespace IEduZimAPI.Models.Repository
     public interface IPaymentRepository
     {
         Task<Result<Payment>> AddAsync(Payment payment);
+        Task<Result<Payment>> GetStatusAsync(string refNumber);
     }
 }

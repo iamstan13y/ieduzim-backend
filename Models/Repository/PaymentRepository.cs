@@ -5,6 +5,7 @@ using IEduZimAPI.Models.Local;
 using IEduZimAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IEduZimAPI.Models.Repository
@@ -53,6 +54,12 @@ namespace IEduZimAPI.Models.Repository
             await _context.SaveChangesAsync();
             
             return new Result<Payment>(payment);
+        }
+
+        public async Task<Result<Payment>> GetStatusAsync(string refNumber)
+        {
+            var payment = await _context.Payments.Where(x => x.Reference == refNumber).FirstOrDefaultAsync();
+
         }
     }
 }

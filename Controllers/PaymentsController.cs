@@ -61,6 +61,12 @@ namespace IEduZimAPI.Controllers
             return Ok(subscription);
         }
 
+        [HttpGet("payment-status/{referenceNumber}")]
+        public async Task<IActionResult> PaymentStatus(string referenceNumber)
+        {
+            var 
+        }
+
         //[HttpGet]
         //[Route("paged")]
         //public Pagination<Paginator<Payment>> GetPaged([FromQuery] PageRequest request) =>
