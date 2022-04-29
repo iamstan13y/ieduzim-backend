@@ -19,8 +19,8 @@ namespace IEduZimAPI.Models.Repository
         public PaymentRepository(AppDbContext context, IEduContext eduContext, IPaynowService paynowService)
         {
             _context = context;
-            _paynowService = paynowService;
             _eduContext = eduContext;
+            _paynowService = paynowService;
         }
 
         public async Task<Result<Payment>> AddAsync(Payment payment)
@@ -56,10 +56,37 @@ namespace IEduZimAPI.Models.Repository
             return new Result<Payment>(payment);
         }
 
-        public async Task<Result<Payment>> GetStatusAsync(string refNumber)
+        public async Task<Result<PaymentStatusResponse>> GetStatusAsync(string refNumber)
         {
             var payment = await _context.Payments.Where(x => x.Reference == refNumber).FirstOrDefaultAsync();
 
+            var paynowResponse = await _paynowService.CheckPaymentStatusAsync(payment.PollUrl);
+            string description = "";
+            string status = "";
+
+            if (paynowResponse.Contains("Sent") || paynowResponse.Contains("Created"))
+            {
+                description = "Transaction is awaiting approval/payment from customer.";
+                status = PaymentStatus.Initiated.ToString();
+            }
+            else if (paynowResponse.Contains("Cancelled"))
+            {
+                description = "Transaction failed or was cancelled by customer.";
+                status = PaymentStatus.Failed.ToString();
+            }
+            else if (paynowResponse.Contains("Paid"))
+            {
+                status = PaymentStatus.Success.ToString();
+                description = "Transaction was successfully paid by customer.";
+            }
+
+            PaymentStatusResponse response = new()
+            {
+                Description = description,
+                PaymentStatus = status
+            };
+
+            return new Result<PaymentStatusResponse>(response);
         }
     }
 }

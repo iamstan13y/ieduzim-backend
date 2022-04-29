@@ -8,6 +8,6 @@ namespace IEduZimAPI.Services
     public interface IPaynowService
     {
         Task<Result<PaynowResponse>> CreatePaymentAsync(PaynowPaymentRequest request);
-        Task<Result<PaynowStatus>> CheckPaymentStatusAsync(string pollUrl);
+        Task<string> CheckPaymentStatusAsync(string pollUrl);
     }
 }

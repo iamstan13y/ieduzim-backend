@@ -62,9 +62,10 @@ namespace IEduZimAPI.Controllers
         }
 
         [HttpGet("payment-status/{referenceNumber}")]
-        public async Task<IActionResult> PaymentStatus(string referenceNumber)
+        public async Task<IActionResult> GetPaymentStatus(string referenceNumber)
         {
-            var 
+            var result = await _paymentRepository.GetStatusAsync(referenceNumber);
+            return Ok(result);
         }
 
         //[HttpGet]

@@ -1,4 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
+using IEduZimAPI.CoreClasses.Utility;
+using IEduZimAPI.Models.Enums;
 using IEduZimAPI.Models.Local;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
@@ -9,10 +11,20 @@ namespace IEduZimAPI.Services
     public class PaynowService : IPaynowService
     {
         private readonly IConfiguration _configuration;
+        private readonly IHttpClientService _httpClientService;
 
-        public PaynowService(IConfiguration configuration)
+        public PaynowService(IConfiguration configuration, IHttpClientService httpClientService)
         {
             _configuration = configuration;
+            _httpClientService = httpClientService;
+        }
+
+        public async Task<string> CheckPaymentStatusAsync(string pollUrl)
+        {
+            var response = await _httpClientService.SendAsync(pollUrl);
+            int firstIndex = response.IndexOf("status=");
+            int lastIndex = response.CustomIndexOf('&', 4);
+            return response.Substring(firstIndex, lastIndex - firstIndex + 1);
         }
 
         public Task<Result<PaynowResponse>> CreatePaymentAsync(PaynowPaymentRequest request)

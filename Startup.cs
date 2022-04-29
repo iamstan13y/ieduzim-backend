@@ -43,14 +43,18 @@ namespace IEduZimAPI
                     });
             });
 
+            services.AddHttpClient<IHttpClientService, HttpClientService>();
+
             services.AddScoped<IExchangeRateRepository, ExchangeRateRepository>();
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<ILessonStructureRepository, LessonStructureRepository>();
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+
             services.AddScoped<IPaynowService, PaynowService>();
-            
+            services.AddScoped<IHttpClientService, HttpClientService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             configuration = Configuration;
             services.AddMvc().AddXmlSerializerFormatters();

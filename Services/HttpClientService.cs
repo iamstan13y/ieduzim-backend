@@ -30,4 +30,6 @@ namespace IEduZimAPI.Services
             apiResponse = await client.SendAsync(message);
             var apiContent = await apiResponse.Content.ReadAsStringAsync();
             return apiContent;
+        }
+    }
 }
