@@ -42,10 +42,10 @@ namespace IEduZimAPI.Models.Repository
                     }).Result;
 
                     payment.PollUrl = paynowPayment.Data.PollUrl;
-                    payment.PaymentStatus = paynowPayment.Data.Success ? PaymentStatus.Success : PaymentStatus.Failed;
+                    payment.PaymentStatus =  PaymentStatus.Initiated;
                     break;
                 default:
-                    payment.PaymentStatus = PaymentStatus.Success;
+                    payment.PaymentStatus = PaymentStatus.Initiated;
                     break;
             }
 
