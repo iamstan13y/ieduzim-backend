@@ -15,5 +15,6 @@ namespace IEduZimAPI.Models.Data
         public Student Student { get; set; }
         [ForeignKey("PaymentId")]
         public Payment Payment { get; set; }
+        public bool Active { get; set; }
     }
 }
