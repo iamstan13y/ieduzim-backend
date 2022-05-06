@@ -53,7 +53,8 @@ namespace IEduZimAPI.Controllers
                 PaymentId = payment.Data.Id,
                 HoursRemaining = request.PaymentPeriod,
                 SubjectId = request.SubjectId,
-                DateCreated = DateTime.Now,
+                DateModified= DateTime.Now,
+                DateCreated = DateTime.Now
             });
 
             if(!subscription.Succeeded) return BadRequest(subscription);
