@@ -73,7 +73,7 @@ namespace IEduZimAPI.Models.Repository
             {
                 description = "Transaction failed or was cancelled by customer.";
                 status = PaymentStatus.Failed.ToString();
-                
+
                 payment.PaymentStatus = PaymentStatus.Failed;
             }
             else if (paynowResponse.Contains("Paid"))
@@ -82,7 +82,7 @@ namespace IEduZimAPI.Models.Repository
                 description = "Transaction was successfully paid by customer.";
 
                 payment.PaymentStatus = PaymentStatus.Success;
-                
+
                 var subscription = await _context.Subscriptions.Where(x => x.PaymentId == payment.Id).FirstOrDefaultAsync();
                 subscription.DateModified = DateTime.Now;
                 subscription.Active = true;
@@ -91,7 +91,7 @@ namespace IEduZimAPI.Models.Repository
 
             payment.DateModified = DateTime.Now;
             _context.Payments.Update(payment);
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
 
             PaymentStatusResponse response = new()
             {
@@ -100,6 +100,6 @@ namespace IEduZimAPI.Models.Repository
             };
 
             return new Result<PaymentStatusResponse>(response);
-        
+        }
     }
 }
