@@ -42,5 +42,14 @@ namespace IEduZimAPI.Controllers
             return Ok(result);
 
         }
+
+        [HttpGet("get-by-teacherId/{teacherId}")]
+        [ProducesResponseType(typeof(Result<IEnumerable<Subscription>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetByTeacherId(int teacherId)
+        {
+            var result = await _subscriptionRepository.GetByTeacherIdAsync(teacherId);
+            return Ok(result);
+
+        }
     }
 }

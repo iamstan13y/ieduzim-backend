@@ -53,9 +53,11 @@ namespace IEduZimAPI.Models.Repository
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
-        public Task<Result<IEnumerable<Subscription>>> GetByTeacherIdAsync()
+        public async Task<Result<IEnumerable<Subscription>>> GetByTeacherIdAsync(int teacherId)
         {
-            throw new NotImplementedException();
+            var subscriptions = await _context.Subscriptions.Where(x => x.Subject.TeacherId == teacherId).ToListAsync();
+
+            return new Result<IEnumerable<Subscription>>(subscriptions);
         }
     }
 }

@@ -11,6 +11,6 @@ namespace IEduZimAPI.Models.Repository
         Task<Result<IEnumerable<Subscription>>> GetAllAsync();
         Task<Result<Subscription>> GetByIdAsync(int id);
         Task<Result<IEnumerable<Subscription>>> GetByStudentIdAsync(int studentId);
-        Task<Result<IEnumerable<Subscription>>> GetByTeacherIdAsync();
+        Task<Result<IEnumerable<Subscription>>> GetByTeacherIdAsync(int teacherId);
     }
 }
