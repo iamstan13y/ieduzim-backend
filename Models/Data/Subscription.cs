@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IEduZimAPI.Models.Local;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IEduZimAPI.Models.Data
@@ -12,6 +13,8 @@ namespace IEduZimAPI.Models.Data
         public int HoursRemaining { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
+        [ForeignKey("SubjectId")]
+        public Subject Subject { get; set; }
         [ForeignKey("StudentId")]
         public Student Student { get; set; }
         [ForeignKey("PaymentId")]
