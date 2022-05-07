@@ -90,9 +90,9 @@ namespace IEduZimAPI.Models
             builder.Entity<ExamTypes>()
                 .HasIndex(k => k.Name)
                 .IsUnique(true);
-            builder.Entity<LessonLocationsData>()
-                .HasIndex(k => k.Name)
-                .IsUnique(true);
+            //builder.Entity<LessonLocationsData>()
+            //    .HasIndex(k => k.Name)
+            //    .IsUnique(true);
             builder.Entity<RolePaymentsSettings>()
                 .HasIndex(i => new { i.RoleId, i.PaymentPeriodId })
                 .IsUnique(true);
