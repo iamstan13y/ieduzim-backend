@@ -16,9 +16,11 @@ namespace IEduZimAPI.Models.Repository
             _context = context;
         }
 
-        public Task<Result<LessonLocation>> AddAsync(LessonLocation lessonLocation)
+        public async Task<Result<LessonLocation>> AddAsync(LessonLocation lessonLocation)
         {
-            throw new System.NotImplementedException();
+            await _context.AddAsync(lessonLocation);
+            await _context.SaveChangesAsync();
+            return new Result<LessonLocation>(lessonLocation);
         }
 
         public async Task<Result<IEnumerable<LessonLocation>>> GetAllAsync()
