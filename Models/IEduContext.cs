@@ -32,7 +32,7 @@ namespace IEduZimAPI.Models
         public virtual DbSet<QualificationDocuments> QualificationDocuments { get; set; }
         public virtual DbSet<Banks> Banks { get; set; }
         public virtual DbSet<ExamTypes> ExamTypes { get; set; }
-        public virtual DbSet<LessonLocationsData> LessionLocations { get; set; }
+        //public virtual DbSet<LessonLocationsData> LessionLocations { get; set; }
         public virtual DbSet<TeacherDocuments> TeacherDocuments { get; set; }
         public virtual DbSet<RolePaymentsSettings> RolePaymentSettings { get; set; }
         public virtual DbSet<BankDetails> BankDetails { get; set; }
