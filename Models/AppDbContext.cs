@@ -17,6 +17,7 @@ namespace IEduZimAPI.Models
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<LessonLocation> LessonLocations { get; set; }
 
     }
 }
