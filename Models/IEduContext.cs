@@ -37,7 +37,7 @@ namespace IEduZimAPI.Models
         public virtual DbSet<RolePaymentsSettings> RolePaymentSettings { get; set; }
         public virtual DbSet<BankDetails> BankDetails { get; set; }
         //public virtual DbSet<Payments> Payments { get; set; }
-        public virtual DbSet<LessonRequests> LessonRequests { get; set; }
+        //public virtual DbSet<LessonRequests> LessonRequests { get; set; }
         public virtual DbSet<TeacherActiveDays> TeacherActiveDays { get; set; }
         public IEduContext(DbContextOptions<IEduContext> options) : base(options) { }
         public IEduContext() : base(GetOptions(Startup.configuration.GetConnectionString("Connection"))) { }
