@@ -51,6 +51,7 @@ namespace IEduZimAPI
             services.AddScoped<ILessonStructureRepository, LessonStructureRepository>();
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<ILessonRepository, LessonRepository>();
 
             services.AddScoped<IPaynowService, PaynowService>();
             services.AddScoped<IHttpClientService, HttpClientService>();
