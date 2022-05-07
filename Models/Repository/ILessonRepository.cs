@@ -8,7 +8,7 @@ namespace IEduZimAPI.Models.Repository
 {
     public interface ILessonRepository
     {
-        Task<Result<Lesson>> AddAsync(LessonRequest lesson);
+        Task<Result<IEnumerable<Lesson>>> AddAsync(LessonRequest lesson);
         Task<Result<Lesson>> UpdateAsync(Lesson lesson);
         Task<Result<IEnumerable<Lesson>>> GetAllAsync();
         Task<Result<Lesson>> GetAllAsync(int id);
