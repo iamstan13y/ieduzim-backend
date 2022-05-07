@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Migrations.AppDb;
+using IEduZimAPI.Models.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
