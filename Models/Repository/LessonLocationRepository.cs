@@ -29,9 +29,10 @@ namespace IEduZimAPI.Models.Repository
             return new Result<IEnumerable<LessonLocation>>(lessonLocations);
         }
 
-        public Task<Result<LessonLocation>> GetByIdAsync()
+        public async Task<Result<LessonLocation>> GetByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var lessonLocation = await _context.LessonLocations.FindAsync(id);
+            return new Result<LessonLocation>(lessonLocation);
         }
 
         public Task<Result<LessonLocation>> UpdateAsync(LessonLocation lessonLocation)

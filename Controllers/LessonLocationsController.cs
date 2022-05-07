@@ -32,5 +32,15 @@ namespace IEduZimAPI.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("get-by-id/{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _lessonLocationRepository.GetByIdAsync(id);
+
+            if (result == null) return NotFound(result);
+
+            return Ok(result);  
+        }
     }
 }
