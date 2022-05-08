@@ -1,7 +1,9 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Local;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IEduZimAPI.Models.Repository
@@ -20,6 +22,7 @@ namespace IEduZimAPI.Models.Repository
             List<Lesson> lessons = new();
 
             foreach (var subsId in lessonRequest.SubscriptionIds)
+            {
                 lessons.Add(new Lesson
                 {
                     SubscriptionId = subsId,
@@ -27,6 +30,13 @@ namespace IEduZimAPI.Models.Repository
                     EndDate = lessonRequest.EndDate,
                     Confirmed = lessonRequest.Confirmed
                 });
+
+                var duration = (lessonRequest.EndDate - lessonRequest.StartDate).TotalHours;
+                var sub = await _context.Subscriptions.Where(x => x.Id == subsId).FirstOrDefaultAsync();
+                sub.HoursRemaining -= (int)duration;
+                _context.Subscriptions.Update(sub);
+                await _context.SaveChangesAsync();
+            }
 
             await _context.Lessons.AddRangeAsync(lessons);
             await _context.SaveChangesAsync();
