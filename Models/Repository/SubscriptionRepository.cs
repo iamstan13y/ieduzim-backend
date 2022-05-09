@@ -34,13 +34,21 @@ namespace IEduZimAPI.Models.Repository
 
         public async Task<Result<IEnumerable<Subscription>>> GetAllAsync()
         {
-            var subscriptions = await _context.Subscriptions.ToListAsync();
+            var subscriptions = await _context.Subscriptions
+                .Include(x => x.Payment)
+                .Include(x => x.Student)
+                .Include(x => x.Subject)
+                .ToListAsync();
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
         public async Task<Result<Subscription>> GetByIdAsync(int id)
         {
-            var subscription = await _context.Subscriptions.FirstOrDefaultAsync(x => x.Id == id);
+            var subscription = await _context.Subscriptions
+                .Include(x => x.Payment)
+                .Include(x => x.Student)
+                .Include(x => x.Subject)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (subscription == null) return new Result<Subscription>(false, "Subscription not found", null);
             return new Result<Subscription>(subscription);
@@ -48,7 +56,12 @@ namespace IEduZimAPI.Models.Repository
 
         public async Task<Result<IEnumerable<Subscription>>> GetByStudentIdAsync(int studentId)
         {
-            var subscriptions = await _context.Subscriptions.Where(x => x.StudentId == studentId).ToListAsync();
+            var subscriptions = await _context.Subscriptions
+                .Where(x => x.StudentId == studentId)
+                .Include(x => x.Payment)
+                .Include(x => x.Student)
+                .Include(x => x.Subject)
+                .ToListAsync();
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
