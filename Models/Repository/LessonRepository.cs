@@ -26,12 +26,13 @@ namespace IEduZimAPI.Models.Repository
                 lessons.Add(new Lesson
                 {
                     SubscriptionId = subsId,
-                    StartDate = lessonRequest.StartDate,
-                    EndDate = lessonRequest.EndDate,
+                    LessonDate = lessonRequest.LessonDate,
+                    StartTime = lessonRequest.StartTime,
+                    EndTime = lessonRequest.EndTime,
                     Confirmed = lessonRequest.Confirmed
                 });
 
-                var duration = (lessonRequest.EndDate - lessonRequest.StartDate).TotalHours;
+                var duration = (lessonRequest.EndTime - lessonRequest.StartTime).TotalHours;
                 var sub = await _context.Subscriptions.Where(x => x.Id == subsId).FirstOrDefaultAsync();
                 sub.HoursRemaining -= (int)duration;
                 _context.Subscriptions.Update(sub);

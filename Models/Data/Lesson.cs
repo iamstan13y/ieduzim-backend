@@ -7,8 +7,9 @@ namespace IEduZimAPI.Models.Data
     {
         public int Id { get; set; }
         public int SubscriptionId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime LessonDate { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public bool Confirmed { get; set; } = false;
         [ForeignKey("SubscriptionId")]
         public Subscription Subscription { get; set; }
