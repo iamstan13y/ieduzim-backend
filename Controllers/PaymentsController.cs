@@ -52,7 +52,7 @@ namespace IEduZimAPI.Controllers
                 StudentId = student.Id,
                 PaymentId = payment.Data.Id,
                 HoursRemaining = request.PaymentPeriod,
-                SubjectId = request.SubjectId,
+                LessonStructureId = request.LessonStructureId,
                 DateModified= DateTime.Now,
                 DateCreated = DateTime.Now
             });

@@ -7,14 +7,14 @@ namespace IEduZimAPI.Models.Data
     public class Subscription
     {
         public int Id { get; set; }
-        public int SubjectId { get; set; }
+        public int LessonStructureId { get; set; }
         public int StudentId { get; set; }
         public int? PaymentId { get; set; }
         public int HoursRemaining { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
-        [ForeignKey("SubjectId")]
-        public Subject Subject { get; set; }
+        [ForeignKey("LessonStructureId")]
+        public LessonStructure LessonStructure { get; set; }
         [ForeignKey("StudentId")]
         public Student Student { get; set; }
         [ForeignKey("PaymentId")]

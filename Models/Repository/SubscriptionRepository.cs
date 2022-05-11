@@ -37,7 +37,7 @@ namespace IEduZimAPI.Models.Repository
             var subscriptions = await _context.Subscriptions
                 .Include(x => x.Payment)
                 .Include(x => x.Student)
-                .Include(x => x.Subject)
+                .Include(x => x.LessonStructure)
                 .ToListAsync();
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
@@ -47,7 +47,7 @@ namespace IEduZimAPI.Models.Repository
             var subscription = await _context.Subscriptions
                 .Include(x => x.Payment)
                 .Include(x => x.Student)
-                .Include(x => x.Subject)
+                .Include(x => x.LessonStructure)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (subscription == null) return new Result<Subscription>(false, "Subscription not found", null);
@@ -60,7 +60,7 @@ namespace IEduZimAPI.Models.Repository
                 .Where(x => x.StudentId == studentId)
                 .Include(x => x.Payment)
                 .Include(x => x.Student)
-                .Include(x => x.Subject)
+                .Include(x => x.LessonStructure)
                 .ToListAsync();
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
