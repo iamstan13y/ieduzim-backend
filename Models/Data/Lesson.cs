@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IEduZimAPI.Models.Enums;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IEduZimAPI.Models.Data
@@ -10,7 +11,7 @@ namespace IEduZimAPI.Models.Data
         public DateTime LessonDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public bool Confirmed { get; set; } = false;
+        public LessonStatus LessonStatus { get; set; } = LessonStatus.Pending;
         [ForeignKey("SubscriptionId")]
         public Subscription Subscription { get; set; }
     }
