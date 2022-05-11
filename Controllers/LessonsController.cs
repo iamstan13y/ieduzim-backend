@@ -29,5 +29,8 @@ namespace IEduZimAPI.Controllers
 
         [HttpGet("get-by-studentId/{id}")]
         public async Task<IActionResult> Get(int id) => Ok(await _lessonRepository.GetByStudentIdAsync(id));
+        
+        [HttpGet("get-by-teacherId/{id}")]
+        public async Task<IActionResult> GetByTeacherId(int id) => Ok(await _lessonRepository.GetByTeacherIdAsync(id));
     }
 }
