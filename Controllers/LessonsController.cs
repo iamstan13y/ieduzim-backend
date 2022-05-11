@@ -40,5 +40,13 @@ namespace IEduZimAPI.Controllers
 
             return Ok(result);
         }
+        
+        [HttpPut("student/update-status")]
+        public async Task<IActionResult> StudentUpdateLesson(UpdateLessonRequest request)
+        {
+            var result = await _lessonRepository.StudentUpdateAsync(request);
+
+            return Ok(result);
+        }
     }
 }
