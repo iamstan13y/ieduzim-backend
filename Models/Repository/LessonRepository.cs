@@ -28,8 +28,7 @@ namespace IEduZimAPI.Models.Repository
                     SubscriptionId = subsId,
                     LessonDate = lessonRequest.LessonDate,
                     StartTime = lessonRequest.StartTime,
-                    EndTime = lessonRequest.EndTime,
-                    Confirmed = lessonRequest.Confirmed
+                    EndTime = lessonRequest.EndTime
                 });
 
                 var duration = (lessonRequest.EndTime - lessonRequest.StartTime).TotalHours;
@@ -50,7 +49,24 @@ namespace IEduZimAPI.Models.Repository
             throw new System.NotImplementedException();
         }
 
-        public Task<Result<Lesson>> GetAllAsync(int id)
+        public Task<Result<Lesson>> GetByIdAsync(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<Result<IEnumerable<Lesson>>> GetByStudentIdAsync(int id)
+        {
+            var lessons = await _context.Lessons
+                .Include(x => x.Subscription)
+                .Include(x => x.Subscription.Student)
+                .Include(x => x.Subscription.LessonStructure)
+                .Where(x => x.Subscription.StudentId == id)
+                .ToListAsync();
+
+            return new Result<IEnumerable<Lesson>>(lessons);
+        }
+
+        public Task<Result<IEnumerable<Lesson>>> GetByTeacherIdAsync(int id)
         {
             throw new System.NotImplementedException();
         }

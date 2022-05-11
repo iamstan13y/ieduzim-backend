@@ -11,6 +11,8 @@ namespace IEduZimAPI.Models.Repository
         Task<Result<IEnumerable<Lesson>>> AddAsync(LessonRequest lesson);
         Task<Result<Lesson>> UpdateAsync(Lesson lesson);
         Task<Result<IEnumerable<Lesson>>> GetAllAsync();
-        Task<Result<Lesson>> GetAllAsync(int id);
+        Task<Result<Lesson>> GetByIdAsync(int id);
+        Task<Result<IEnumerable<Lesson>>> GetByStudentIdAsync(int id);
+        Task<Result<IEnumerable<Lesson>>> GetByTeacherIdAsync(int id);
     }
 }

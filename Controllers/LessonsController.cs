@@ -26,5 +26,8 @@ namespace IEduZimAPI.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("get-by-studentId/{id}")]
+        public async Task<IActionResult> Get(int id) => Ok(await _lessonRepository.GetByStudentIdAsync(id));
     }
 }
