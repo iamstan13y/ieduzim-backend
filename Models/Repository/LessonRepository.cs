@@ -73,9 +73,18 @@ namespace IEduZimAPI.Models.Repository
             return new Result<IEnumerable<Lesson>>(lessons);
         }
 
-        public Task<Result<Lesson>> UpdateAsync(Lesson lesson)
+        public async Task<Result<IEnumerable<Lesson>>> TeacherUpdateAsync(UpdateLessonRequest request)
         {
-            throw new System.NotImplementedException();
+            List<Lesson> lessons = new();
+            foreach(var sub in request.SubscriptionIds)
+            {
+                var lesson = await _context.Lessons.Where(x => x.SubscriptionId == sub).FirstOrDefaultAsync();
+                lesson.LessonStatus = request.LessonStatus;
+                await _context.SaveChangesAsync();
+                lessons.Add(lesson);
+            }
+
+            return new Result<IEnumerable<Lesson>>(lessons);
         }
     }
 }

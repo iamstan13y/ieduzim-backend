@@ -11,7 +11,7 @@ namespace IEduZimAPI.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20220511175534_LessonStatus")]
-    partial class LessonStatus
+    partial class LessonStatusToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

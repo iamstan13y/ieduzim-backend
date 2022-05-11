@@ -2,7 +2,7 @@
 
 namespace IEduZimAPI.Migrations.AppDb
 {
-    public partial class LessonStatus : Migration
+    public partial class LessonStatusToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

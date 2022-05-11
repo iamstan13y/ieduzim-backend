@@ -32,5 +32,13 @@ namespace IEduZimAPI.Controllers
         
         [HttpGet("get-by-teacherId/{id}")]
         public async Task<IActionResult> GetByTeacherId(int id) => Ok(await _lessonRepository.GetByTeacherIdAsync(id));
+        
+        [HttpPut("teacher/update-status")]
+        public async Task<IActionResult> UpdateLesson(UpdateLessonRequest request)
+        {
+            var result = await _lessonRepository.TeacherUpdateAsync(request);
+
+            return Ok(result);
+        }
     }
 }
