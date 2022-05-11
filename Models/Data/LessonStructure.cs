@@ -8,6 +8,6 @@ namespace IEduZimAPI.Models.Data
         public int Id { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual Level Level { get; set; }
-        public virtual IdentityUser User { get; set; }
+        public virtual Teacher Teacher { get; set; }
     }
 }

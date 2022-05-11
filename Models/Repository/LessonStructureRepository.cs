@@ -22,7 +22,7 @@ namespace IEduZimAPI.Models.Repository
         public Task<Paginator<LessonStructure>> GetPagedByUserId(PageRequest request, string userId)
         {
             if (request == null) request = new PageRequest() { PageNumber = 1, PageSize = 10 };
-            var req = _context.LessonStructures.Include(i => i.Subject).Include(c => c.Level).Include(x => x.User).Where(a => a.UserId.Equals(userId)).ToList();
+            var req = _context.LessonStructures.Include(i => i.Subject).Include(c => c.Level).Include(x => x.Teacher).Where(a => a.TeacherId.Equals(userId)).ToList();
             req.ForEach(a => a.Subject.ZwlPrice = CalculateZwlPrice(a.Subject.Price));
             if (request.Active == true)
                 req = req.Where(a => a.Active == true).ToList();

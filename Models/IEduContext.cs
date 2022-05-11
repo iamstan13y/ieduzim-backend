@@ -69,7 +69,7 @@ namespace IEduZimAPI.Models
                 .HasIndex(i => i.Name)
                 .IsUnique(true);
             builder.Entity<LessonStructure>()
-                .HasIndex(i => new { i.LevelId, i.SubjectId, i.UserId})
+                .HasIndex(i => new { i.LevelId, i.SubjectId, i.TeacherId})
                 .IsUnique(true);
             builder.Entity<AspNetVerificationCode>()
                 .HasKey(k => new { k.UserId, k.Code});
