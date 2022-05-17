@@ -88,6 +88,7 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Subscription)
                 .Include(x => x.Subscription.Student)
                 .Include(x => x.Subscription.LessonStructure)
+                .Include(x => x.Subscription.LessonStructure.Subject)
                 .Where(x => x.Subscription.StudentId == id)
                 .ToListAsync();
 
@@ -96,7 +97,11 @@ namespace IEduZimAPI.Models.Repository
 
         public async Task<Result<IEnumerable<Lesson>>> GetByTeacherIdAsync(int id)
         {
-            var lessons = await _context.Lessons.Where(x => x.Subscription.LessonStructure.TeacherId == id).ToListAsync();
+            var lessons = await _context.Lessons
+                .Include(x => x.Subscription)
+                .Include(x => x.Subscription.LessonStructure)
+                .Include(x => x.Subscription.LessonStructure.Subject)
+                .Where(x => x.Subscription.LessonStructure.TeacherId == id).ToListAsync();
 
             return new Result<IEnumerable<Lesson>>(lessons);
         }
