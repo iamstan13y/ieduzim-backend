@@ -27,6 +27,16 @@ namespace IEduZimAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPost("by-lesson-structure")]
+        public async Task<IActionResult> PostByLessonStructure(TeacherLessonRequest request)
+        {
+            var result = await _lessonRepository.AddAsync(request);
+
+            if (!result.Succeeded) return BadRequest(result);
+
+            return Ok(result);
+        }
+
         [HttpGet("get-by-studentId/{id}")]
         public async Task<IActionResult> Get(int id) => Ok(await _lessonRepository.GetByStudentIdAsync(id));
         

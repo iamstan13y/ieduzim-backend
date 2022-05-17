@@ -44,6 +44,34 @@ namespace IEduZimAPI.Models.Repository
             return new Result<IEnumerable<Lesson>>(lessons);
         }
 
+        public async Task<Result<IEnumerable<Lesson>>> AddAsync(TeacherLessonRequest lesson)
+        {
+            List<Lesson> lessons = new();
+
+            var subscriptions = await _context.Subscriptions.Where(x => x.LessonStructureId == lesson.LessonStructureId).ToListAsync();
+            foreach (var sub in subscriptions)
+            {
+                lessons.Add(new Lesson
+                {
+                    SubscriptionId = sub.Id,
+                    LessonDate = lesson.LessonDate,
+                    StartTime = lesson.StartTime,
+                    EndTime = lesson.EndTime
+                });
+
+                var duration = (lesson.EndTime - lesson.StartTime).TotalHours;
+                //var sub = await _context.Subscriptions.Where(x => x.Id == subsId).FirstOrDefaultAsync();
+                sub.HoursRemaining -= (int)duration;
+                _context.Subscriptions.Update(sub);
+                await _context.SaveChangesAsync();
+            }
+
+            await _context.Lessons.AddRangeAsync(lessons);
+            await _context.SaveChangesAsync();
+
+            return new Result<IEnumerable<Lesson>>(lessons);
+        }
+
         public Task<Result<IEnumerable<Lesson>>> GetAllAsync()
         {
             throw new System.NotImplementedException();
