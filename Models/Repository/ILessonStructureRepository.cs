@@ -6,6 +6,6 @@ namespace IEduZimAPI.Models.Repository
 {
     public interface ILessonStructureRepository
     {
-        Task<Paginator<LessonStructure>> GetPagedByUserId(PageRequest request, string userId);
+        Task<Paginator<LessonStructure>> GetPagedByUserId(PageRequest request, int teacherId);
     }
 }

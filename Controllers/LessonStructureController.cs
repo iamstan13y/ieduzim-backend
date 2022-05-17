@@ -21,7 +21,7 @@ namespace IEduZimAPI.Controllers
 
         [HttpGet]
         [Route("paged/by-userId/{userId}")]
-        public virtual Pagination<Paginator<LessonStructure>> GetPagedByUser([FromQuery] PageRequest request, string userId) =>
+        public virtual Pagination<Paginator<LessonStructure>> GetPagedByUser([FromQuery] PageRequest request, int userId) =>
            PagedExecution<Paginator<LessonStructure>>.Execute(() => _lessonStructureRepository.GetPagedByUserId(request, userId).Result);
 
     }
