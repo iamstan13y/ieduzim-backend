@@ -38,6 +38,7 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Payment)
                 .Include(x => x.Student)
                 .Include(x => x.LessonStructure)
+                .Include(x => x.LessonStructure.Subject)
                 .ToListAsync();
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
@@ -48,6 +49,7 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Payment)
                 .Include(x => x.Student)
                 .Include(x => x.LessonStructure)
+                .Include(x => x.LessonStructure.Subject)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (subscription == null) return new Result<Subscription>(false, "Subscription not found", null);
@@ -61,6 +63,7 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Payment)
                 .Include(x => x.Student)
                 .Include(x => x.LessonStructure)
+                .Include(x => x.LessonStructure.Subject)
                 .ToListAsync();
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
