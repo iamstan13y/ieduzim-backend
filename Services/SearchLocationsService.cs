@@ -41,10 +41,10 @@ namespace IEduZimAPI.Services
             req = req.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize);
             req.ToList().ForEach(a =>
             {
-                if (subjects.Exists(b => b.TeacherId.Equals(a.UserId)))
+                if (subjects.Exists(b => b.TeacherId.Equals(a.TeacherId)))
                 {
                     a.subjects = new List<LessonStructure>();
-                    var subs = subjects.Where(w => w.TeacherId.Equals(a.UserId)).AsQueryable();
+                    var subs = subjects.Where(w => w.TeacherId.Equals(a.TeacherId)).AsQueryable();
                     a.subjects.AddRange(subs);
                     addresses.Add(a);
                 }
