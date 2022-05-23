@@ -32,6 +32,7 @@ namespace IEduZimAPI.Controllers
         public async Task<IActionResult> PaySubscription(SubscriptionRequest request)
         {
             var student = service.GetByUserId(request.UserId);
+            if (student == null) return BadRequest(new Result<Subscription>(false, "Student with provided Id was not found.", null));
             var payment = await _paymentRepository.AddAsync(new Payment
             {
                 AccountNumber = request.PhoneNumber,
@@ -53,11 +54,11 @@ namespace IEduZimAPI.Controllers
                 PaymentId = payment.Data.Id,
                 HoursRemaining = request.PaymentPeriod,
                 LessonStructureId = request.LessonStructureId,
-                DateModified= DateTime.Now,
+                DateModified = DateTime.Now,
                 DateCreated = DateTime.Now
             });
 
-            if(!subscription.Succeeded) return BadRequest(subscription);
+            if (!subscription.Succeeded) return BadRequest(subscription);
 
             return Ok(subscription);
         }
