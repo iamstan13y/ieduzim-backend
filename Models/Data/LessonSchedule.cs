@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.Models.Enums;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IEduZimAPI.Models.Data
 {
@@ -11,5 +12,7 @@ namespace IEduZimAPI.Models.Data
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public bool Status { get; set; } = true;
+        [ForeignKey("LessonStructureId")]
+        public LessonStructure LessonStructure { get; set; }
     }
 }
