@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using IEduZimAPI.Models.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IEduZimAPI.Models.Local
 {
@@ -8,7 +9,9 @@ namespace IEduZimAPI.Models.Local
         public int SubjectId { get; set; }
         public int LevelId { get; set; }
         public bool Active { get; set; }
-        public string LessonLocationId { get; set; }
+        public int LessonLocationId { get; set; }
         public string ExamTypeId { get; set; }
+        [ForeignKey("LessonLocationId")]
+        public LessonLocation LessonLocation { get; set; }
     }
 }

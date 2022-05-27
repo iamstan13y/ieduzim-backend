@@ -57,6 +57,7 @@ namespace IEduZimAPI
 
             services.AddScoped<IPaynowService, PaynowService>();
             services.AddScoped<IHttpClientService, HttpClientService>();
+            services.AddScoped<ISearchLocationsService, SearchLocationsService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             configuration = Configuration;
