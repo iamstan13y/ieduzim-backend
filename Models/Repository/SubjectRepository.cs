@@ -60,7 +60,13 @@ namespace IEduZimAPI.Models.Repository
 
         public async Task<Result<Pageable<Subject>>> GetPageByCriteriaAsync(SearchSubjectRequest request, Pagination pagination)
         {
-            var subjects = await _appDbContext.Subjects.Where(x => x.LevelId == request.LevelId && x.LessonLocationId == request.LessonLocationId).ToListAsync();
+            var subjects = await _appDbContext.Subjects
+                .Include(x => x.LessonLocation)
+                .Include(x => x.Level)
+                .Where(x => x.LevelId == request.LevelId && x.LessonLocationId == request.LessonLocationId).ToListAsync();
+
+            subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
+            
             var pagedSubjects = new Pageable<Subject>(subjects, pagination.Page, pagination.Size);
 
             return new Result<Pageable<Subject>>(pagedSubjects);
