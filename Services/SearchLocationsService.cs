@@ -83,10 +83,10 @@ namespace IEduZimAPI.Services
             return Math.Round(Convert.ToDouble(UsdPrice) * rate, 2);
         }
 
-        public async Task<Pageable<Address>> GetPagedLocationsAsync(LocationSearchRequest searchRequest, Pagination pagination)
+        public async Task<Result<Pageable<Address>>> GetPagedLocationsAsync(LocationSearchRequest searchRequest, Pagination pagination)
         {
             var subjects = GetRequestedSubjects(searchRequest);
-            if (subjects.Count() == 0) return new Pageable<Address>(null);
+            if (subjects.Count == 0) return new Result<Pageable<Address>>(false, "No subject offers found.", null);
 
             var addresses = context.Addresses.Include(a => a.City).Include(b => b.Province).Include(t => t.Teacher).ThenInclude(s => s.User).Include(a => a.Teacher).ThenInclude(b => b.Title).Where(w => w.IsLearningLocation == true).AsQueryable();
             addresses.ToList().ForEach(x =>
@@ -100,7 +100,9 @@ namespace IEduZimAPI.Services
                 }
             });
 
-            return new Pageable<Address>(await addresses.ToListAsync(), pagination.Page, pagination.Size);
+            var pagedData = new Pageable<Address>(await addresses.ToListAsync(), pagination.Page, pagination.Size);
+
+            return new Result<Pageable<Address>>(pagedData);
         }
     }
 }
