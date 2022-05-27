@@ -58,18 +58,16 @@ namespace IEduZimAPI.Models.Repository
             return Task.FromResult(new Paginator<Subject>(request, total, req));
         }
 
-        public async Task<Result<Pageable<Subject>>> GetPageByCriteriaAsync(SearchSubjectRequest request, Pagination pagination)
+        public async Task<Result<IEnumerable<Subject>>> GetPageByCriteriaAsync(int levelId, int lessonLocationId)
         {
             var subjects = await _appDbContext.Subjects
                 .Include(x => x.LessonLocation)
                 .Include(x => x.Level)
-                .Where(x => x.LevelId == request.LevelId && x.LessonLocationId == request.LessonLocationId).ToListAsync();
+                .Where(x => x.LevelId == levelId && x.LessonLocationId == lessonLocationId).ToListAsync();
 
             subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
             
-            var pagedSubjects = new Pageable<Subject>(subjects, pagination.Page, pagination.Size);
-
-            return new Result<Pageable<Subject>>(pagedSubjects);
+            return new Result<IEnumerable<Subject>>(subjects);
         }
 
         public IQueryable<Subject> Sort(IQueryable<Subject> req, PageRequest request)
