@@ -22,6 +22,22 @@ namespace IEduZimAPI.Models.Repository
             throw new System.NotImplementedException();
         }
 
+        public async Task<Result<IEnumerable<LocalAddress>>> GetByCriteriaAsync(AddressSearchRequest request)
+        {
+            var student = await _context.Students.Where(x => x.UserId == request.UserId).FirstOrDefaultAsync();
+            if (student == null) return new Result<IEnumerable<LocalAddress>>(false, "Student not found", null);
+
+            var studentLocation = await _context.Locations.Where(x => x.Id == student.LocationId).FirstOrDefaultAsync();
+
+            var addresses = await _context.Addresses
+                .Where(x => x.Location.CityId == studentLocation.CityId && x.Location.Distance <= 10)
+                .OrderBy(x => x.Location.Distance)
+                .Include(x => x.Location)
+                .ToListAsync();
+
+            return new Result<IEnumerable<LocalAddress>>(addresses);
+        }
+
         public Task<Result<IEnumerable<LessonSchedule>>> GetByLessonLocationIdAsync(int id)
         {
             throw new System.NotImplementedException();
