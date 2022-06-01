@@ -20,6 +20,8 @@ namespace IEduZimAPI.Models.Repository
         public async Task<Result<IEnumerable<LocalAddress>>> GetByCriteriaAsync(AddressSearchRequest request)
         {
             var student = await _context.Students.Where(x => x.UserId == request.UserId).FirstOrDefaultAsync();
+            if (student == null) return new Result<IEnumerable<LocalAddress>>(false, "Student not found", null);
+
             var studentLocation = await _context.Locations.Where(x => x.Id == student.LocationId).FirstOrDefaultAsync();
 
             var addresses = await _context.Addresses

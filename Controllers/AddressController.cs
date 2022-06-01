@@ -20,9 +20,13 @@ namespace IEduZimAPI.Controllers
             _addressRepository = addressRepository;
         }
 
-        public async Task<IActionResult> Get(AddressSearchRequest request)
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] AddressSearchRequest request)
         {
             var result = await _addressRepository.GetByCriteriaAsync(request);
+
+            if (!result.Succeeded) return BadRequest(result);
+
             return Ok(result);
         }
 
