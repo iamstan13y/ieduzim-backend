@@ -7,7 +7,7 @@ namespace IEduZimAPI.Models.Local
     public class LocalAddress
     {
         [NotMapped]
-        public List<LessonStructure> Subjects { get; set; }
+        public LessonStructure Subject { get; set; }
         public int Id { get; set; }
         public string AddressLine1 { get; set; }
         public string Street { get; set; }

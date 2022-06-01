@@ -93,10 +93,10 @@ namespace IEduZimAPI.Services
             {
                 if (subjects.Exists(y => y.TeacherId == x.TeacherId))
                 {
-                    x.Subjects = new List<LessonStructure>();
-                    var subs = subjects.Where(z => z.TeacherId == x.TeacherId).AsQueryable();
-                    x.Subjects.AddRange(subs);
-                    addresses.ToList().Add(x);
+                //    x.Subjects = new List<LessonStructure>();
+                //    var subs = subjects.Where(z => z.TeacherId == x.TeacherId).AsQueryable();
+                //    x.Subjects.AddRange(subs);
+                //    addresses.ToList().Add(x);
                 }
             });
 

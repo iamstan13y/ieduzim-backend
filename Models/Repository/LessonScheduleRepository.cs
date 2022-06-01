@@ -35,6 +35,11 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Location)
                 .ToListAsync();
 
+            addresses.ForEach(async x =>
+            {
+                var schedule = await _context.LessonSchedules.Where(y => y.LessonDay == ).FirstOrDefaultAsync();
+                x.Subject = await _context.LessonStructures.Where(y => y.SubjectId == request.SubjectId).FirstOrDefaultAsync();
+            });
             return new Result<IEnumerable<LocalAddress>>(addresses);
         }
 
