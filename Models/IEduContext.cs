@@ -75,9 +75,9 @@ namespace IEduZimAPI.Models
                 .HasKey(k => new { k.UserId, k.Code});
             builder.Entity<AspNetTempPassword>()
                 .HasKey(k => k.UserId);
-            builder.Entity<Address>()
-                .HasIndex(k => k.UserId)
-                .IsUnique(true);
+          //  builder.Entity<Address>()
+               // .HasIndex(k => k.UserId)
+                //.IsUnique(true);
             builder.Entity<Currencies>()
                 .HasIndex(k => k.Name)
                 .IsUnique(true);

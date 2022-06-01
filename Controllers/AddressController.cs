@@ -14,9 +14,9 @@ namespace IEduZimAPI.Controllers
         public AddressController() =>
             service = new AddressService();
 
-        [HttpGet]
-        [Route("by-user-id/{userId}")]
-        public Result<Address> Get(string userId) =>
-            ExecutionService<Address>.Execute(() => service.GetByUserId(userId));
+        //[HttpGet]
+        //[Route("by-user-id/{userId}")]
+        //public Result<Address> Get(string userId) =>
+        //    ExecutionService<Address>.Execute(() => service.GetByUserId(userId));
     }
 }
