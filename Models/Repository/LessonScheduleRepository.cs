@@ -1,7 +1,9 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Enums;
 using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,11 +37,21 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Location)
                 .ToListAsync();
 
+            LessonSchedule schedule = new();
+
+            request.LessonDays.ForEach(async x =>
+            {
+                var scheduleInDb = await _context.LessonSchedules.Where(y => y.LessonDay == x).FirstOrDefaultAsync();
+                if (scheduleInDb != null) schedule = scheduleInDb;
+            });
+
+            if (schedule != null) return new Result<IEnumerable<LocalAddress>>(false, "Teacher is occupied in provided time.", null);
+
             addresses.ForEach(async x =>
             {
-                var schedule = await _context.LessonSchedules.Where(y => y.LessonDay == ).FirstOrDefaultAsync();
                 x.Subject = await _context.LessonStructures.Where(y => y.SubjectId == request.SubjectId).FirstOrDefaultAsync();
             });
+
             return new Result<IEnumerable<LocalAddress>>(addresses);
         }
 
@@ -52,6 +64,13 @@ namespace IEduZimAPI.Models.Repository
         {
             var schedules = await _context.LessonSchedules.Where(x => x.LessonStructure.TeacherId == teacherId).ToListAsync();
             return new Result<IEnumerable<LessonSchedule>>(schedules);
+        }
+
+        public async Task<Result<IEnumerable<LessonDay>>> GetDaysAsync()
+        {
+            var days = await _context.LessonDays.ToListAsync();
+         
+            return new Result<IEnumerable<LessonDay>>(days);
         }
     }
 }

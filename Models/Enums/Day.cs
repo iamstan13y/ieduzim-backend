@@ -2,10 +2,11 @@
 {
     public enum Day
     {
-        Monday = 1,
+        Everyday = 0,
+        Monday,
         Tuesday,
         Wednesday,
         Thursday,
-        Friday
+        Friday,
     }
 }

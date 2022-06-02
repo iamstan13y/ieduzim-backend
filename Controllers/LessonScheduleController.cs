@@ -17,6 +17,9 @@ namespace IEduZimAPI.Controllers
             _lessonScheduleRepository = lessonScheduleRepository;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get() => Ok(await _lessonScheduleRepository.GetDaysAsync());
+        
         [HttpPost("get-available")]
         public async Task<IActionResult> Get(AddressSearchRequest request)
         {
