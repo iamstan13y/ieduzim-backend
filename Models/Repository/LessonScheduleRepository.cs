@@ -69,7 +69,7 @@ namespace IEduZimAPI.Models.Repository
 
             addresses.ForEach(x =>
             {
-                x.Subject = _context.LessonStructures.Where(y => y.SubjectId == request.SubjectId).FirstOrDefault();
+                x.LessonStructure = _context.LessonStructures.Where(y => y.SubjectId == request.SubjectId).FirstOrDefault();
             });
 
             return new Result<IEnumerable<LocalAddress>>(addresses);
