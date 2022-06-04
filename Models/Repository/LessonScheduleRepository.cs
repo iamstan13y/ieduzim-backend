@@ -21,6 +21,9 @@ namespace IEduZimAPI.Models.Repository
 
         public Result<IEnumerable<LessonSchedule>> Add(LessonScheduleRequest request)
         {
+            if (request.LessonDays.Contains(1) && request.LessonDays.Count > 1)
+                return new Result<IEnumerable<LessonSchedule>>(false, "You cannot make other selections with Everyday!", null);
+
             LessonSchedule schedule = null;
 
             request.LessonDays.ForEach(x =>
@@ -50,6 +53,9 @@ namespace IEduZimAPI.Models.Repository
 
         public async Task<Result<IEnumerable<LocalAddress>>> GetByCriteriaAsync(AddressSearchRequest request)
         {
+            if (request.LessonDays.Contains(1) && request.LessonDays.Count > 1)
+                return new Result<IEnumerable<LocalAddress>>(false, "You cannot make other selections with Everyday!", null);
+
             var student = await _context.Students.Where(x => x.UserId == request.UserId).FirstOrDefaultAsync();
             if (student == null) return new Result<IEnumerable<LocalAddress>>(false, "Student not found", null);
 
