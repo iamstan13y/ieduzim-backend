@@ -39,17 +39,17 @@ namespace IEduZimAPI.Models.Repository
 
             LessonSchedule schedule = new();
 
-            request.LessonDays.ForEach(async x =>
-            {
-                var scheduleInDb = await _context.LessonSchedules.Where(y => y.LessonDay == x).FirstOrDefaultAsync();
-                if (scheduleInDb != null) schedule = scheduleInDb;
-            });
+            //request.LessonDays.ForEach(async x =>
+            //{
+            //    var scheduleInDb = await _context.LessonSchedules.Where(y => y.LessonDay == x).FirstOrDefaultAsync();
+            //    if (scheduleInDb != null) schedule = scheduleInDb;
+            //});
 
-            if (schedule != null) return new Result<IEnumerable<LocalAddress>>(false, "Teacher is occupied in provided time.", null);
+            //if (schedule != null) return new Result<IEnumerable<LocalAddress>>(false, "Teacher is occupied in provided time.", null);
 
-            addresses.ForEach(async x =>
+            addresses.ForEach(x =>
             {
-                x.Subject = await _context.LessonStructures.Where(y => y.SubjectId == request.SubjectId).FirstOrDefaultAsync();
+                x.Subject = _context.LessonStructures.Where(y => y.SubjectId == request.SubjectId).FirstOrDefault();
             });
 
             return new Result<IEnumerable<LocalAddress>>(addresses);

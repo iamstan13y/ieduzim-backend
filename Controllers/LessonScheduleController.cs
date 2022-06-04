@@ -20,8 +20,8 @@ namespace IEduZimAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _lessonScheduleRepository.GetDaysAsync());
         
-        [HttpPost("get-available")]
-        public async Task<IActionResult> Get(AddressSearchRequest request)
+        [HttpGet("get-available")]
+        public async Task<IActionResult> Get([FromQuery] AddressSearchRequest request)
         {
             var result = await _lessonScheduleRepository.GetByCriteriaAsync(request);
 
