@@ -19,9 +19,33 @@ namespace IEduZimAPI.Models.Repository
             _context = context;
         }
 
-        public Task<Result<IEnumerable<LessonSchedule>>> AddAsync(LessonScheduleRequest request)
+        public Result<IEnumerable<LessonSchedule>> Add(LessonScheduleRequest request)
         {
-            throw new System.NotImplementedException();
+            LessonSchedule schedule = null;
+
+            request.LessonDays.ForEach(x =>
+            {
+                var scheduleInDb = _context.LessonSchedules.Where(y => y.LessonDay == x && request.StartTime >= y.StartTime && request.EndTime <= y.EndTime).FirstOrDefault();
+                if (scheduleInDb != null) schedule = scheduleInDb;
+            });
+
+            if (schedule != null) return new Result<IEnumerable<LessonSchedule>>(false, "Teacher is occupied in provided time.", null);
+
+            request.LessonDays.ForEach(x =>
+            {
+                _context.LessonSchedules.Add(new LessonSchedule
+                {
+                    LessonDay = x,
+                    LessonStructureId = request.LessonStructureId,
+                    StartTime = request.StartTime,
+                    EndTime = request.EndTime,
+                    StudentId = request.StudentId
+                });
+
+               _context.SaveChanges();
+            });
+
+            return new Result<IEnumerable<LessonSchedule>>();
         }
 
         public async Task<Result<IEnumerable<LocalAddress>>> GetByCriteriaAsync(AddressSearchRequest request)
@@ -36,16 +60,6 @@ namespace IEduZimAPI.Models.Repository
                 .OrderBy(x => x.Location.Distance)
                 .Include(x => x.Location)
                 .ToListAsync();
-
-            LessonSchedule schedule = new();
-
-            //request.LessonDays.ForEach(async x =>
-            //{
-            //    var scheduleInDb = await _context.LessonSchedules.Where(y => y.LessonDay == x).FirstOrDefaultAsync();
-            //    if (scheduleInDb != null) schedule = scheduleInDb;
-            //});
-
-            //if (schedule != null) return new Result<IEnumerable<LocalAddress>>(false, "Teacher is occupied in provided time.", null);
 
             addresses.ForEach(x =>
             {
@@ -69,7 +83,7 @@ namespace IEduZimAPI.Models.Repository
         public async Task<Result<IEnumerable<LessonDay>>> GetDaysAsync()
         {
             var days = await _context.LessonDays.ToListAsync();
-         
+
             return new Result<IEnumerable<LessonDay>>(days);
         }
     }

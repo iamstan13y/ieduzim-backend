@@ -1,6 +1,5 @@
 ﻿using IEduZimAPI.Models.Local;
 using IEduZimAPI.Models.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -24,6 +23,16 @@ namespace IEduZimAPI.Controllers
         public async Task<IActionResult> Get([FromQuery] AddressSearchRequest request)
         {
             var result = await _lessonScheduleRepository.GetByCriteriaAsync(request);
+
+            if (!result.Succeeded) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public IActionResult Add(LessonScheduleRequest request)
+        {
+            var result = _lessonScheduleRepository.Add(request);
 
             if (!result.Succeeded) return BadRequest(result);
 

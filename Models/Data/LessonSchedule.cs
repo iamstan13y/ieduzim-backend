@@ -1,5 +1,4 @@
-﻿using IEduZimAPI.Models.Enums;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IEduZimAPI.Models.Data
@@ -8,11 +7,14 @@ namespace IEduZimAPI.Models.Data
     {
         public int Id { get; set; }
         public int LessonStructureId { get; set; }
-        public Day LessonDay { get; set; }
+        public int LessonDay { get; set; }
+        public int StudentId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public bool Status { get; set; } = true;
         [ForeignKey("LessonStructureId")]
         public LessonStructure LessonStructure { get; set; }
+        [ForeignKey("StudentId")]
+        public Student Student { get; set; }
     }
 }
