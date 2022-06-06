@@ -69,7 +69,15 @@ namespace IEduZimAPI.Models.Repository
 
             addresses.ForEach(x =>
             {
-                x.LessonStructure = _context.LessonStructures.Where(y => y.SubjectId == request.SubjectId).FirstOrDefault();
+                x.LessonStructure = _context.LessonStructures
+                .Where(y => y.SubjectId == request.SubjectId)
+                .Include(x => x.LessonLocation)
+                .Include(x => x.Teacher)
+                .Include(x => x.Subject)
+                .Include(x => x.Level)
+                .FirstOrDefault();
+
+                x.LessonStructure.Subject.ZwlPrice = CalculateZwlPrice(x.LessonStructure.Subject.Price);
             });
 
             return new Result<IEnumerable<LocalAddress>>(addresses);
@@ -91,6 +99,13 @@ namespace IEduZimAPI.Models.Repository
             var days = await _context.LessonDays.ToListAsync();
 
             return new Result<IEnumerable<LessonDay>>(days);
+        }
+
+        private double CalculateZwlPrice(string UsdPrice)
+        {
+            var rate = _context.ExchangeRates.Where(x => x.CurrencyId == 2).FirstOrDefault().Rate;
+
+            return Math.Round(Convert.ToDouble(UsdPrice) * rate, 2);
         }
     }
 }
