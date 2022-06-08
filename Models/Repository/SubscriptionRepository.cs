@@ -22,11 +22,13 @@ namespace IEduZimAPI.Models.Repository
             try
             {
                 await _context.Subscriptions.AddAsync(subscription);
+                await _context.SaveChangesAsync();
 
-                subscription.LessonScheduleIds.ForEach(async id =>
+                subscription.LessonSchedules = new();
+                subscription.LessonScheduleIds.ForEach(id =>
                 {
-                    var lessonSchedule = await _context.LessonSchedules.Where(x => x.Id == id).FirstOrDefaultAsync();
-                    
+                    var lessonSchedule = _context.LessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+
                     lessonSchedule.SubscriptionId = subscription.Id;
                     subscription.LessonSchedules.Add(lessonSchedule);
                 });
