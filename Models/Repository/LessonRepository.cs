@@ -33,7 +33,7 @@ namespace IEduZimAPI.Models.Repository
 
                 var duration = (lessonRequest.EndTime - lessonRequest.StartTime).TotalHours;
                 var sub = await _context.Subscriptions.Where(x => x.Id == subsId).FirstOrDefaultAsync();
-                sub.HoursRemaining -= (int)duration;
+                //sub.HoursRemaining -= (int)duration;
                 _context.Subscriptions.Update(sub);
                 await _context.SaveChangesAsync();
             }
@@ -44,11 +44,12 @@ namespace IEduZimAPI.Models.Repository
             return new Result<IEnumerable<Lesson>>(lessons);
         }
 
+        //rhetoric
         public async Task<Result<IEnumerable<Lesson>>> AddAsync(TeacherLessonRequest lesson)
         {
             List<Lesson> lessons = new();
 
-            var subscriptions = await _context.Subscriptions.Where(x => x.LessonStructureId == lesson.LessonStructureId).ToListAsync();
+            var subscriptions = await _context.Subscriptions.ToListAsync();
             foreach (var sub in subscriptions)
             {
                 lessons.Add(new Lesson
@@ -61,7 +62,7 @@ namespace IEduZimAPI.Models.Repository
 
                 var duration = (lesson.EndTime - lesson.StartTime).TotalHours;
                 //var sub = await _context.Subscriptions.Where(x => x.Id == subsId).FirstOrDefaultAsync();
-                sub.HoursRemaining -= (int)duration;
+                //sub.HoursRemaining -= (int)duration;
                 _context.Subscriptions.Update(sub);
                 await _context.SaveChangesAsync();
             }
@@ -86,9 +87,6 @@ namespace IEduZimAPI.Models.Repository
         {
             var lessons = await _context.Lessons
                 .Include(x => x.Subscription)
-                .Include(x => x.Subscription.Student)
-                .Include(x => x.Subscription.LessonStructure)
-                .Include(x => x.Subscription.LessonStructure.Subject)
                 .Where(x => x.Subscription.StudentId == id)
                 .ToListAsync();
 
@@ -98,10 +96,7 @@ namespace IEduZimAPI.Models.Repository
         public async Task<Result<IEnumerable<Lesson>>> GetByTeacherIdAsync(int id)
         {
             var lessons = await _context.Lessons
-                .Include(x => x.Subscription)
-                .Include(x => x.Subscription.LessonStructure)
-                .Include(x => x.Subscription.LessonStructure.Subject)
-                .Where(x => x.Subscription.LessonStructure.TeacherId == id).ToListAsync();
+                .Include(x => x.Subscription).ToListAsync();
 
             return new Result<IEnumerable<Lesson>>(lessons);
         }
