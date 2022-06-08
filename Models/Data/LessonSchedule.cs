@@ -11,7 +11,7 @@ namespace IEduZimAPI.Models.Data
         public int StudentId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public bool Status { get; set; } = true;
+        public bool Status { get; set; } = false;
         [ForeignKey("LessonStructureId")]
         public LessonStructure LessonStructure { get; set; }
         [ForeignKey("StudentId")]

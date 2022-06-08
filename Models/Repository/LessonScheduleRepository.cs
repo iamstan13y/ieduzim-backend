@@ -34,9 +34,11 @@ namespace IEduZimAPI.Models.Repository
 
             if (schedule != null) return new Result<IEnumerable<LessonSchedule>>(false, "Teacher is occupied in provided time.", null);
 
+            var schedules = new List<LessonSchedule>();
+
             request.LessonDays.ForEach(x =>
             {
-                _context.LessonSchedules.Add(new LessonSchedule
+                schedules.Add(new LessonSchedule
                 {
                     LessonDay = x,
                     LessonStructureId = request.LessonStructureId,
@@ -44,11 +46,13 @@ namespace IEduZimAPI.Models.Repository
                     EndTime = request.EndTime,
                     StudentId = request.StudentId
                 });
-
-               _context.SaveChanges();
             });
 
-            return new Result<IEnumerable<LessonSchedule>>();
+            _context.LessonSchedules.AddRange(schedules);
+
+            _context.SaveChanges();
+
+            return new Result<IEnumerable<LessonSchedule>>(schedules);
         }
 
         public async Task<Result<IEnumerable<LocalAddress>>> GetByCriteriaAsync(AddressSearchRequest request)
