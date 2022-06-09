@@ -33,6 +33,10 @@ namespace IEduZimAPI.Controllers
         [HttpGet("paged")]
         public Pagination<Paginator<Subject>> GetPaged([FromQuery] PageRequest request) => 
             Pagination<Paginator<Subject>>.FromObject(_subjectRepository.GetAllSubjectsPagedAsync(request).Result);
+        
+        [HttpGet("search/{levelId}/{lessonLocationId}")]
+        public async Task<IActionResult> Get(int levelId, int lessonLocationId) =>
+            Ok(await _subjectRepository.GetPageByCriteriaAsync(levelId, lessonLocationId));
 
         [HttpPost]
         public async Task<IActionResult> Post(SubjectRequest request)

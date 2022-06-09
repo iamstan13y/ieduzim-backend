@@ -1,4 +1,7 @@
-﻿namespace IEduZimAPI.Models.Local
+﻿using IEduZimAPI.Models.Data;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace IEduZimAPI.Models.Local
 {
     public class Students
     {
@@ -7,6 +10,6 @@
         public string Surname { get; set; }
         public int TitleId { get; set; }
         public string Gender { get; set; }
-        public double AccountBalance { get; set; }
+        public int LocationId { get; set; } 
     }
 }

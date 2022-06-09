@@ -4,14 +4,16 @@ using IEduZimAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IEduZimAPI.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220604203321_LessonScheduleIIItoDb")]
+    partial class LessonScheduleIIItoDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,9 +147,6 @@ namespace IEduZimAPI.Migrations.AppDb
                         .HasColumnType("bit");
 
                     b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubscriptionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -366,6 +365,12 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("HoursRemaining")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LessonStructureId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PaymentId")
                         .HasColumnType("int");
 
@@ -374,7 +379,11 @@ namespace IEduZimAPI.Migrations.AppDb
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LessonStructureId");
+
                     b.HasIndex("PaymentId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Subscriptions");
                 });
@@ -657,11 +666,27 @@ namespace IEduZimAPI.Migrations.AppDb
 
             modelBuilder.Entity("IEduZimAPI.Models.Data.Subscription", b =>
                 {
+                    b.HasOne("IEduZimAPI.Models.Data.LessonStructure", "LessonStructure")
+                        .WithMany()
+                        .HasForeignKey("LessonStructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("IEduZimAPI.Models.Data.Payment", "Payment")
                         .WithMany()
                         .HasForeignKey("PaymentId");
 
+                    b.HasOne("IEduZimAPI.Models.Data.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LessonStructure");
+
                     b.Navigation("Payment");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("IEduZimAPI.Models.Data.Teacher", b =>

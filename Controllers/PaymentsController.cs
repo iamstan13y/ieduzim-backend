@@ -52,10 +52,9 @@ namespace IEduZimAPI.Controllers
             {
                 StudentId = student.Id,
                 PaymentId = payment.Data.Id,
-                HoursRemaining = request.PaymentPeriod,
-                LessonStructureId = request.LessonStructureId,
                 DateModified = DateTime.Now,
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
+                LessonScheduleIds = request.LessonScheduleIds,
             });
 
             if (!subscription.Succeeded) return BadRequest(subscription);

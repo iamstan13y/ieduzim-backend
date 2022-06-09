@@ -84,6 +84,12 @@ namespace IEduZimAPI.Models.Repository
                 payment.PaymentStatus = PaymentStatus.Success;
 
                 var subscription = await _context.Subscriptions.Where(x => x.PaymentId == payment.Id).FirstOrDefaultAsync();
+
+                var lessonSchedules = await _context.LessonSchedules.Where(x => x.SubscriptionId == subscription.Id).ToListAsync();
+                
+                lessonSchedules.ForEach(x => x.Status = true);
+                _context.LessonSchedules.UpdateRange(lessonSchedules);
+
                 subscription.DateModified = DateTime.Now;
                 subscription.Active = true;
                 _context.Subscriptions.Update(subscription);

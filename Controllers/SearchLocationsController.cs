@@ -4,21 +4,23 @@ using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Local;
 using IEduZimAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace IEduZimAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
-    public class SearchLocationsController : Controller
+    public class SearchLocationsController : ControllerBase
     {
-        private new SearchLocationsService service;
-        public SearchLocationsController(IEduContext context, AppDbContext appDbContext) =>
-            service = new SearchLocationsService(context, appDbContext);
+        private readonly ISearchLocationsService _searchLocationsService;
+
+        public SearchLocationsController(ISearchLocationsService searchLocationsService)
+        {
+            _searchLocationsService = searchLocationsService;
+        }
 
         [HttpGet]
         [Route("search")]
-        public Result<Paginator<Address>> Get([FromQuery]LocationSearchRequest request) =>
-            ExecutionService<Paginator<Address>>.Execute(() => service.GetPagedLocationsByCriteria(request));
+        public async Task<IActionResult> Get([FromQuery] LocationSearchRequest request, [FromQuery] Pagination pagination) => Ok(await _searchLocationsService.GetPagedLocationsAsync(request, pagination));
     }
 }

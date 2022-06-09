@@ -1,5 +1,7 @@
 ﻿using IEduZimAPI.CoreClasses;
+using IEduZimAPI.CoreClasses.Pagination;
 using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -54,6 +56,18 @@ namespace IEduZimAPI.Models.Repository
             req.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
             req = req.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
             return Task.FromResult(new Paginator<Subject>(request, total, req));
+        }
+
+        public async Task<Result<IEnumerable<Subject>>> GetPageByCriteriaAsync(int levelId, int lessonLocationId)
+        {
+            var subjects = await _appDbContext.Subjects
+                .Include(x => x.LessonLocation)
+                .Include(x => x.Level)
+                .Where(x => x.LevelId == levelId && x.LessonLocationId == lessonLocationId).ToListAsync();
+
+            subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
+            
+            return new Result<IEnumerable<Subject>>(subjects);
         }
 
         public IQueryable<Subject> Sort(IQueryable<Subject> req, PageRequest request)

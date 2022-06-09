@@ -24,6 +24,17 @@ namespace IEduZimAPI.Models.Repository
                 await _context.Subscriptions.AddAsync(subscription);
                 await _context.SaveChangesAsync();
 
+                subscription.LessonSchedules = new();
+                subscription.LessonScheduleIds.ForEach(id =>
+                {
+                    var lessonSchedule = _context.LessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+
+                    lessonSchedule.SubscriptionId = subscription.Id;
+                    subscription.LessonSchedules.Add(lessonSchedule);
+                });
+
+                await _context.SaveChangesAsync();
+
                 return new Result<Subscription>(subscription);
             }
             catch (Exception)
@@ -36,9 +47,6 @@ namespace IEduZimAPI.Models.Repository
         {
             var subscriptions = await _context.Subscriptions
                 .Include(x => x.Payment)
-                .Include(x => x.Student)
-                .Include(x => x.LessonStructure)
-                .Include(x => x.LessonStructure.Subject)
                 .ToListAsync();
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
@@ -47,9 +55,6 @@ namespace IEduZimAPI.Models.Repository
         {
             var subscription = await _context.Subscriptions
                 .Include(x => x.Payment)
-                .Include(x => x.Student)
-                .Include(x => x.LessonStructure)
-                .Include(x => x.LessonStructure.Subject)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (subscription == null) return new Result<Subscription>(false, "Subscription not found", null);
@@ -61,17 +66,15 @@ namespace IEduZimAPI.Models.Repository
             var subscriptions = await _context.Subscriptions
                 .Where(x => x.StudentId == studentId)
                 .Include(x => x.Payment)
-                .Include(x => x.Student)
-                .Include(x => x.LessonStructure)
-                .Include(x => x.LessonStructure.Subject)
                 .ToListAsync();
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
+        //rhetoric
         public async Task<Result<IEnumerable<Subscription>>> GetByTeacherIdAsync(int teacherId)
         {
-            var subscriptions = await _context.Subscriptions.Where(x => x.LessonStructure.TeacherId == teacherId).ToListAsync();
+            var subscriptions = await _context.Subscriptions.ToListAsync();
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }

@@ -1,4 +1,5 @@
 ﻿using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 
 namespace IEduZimAPI.Models
@@ -19,6 +20,8 @@ namespace IEduZimAPI.Models
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<LessonLocation> LessonLocations { get; set; }
-
+        public DbSet<LessonSchedule> LessonSchedules { get; set; }
+        public DbSet<LocalAddress> Addresses { get; set; }
+        public DbSet<LessonDay> LessonDays { get; set; }
     }
 }
