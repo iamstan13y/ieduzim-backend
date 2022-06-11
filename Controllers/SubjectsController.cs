@@ -47,7 +47,8 @@ namespace IEduZimAPI.Controllers
                 CurrencyId = request.CurrencyId,
                 LevelId = request.LevelId,
                 Name = request.Name,
-                Price = request.Price
+                Price = request.Price,
+                LessonLocationId = request.LessonLocationId
             });
 
             if (!result.Succeeded) return BadRequest(result);
