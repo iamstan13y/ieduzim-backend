@@ -6,5 +6,6 @@
         public string Price { get; set; }
         public int CurrencyId { get; set; }
         public int LevelId { get; set; }
+        public int LessonLocationId { get; set; }
     }
 }
