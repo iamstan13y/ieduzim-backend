@@ -28,6 +28,7 @@ namespace IEduZimAPI.Models.Repository
                 subscription.LessonScheduleIds.ForEach(id =>
                 {
                     var lessonSchedule = _context.LessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                    if (lessonSchedule == null) throw new ArgumentNullException(nameof(lessonSchedule));
 
                     lessonSchedule.SubscriptionId = subscription.Id;
                     subscription.LessonSchedules.Add(lessonSchedule);
@@ -36,6 +37,10 @@ namespace IEduZimAPI.Models.Repository
                 await _context.SaveChangesAsync();
 
                 return new Result<Subscription>(subscription);
+            }
+            catch(ArgumentNullException)
+            {
+                return new Result<Subscription>(false, "Ïnvalid Lesson Schedule Id provided.", null);
             }
             catch (Exception)
             {
