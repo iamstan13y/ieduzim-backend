@@ -327,6 +327,9 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("LessonLocationId")
                         .HasColumnType("int");
 
@@ -338,6 +341,9 @@ namespace IEduZimAPI.Migrations.AppDb
 
                     b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
