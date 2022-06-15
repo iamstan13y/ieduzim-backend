@@ -4,6 +4,7 @@ using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -42,8 +43,8 @@ namespace IEduZimAPI.Models.Repository
                 }
                 else
                 {
-                    subject.StartTime = request.StartTime;
-                    subject.EndTime = request.EndTime;
+                    subject.StartTime = DateTime.ParseExact(request.StartTime, "HH:mm", CultureInfo.InvariantCulture);
+                    subject.EndTime = DateTime.ParseExact(request.EndTime, "HH:mm", CultureInfo.InvariantCulture);
                 }
 
                 await _appDbContext.Subjects.AddAsync(subject);
