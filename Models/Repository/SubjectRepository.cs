@@ -1,5 +1,4 @@
 ﻿using IEduZimAPI.CoreClasses;
-using IEduZimAPI.CoreClasses.Pagination;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
@@ -22,18 +21,39 @@ namespace IEduZimAPI.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task<Result<Subject>> AddAsync(Subject subject)
+        public async Task<Result<Subject>> AddAsync(SubjectRequest request)
         {
             try
             {
+                var subject = new Subject
+                {
+                    Active = true,
+                    CurrencyId = request.CurrencyId,
+                    LevelId = request.LevelId,
+                    Name = request.Name,
+                    Price = request.Price,
+                    LessonLocationId = request.LessonLocationId
+                };
+
+                if (request.LessonLocationId == 1)
+                {
+                    subject.StartTime = default;
+                    subject.EndTime = default;
+                }
+                else
+                {
+                    subject.StartTime = request.StartTime;
+                    subject.EndTime = request.EndTime;
+                }
+
                 await _appDbContext.Subjects.AddAsync(subject);
                 await _appDbContext.SaveChangesAsync();
 
                 return new Result<Subject>(subject);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new Result<Subject>(false, ex.ToString(), null);
+                return new Result<Subject>(false, "An error occured while saving subject.", null);
             }
         }
 
