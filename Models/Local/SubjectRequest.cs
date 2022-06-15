@@ -9,7 +9,7 @@ namespace IEduZimAPI.Models.Local
         public int CurrencyId { get; set; }
         public int LevelId { get; set; }
         public int LessonLocationId { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
     }
 }
