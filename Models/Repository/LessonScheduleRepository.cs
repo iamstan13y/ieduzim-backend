@@ -43,8 +43,8 @@ namespace IEduZimAPI.Models.Repository
                 {
                     LessonDay = x,
                     LessonStructureId = request.LessonStructureId,
-                    StartTime = DateTime.ParseExact(request.StartTime, "HH:mm", CultureInfo.InvariantCulture),
-                    EndTime = DateTime.ParseExact(request.EndTime, "HH:mm", CultureInfo.InvariantCulture),
+                    StartTime = DateTime.ParseExact(request.StartTime, "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    EndTime = DateTime.ParseExact(request.EndTime, "h:mm:ss tt", CultureInfo.InvariantCulture),
                     StudentId = request.StudentId
                 });
             });
