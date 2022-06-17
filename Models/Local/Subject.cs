@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.Models.Data;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IEduZimAPI.Models.Local
@@ -18,5 +19,7 @@ namespace IEduZimAPI.Models.Local
         public LessonLocation LessonLocation { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        [NotMapped]
+        public List<HybridLessonSchedule> LessonSchedules { get; set; }
     }
 }
