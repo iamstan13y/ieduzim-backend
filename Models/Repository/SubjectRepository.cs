@@ -60,7 +60,8 @@ namespace IEduZimAPI.Models.Repository
                     });
 
                     if (schedule != null) return new Result<Subject>(false, "Schedule is already taken.", null);
-                 
+                    await _appDbContext.SaveChangesAsync();
+
                     request.LessonDays.ForEach(lessonDay =>
                     {
                         _appDbContext.HybridLessonSchedules.Add(new HybridLessonSchedule
@@ -86,8 +87,15 @@ namespace IEduZimAPI.Models.Repository
         public async Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync()
         {
             var subjects = await _appDbContext.Subjects.Include(x => x.Level).ToListAsync();
-            
+
             subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
+
+            subjects.ForEach(x =>
+            {
+                x.LessonSchedules = new();
+                var schedules = _appDbContext.HybridLessonSchedules.Where(y => y.SubjectId == x.Id).ToList();
+                if (schedules.Count != 0) x.LessonSchedules = schedules;
+            });
 
             return new Result<IEnumerable<Subject>>(subjects);
         }
