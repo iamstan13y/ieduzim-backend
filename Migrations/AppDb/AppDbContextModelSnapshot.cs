@@ -60,6 +60,30 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.ToTable("ExchangeRates");
                 });
 
+            modelBuilder.Entity("IEduZimAPI.Models.Data.HybridLessonSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LessonDay")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HybridLessonSchedules");
+                });
+
             modelBuilder.Entity("IEduZimAPI.Models.Data.Lesson", b =>
                 {
                     b.Property<int>("Id")
