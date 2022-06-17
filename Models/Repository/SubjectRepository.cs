@@ -48,6 +48,32 @@ namespace IEduZimAPI.Models.Repository
                 }
 
                 await _appDbContext.Subjects.AddAsync(subject);
+
+                if (request.LessonLocationId != 1)
+                {
+                    HybridLessonSchedule schedule = null;
+
+                    request.LessonDays.ForEach(x =>
+                    {
+                        var scheduleInDb = _appDbContext.HybridLessonSchedules.Where(y => y.LessonDay == x && y.StartTime.ToString().Contains(request.StartTime) && y.EndTime.ToString().Contains(request.EndTime)).FirstOrDefault();
+                        if (scheduleInDb != null) schedule = scheduleInDb;
+                    });
+
+                    if (schedule != null) return new Result<Subject>(false, "Schedule is already taken.", null);
+                    await _appDbContext.SaveChangesAsync();
+
+                    request.LessonDays.ForEach(lessonDay =>
+                    {
+                        _appDbContext.HybridLessonSchedules.Add(new HybridLessonSchedule
+                        {
+                            SubjectId = subject.Id,
+                            StartTime = subject.StartTime,
+                            EndTime = subject.EndTime,
+                            LessonDay = lessonDay
+                        });
+                    });
+                }
+
                 await _appDbContext.SaveChangesAsync();
 
                 return new Result<Subject>(subject);
@@ -61,8 +87,15 @@ namespace IEduZimAPI.Models.Repository
         public async Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync()
         {
             var subjects = await _appDbContext.Subjects.Include(x => x.Level).ToListAsync();
-            
+
             subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
+
+            subjects.ForEach(x =>
+            {
+                x.LessonSchedules = new();
+                var schedules = _appDbContext.HybridLessonSchedules.Where(y => y.SubjectId == x.Id).ToList();
+                if (schedules.Count != 0) x.LessonSchedules = schedules;
+            });
 
             return new Result<IEnumerable<Subject>>(subjects);
         }
@@ -87,7 +120,12 @@ namespace IEduZimAPI.Models.Repository
                 .Where(x => x.LevelId == levelId && x.LessonLocationId == lessonLocationId).ToListAsync();
 
             subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
-            
+
+            subjects.ForEach(x =>
+            {
+                x.LessonSchedules = _appDbContext.HybridLessonSchedules.Where(x => x.SubjectId == x.Id).ToList();
+            });
+
             return new Result<IEnumerable<Subject>>(subjects);
         }
 
@@ -108,5 +146,7 @@ namespace IEduZimAPI.Models.Repository
 
             return Math.Round(Convert.ToDouble(UsdPrice) * rate, 2);
         }
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace IEduZimAPI.Models.Local
 {
@@ -11,5 +12,6 @@ namespace IEduZimAPI.Models.Local
         public int LessonLocationId { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
+        public List<int> LessonDays { get; set; }
     }
 }

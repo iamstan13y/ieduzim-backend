@@ -5,6 +5,7 @@ using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace IEduZimAPI.Models.Repository
 
             request.LessonDays.ForEach(x =>
             {
-                var scheduleInDb = _context.LessonSchedules.Where(y => y.LessonDay == x && request.StartTime >= y.StartTime && request.EndTime <= y.EndTime).FirstOrDefault();
+                var scheduleInDb = _context.LessonSchedules.Where(y => y.LessonDay == x && y.StartTime.ToString().Contains(request.StartTime) && y.EndTime.ToString().Contains(request.EndTime)).FirstOrDefault();
                 if (scheduleInDb != null) schedule = scheduleInDb;
             });
 
@@ -42,8 +43,8 @@ namespace IEduZimAPI.Models.Repository
                 {
                     LessonDay = x,
                     LessonStructureId = request.LessonStructureId,
-                    StartTime = request.StartTime,
-                    EndTime = request.EndTime,
+                    StartTime = DateTime.ParseExact(request.StartTime, "HH:mm", CultureInfo.InvariantCulture),
+                    EndTime = DateTime.ParseExact(request.EndTime, "HH:mm", CultureInfo.InvariantCulture),
                     StudentId = request.StudentId
                 });
             });

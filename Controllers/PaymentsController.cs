@@ -55,6 +55,7 @@ namespace IEduZimAPI.Controllers
                 DateModified = DateTime.Now,
                 DateCreated = DateTime.Now,
                 LessonScheduleIds = request.LessonScheduleIds,
+                LessonLocationId = request.LessonLocationId
             });
 
             if (!subscription.Succeeded) return BadRequest(subscription);
