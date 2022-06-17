@@ -27,18 +27,28 @@ namespace IEduZimAPI.Models.Repository
                 subscription.LessonSchedules = new();
                 subscription.LessonScheduleIds.ForEach(id =>
                 {
-                    var lessonSchedule = _context.LessonSchedules.Where(x => x.Id == id).FirstOrDefault();
-                    if (lessonSchedule == null) throw new ArgumentNullException(nameof(lessonSchedule));
+                    if (subscription.LessonLocationId == 1)
+                    {
+                        var lessonSchedule = _context.LessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                        if (lessonSchedule == null) throw new ArgumentNullException(nameof(lessonSchedule));
 
-                    lessonSchedule.SubscriptionId = subscription.Id;
-                    subscription.LessonSchedules.Add(lessonSchedule);
+                        lessonSchedule.SubscriptionId = subscription.Id;
+                        subscription.LessonSchedules.Add(lessonSchedule);
+                    }
+                    else
+                    {
+                        var lessonSchedule = _context.HybridLessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                        if (lessonSchedule == null) throw new ArgumentNullException(nameof(lessonSchedule));
+
+                        subscription.LessonSchedules.Add(lessonSchedule);
+                    }
                 });
 
                 await _context.SaveChangesAsync();
 
                 return new Result<Subscription>(subscription);
             }
-            catch(ArgumentNullException)
+            catch (ArgumentNullException)
             {
                 return new Result<Subscription>(false, "Ïnvalid Lesson Schedule Id provided.", null);
             }
