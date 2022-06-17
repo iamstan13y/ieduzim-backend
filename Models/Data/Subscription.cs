@@ -18,6 +18,6 @@ namespace IEduZimAPI.Models.Data
         [NotMapped]
         public List<int> LessonScheduleIds { get; set; }
         [NotMapped]
-        public List<LessonSchedule> LessonSchedules { get; set; }
+        public List<object> LessonSchedules { get; set; }
     }
 }
