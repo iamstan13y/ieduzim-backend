@@ -123,7 +123,7 @@ namespace IEduZimAPI.Models.Repository
 
             subjects.ForEach(x =>
             {
-                x.LessonSchedules = _appDbContext.HybridLessonSchedules.Where(x => x.SubjectId == x.Id).ToList();
+                x.LessonSchedules = _appDbContext.HybridLessonSchedules.Where(y => y.SubjectId == x.Id).ToList();
             });
 
             return new Result<IEnumerable<Subject>>(subjects);
