@@ -82,7 +82,8 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Level)
                 .FirstOrDefault();
 
-                x.LessonStructure.Subject.ZwlPrice = CalculateZwlPrice(x.LessonStructure.Subject.Price);
+                if (x.LessonStructure != null)
+                    x.LessonStructure.Subject.ZwlPrice = CalculateZwlPrice(x.LessonStructure.Subject.Price);
             });
 
             return new Result<IEnumerable<LocalAddress>>(addresses);
