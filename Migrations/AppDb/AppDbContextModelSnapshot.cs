@@ -60,6 +60,26 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.ToTable("ExchangeRates");
                 });
 
+            modelBuilder.Entity("IEduZimAPI.Models.Data.Hub", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Hubs");
+                });
+
             modelBuilder.Entity("IEduZimAPI.Models.Data.HybridLessonSchedule", b =>
                 {
                     b.Property<int>("Id")
@@ -563,6 +583,17 @@ namespace IEduZimAPI.Migrations.AppDb
                         .IsRequired();
 
                     b.Navigation("Currencies");
+                });
+
+            modelBuilder.Entity("IEduZimAPI.Models.Data.Hub", b =>
+                {
+                    b.HasOne("IEduZimAPI.Models.Data.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("IEduZimAPI.Models.Data.Lesson", b =>
