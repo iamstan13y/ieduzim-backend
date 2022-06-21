@@ -42,5 +42,20 @@ namespace IEduZimAPI.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(UpdateHubRequest request)
+        {
+            var result = await _hubsRepository.UpdateAsync(new Hub
+            {
+                Id = request.Id,
+                LocationId= request.LocationId,
+                Name = request.Name
+            });
+
+            if (!result.Succeeded) return BadRequest(result);
+
+            return Ok(result);
+        }
     }
 }
