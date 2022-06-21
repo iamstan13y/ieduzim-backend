@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -41,9 +42,10 @@ namespace IEduZimAPI.Models.Repository
             return new Result<Hub>(hub);
         }
 
-        public Task<Result<IEnumerable<Hub>>> GetAllAsync()
+        public async Task<Result<IEnumerable<Hub>>> GetAllAsync()
         {
-            throw new System.NotImplementedException();
+            var hubs = await _context.Hubs.ToListAsync();
+            return new Result<IEnumerable<Hub>>(hubs);
         }
 
         public Task<Result<Hub>> GetByIdAsync(int id)
