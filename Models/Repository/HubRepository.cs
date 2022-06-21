@@ -44,13 +44,13 @@ namespace IEduZimAPI.Models.Repository
 
         public async Task<Result<IEnumerable<Hub>>> GetAllAsync()
         {
-            var hubs = await _context.Hubs.ToListAsync();
+            var hubs = await _context.Hubs.Include(x => x.Location).ToListAsync();
             return new Result<IEnumerable<Hub>>(hubs);
         }
 
         public async Task<Result<Hub>> GetByIdAsync(int id)
         {
-            var hub = await _context.Hubs.FindAsync(id);
+            var hub = await _context.Hubs.Include(x => x.Location).FirstOrDefaultAsync(x => x.Id == id);
             if (hub == null) return new Result<Hub>(false, "Hub not found.", null);
 
             return new Result<Hub>(hub);
