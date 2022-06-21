@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace IEduZimAPI.Controllers
 {
@@ -13,5 +14,8 @@ namespace IEduZimAPI.Controllers
         {
             _hubsRepository = hubsRepository;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Get() => Ok(await _hubsRepository.GetAllAsync());
     }
 }
