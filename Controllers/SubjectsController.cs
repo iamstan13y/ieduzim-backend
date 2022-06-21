@@ -41,7 +41,18 @@ namespace IEduZimAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(SubjectRequest request)
         {
-            var result = await _subjectRepository.AddAsync((HubSubjectRequest)request);
+            var result = await _subjectRepository.AddAsync(new HubSubjectRequest
+            {
+                HubId = default,
+                CurrencyId = request.CurrencyId,
+                EndTime = request.EndTime,
+                LessonDays = request.LessonDays,
+                LessonLocationId = request.LessonLocationId,
+                LevelId = request.LevelId,
+                Name = request.Name,
+                Price = request.Price,
+                StartTime = request.StartTime
+            });
 
             if (!result.Succeeded) return BadRequest(result);
             return Ok(result);
