@@ -1,4 +1,6 @@
-﻿using IEduZimAPI.Models.Repository;
+﻿using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Local;
+using IEduZimAPI.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -23,6 +25,20 @@ namespace IEduZimAPI.Controllers
         {
             var result = await _hubsRepository.GetByIdAsync(id);
             if (!result.Succeeded) return NotFound(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(HubRequest request)
+        {
+            var result = await _hubsRepository.AddAsync(new Hub
+            {
+                Name = request.Name,
+                LocationId = request.LocationId
+            });
+
+            if (!result.Succeeded) return BadRequest(result);
 
             return Ok(result);
         }
