@@ -22,7 +22,7 @@ namespace IEduZimAPI.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task<Result<Subject>> AddAsync(SubjectRequest request)
+        public async Task<Result<Subject>> AddAsync(HubSubjectRequest request)
         {
             try
             {
