@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,9 +15,19 @@ namespace IEduZimAPI.Models.Repository
             _context = context;
         }
 
-        public Task<Result<Hub>> AddAsync(Hub hub)
+        public async Task<Result<Hub>> AddAsync(Hub hub)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                await _context.Hubs.AddAsync(hub);
+                await _context.SaveChangesAsync();
+
+                return new Result<Hub>(hub);
+            }
+            catch (Exception)
+            {
+                return new Result<Hub>(false, "Failed to save", null);
+            }
         }
 
         public Task<Result<Hub>> DeleteAsync(int id)
