@@ -30,9 +30,15 @@ namespace IEduZimAPI.Models.Repository
             }
         }
 
-        public Task<Result<Hub>> DeleteAsync(int id)
+        public async Task<Result<Hub>> DeleteAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var hub = await _context.Hubs.FindAsync(id);
+            if (hub == null) return new Result<Hub>(false, "Hub not found.", null);
+
+            _context.Remove(hub);
+            await _context.SaveChangesAsync();
+
+            return new Result<Hub>(hub);
         }
 
         public Task<Result<IEnumerable<Hub>>> GetAllAsync()
