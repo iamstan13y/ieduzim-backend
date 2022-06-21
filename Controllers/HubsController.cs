@@ -57,5 +57,8 @@ namespace IEduZimAPI.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id) => Ok(await _hubsRepository.DeleteAsync(id));
     }
 }
