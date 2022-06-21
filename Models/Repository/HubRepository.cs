@@ -56,9 +56,12 @@ namespace IEduZimAPI.Models.Repository
             return new Result<Hub>(hub);
         }
 
-        public Task<Result<Hub>> UpdateAsync(Hub hub)
+        public async Task<Result<Hub>> UpdateAsync(Hub hub)
         {
-            throw new System.NotImplementedException();
+            _context.Hubs.Update(hub);
+            await _context.SaveChangesAsync();
+
+            return new Result<Hub>(hub);
         }
     }
 }
