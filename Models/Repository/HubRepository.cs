@@ -48,9 +48,12 @@ namespace IEduZimAPI.Models.Repository
             return new Result<IEnumerable<Hub>>(hubs);
         }
 
-        public Task<Result<Hub>> GetByIdAsync(int id)
+        public async Task<Result<Hub>> GetByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var hub = await _context.Hubs.FindAsync(id);
+            if (hub == null) return new Result<Hub>(false, "Hub not found.", null);
+
+            return new Result<Hub>(hub);
         }
 
         public Task<Result<Hub>> UpdateAsync(Hub hub)
