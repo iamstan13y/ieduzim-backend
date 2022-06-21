@@ -1,4 +1,5 @@
-﻿using IEduZimAPI.Models.Data;
+﻿using IEduZimAPI.CoreClasses;
+using IEduZimAPI.Models.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,27 +7,34 @@ namespace IEduZimAPI.Models.Repository
 {
     public class HubRepository : IHubRepository
     {
-        public Task<Hub> AddAsync(Hub hub)
+        private readonly AppDbContext _context;
+
+        public HubRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        public Task<Result<Hub>> AddAsync(Hub hub)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Hub> DeleteAsync(int id)
+        public Task<Result<Hub>> DeleteAsync(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<Hub>> GetAllAsync()
+        public Task<Result<IEnumerable<Hub>>> GetAllAsync()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Hub> GetByIdAsync(int id)
+        public Task<Result<Hub>> GetByIdAsync(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Hub> UpdateAsync(Hub hub)
+        public Task<Result<Hub>> UpdateAsync(Hub hub)
         {
             throw new System.NotImplementedException();
         }
