@@ -33,8 +33,15 @@ namespace IEduZimAPI.Models.Repository
                     LevelId = request.LevelId,
                     Name = request.Name,
                     Price = request.Price,
-                    LessonLocationId = request.LessonLocationId
+                    LessonLocationId = request.LessonLocationId,
+                    HubId = request.HubId == default ? default : request.HubId
                 };
+
+                if (request.HubId != default)
+                {
+                    var hub = await _appDbContext.Hubs.FindAsync(request.HubId);
+                    if (hub == null) return new Result<Subject>(false, "Invalid Hub Id provided.", null);
+                }
 
                 if (request.LessonLocationId == 1)
                 {
