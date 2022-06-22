@@ -126,7 +126,11 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Level)
                 .Where(x => x.LevelId == levelId && x.LessonLocationId == lessonLocationId).ToListAsync();
 
-            subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
+            subjects.ForEach(x =>
+            {
+                x.ZwlPrice = CalculateZwlPrice(x.Price);
+                if (x.HubId != default) x.Hub = _appDbContext.Hubs.Find(x.HubId);
+            });
 
             subjects.ForEach(x =>
             {
