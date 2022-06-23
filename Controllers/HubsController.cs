@@ -29,6 +29,15 @@ namespace IEduZimAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{subjectId}")]
+        public async Task<IActionResult> Search(int subjectId)
+        {
+            var result = await _hubsRepository.SearchAsync(subjectId);
+            if (!result.Succeeded) return NotFound(result);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add(HubRequest request)
         {
