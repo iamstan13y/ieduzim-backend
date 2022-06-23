@@ -22,6 +22,7 @@ namespace IEduZimAPI.Models
         public DbSet<LessonLocation> LessonLocations { get; set; }
         public DbSet<LessonSchedule> LessonSchedules { get; set; }
         public DbSet<HybridLessonSchedule> HybridLessonSchedules { get; set; }
+        public DbSet<HubLessonSchedule> HubLessonSchedules { get; set; }
         public DbSet<LocalAddress> Addresses { get; set; }
         public DbSet<LessonDay> LessonDays { get; set; }
         public DbSet<Hub> Hubs { get; set; }
