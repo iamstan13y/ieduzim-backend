@@ -10,7 +10,8 @@ namespace IEduZimAPI.Models.Repository
     {
         Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync();
         Task<Paginator<Subject>> GetAllSubjectsPagedAsync(PageRequest request);
-        Task<Result<Subject>> AddAsync(HubSubjectRequest request);
+        Task<Result<Subject>> AddAsync(SubjectRequest request);
+        Task<Result<Subject>> AddToHubAsync(HubSubjectRequest request);
         Task<Result<IEnumerable<Subject>>> GetPageByCriteriaAsync(int levelId, int lessonLocationId);
     }
 }
