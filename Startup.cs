@@ -55,6 +55,7 @@ namespace IEduZimAPI
             services.AddScoped<ILessonLocationRepository, LessonLocationRepository>();
             services.AddScoped<ILessonScheduleRepository, LessonScheduleRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IHubRepository, HubRepository>();
 
             services.AddScoped<IPaynowService, PaynowService>();
             services.AddScoped<IHttpClientService, HttpClientService>();

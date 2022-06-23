@@ -22,7 +22,7 @@ namespace IEduZimAPI.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task<Result<Subject>> AddAsync(SubjectRequest request)
+        public async Task<Result<Subject>> AddAsync(HubSubjectRequest request)
         {
             try
             {
@@ -33,8 +33,15 @@ namespace IEduZimAPI.Models.Repository
                     LevelId = request.LevelId,
                     Name = request.Name,
                     Price = request.Price,
-                    LessonLocationId = request.LessonLocationId
+                    LessonLocationId = request.LessonLocationId,
+                    HubId = request.HubId == default ? default : request.HubId
                 };
+
+                if (request.HubId != default)
+                {
+                    var hub = await _appDbContext.Hubs.FindAsync(request.HubId);
+                    if (hub == null) return new Result<Subject>(false, "Invalid Hub Id provided.", null);
+                }
 
                 if (request.LessonLocationId == 1)
                 {
@@ -119,11 +126,15 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Level)
                 .Where(x => x.LevelId == levelId && x.LessonLocationId == lessonLocationId).ToListAsync();
 
-            subjects.ForEach(x => x.ZwlPrice = CalculateZwlPrice(x.Price));
+            subjects.ForEach(x =>
+            {
+                x.ZwlPrice = CalculateZwlPrice(x.Price);
+                if (x.HubId != default) x.Hub = _appDbContext.Hubs.Find(x.HubId);
+            });
 
             subjects.ForEach(x =>
             {
-                x.LessonSchedules = _appDbContext.HybridLessonSchedules.Where(x => x.SubjectId == x.Id).ToList();
+                x.LessonSchedules = _appDbContext.HybridLessonSchedules.Where(y => y.SubjectId == x.Id).ToList();
             });
 
             return new Result<IEnumerable<Subject>>(subjects);
