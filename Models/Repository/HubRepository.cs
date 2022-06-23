@@ -58,11 +58,23 @@ namespace IEduZimAPI.Models.Repository
             return new Result<Hub>(hub);
         }
 
-        //public async Task<Result<IEnumerable<Hub>>> SearchAsync(SearchRequest request)
-        //{
-        //    var subject = await _context.Subjects.Where(x => x.LevelId == request.LevelId && x.Id == request.SubjectId).FirstOrDefaultAsync();
-        //    var 
-        //}
+        public async Task<Result<IEnumerable<HubSearchResponse>>> SearchAsync(int SubjectId)
+        {
+            var schedules = await _context.HubLessonSchedules.Where(x => x.SubjectId == SubjectId).ToListAsync();
+            var response = new List<HubSearchResponse>();
+
+            var hubIds = schedules.Select(x => x.HubId).Distinct().ToList();
+            hubIds.ForEach(x =>
+            {
+                response.Add(new HubSearchResponse
+                {
+                    Hub = _context.Hubs.Find(x),
+                    LessonSchedules = schedules.Where(y => y.HubId == x).ToList()
+                });
+            });
+
+            return new Result<IEnumerable<HubSearchResponse>>(response);
+        }
 
         public async Task<Result<Hub>> UpdateAsync(Hub hub)
         {
