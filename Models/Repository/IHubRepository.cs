@@ -9,7 +9,7 @@ namespace IEduZimAPI.Models.Repository
     public interface IHubRepository
     {
         Task<Result<IEnumerable<Hub>>> GetAllAsync();
-       // Task<Result<IEnumerable<Hub>>> SearchAsync(SearchRequest request);
+        Task<Result<IEnumerable<HubSearchResponse>>> SearchAsync(int SubjectId);
         Task<Result<Hub>> AddAsync(Hub hub);
         Task<Result<Hub>> GetByIdAsync(int id);
         Task<Result<Hub>> UpdateAsync(Hub hub);
