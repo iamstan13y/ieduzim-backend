@@ -41,9 +41,8 @@ namespace IEduZimAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(SubjectRequest request)
         {
-            var result = await _subjectRepository.AddAsync(new HubSubjectRequest
+            var result = await _subjectRepository.AddAsync(new SubjectRequest
             {
-                HubId = default,
                 CurrencyId = request.CurrencyId,
                 EndTime = request.EndTime,
                 LessonDays = request.LessonDays,
@@ -59,7 +58,7 @@ namespace IEduZimAPI.Controllers
         }
 
         [HttpPost("hub")]
-        public async Task<IActionResult> Add(HubSubjectRequest request)
+        public async Task<IActionResult> Add(SubjectRequest request)
         {
             var result = await _subjectRepository.AddAsync(request);
 
