@@ -17,12 +17,9 @@ namespace IEduZimAPI.Models.Local
         public bool Active { get; set; }
         [ForeignKey("LessonLocationId")]
         public LessonLocation LessonLocation { get; set; }
-        public int HubId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         [NotMapped]
         public List<HybridLessonSchedule> LessonSchedules { get; set; }
-        [NotMapped]
-        public Hub Hub { get; set; }
     }
 }
