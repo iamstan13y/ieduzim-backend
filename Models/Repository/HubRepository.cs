@@ -1,8 +1,10 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IEduZimAPI.Models.Repository
@@ -55,6 +57,12 @@ namespace IEduZimAPI.Models.Repository
 
             return new Result<Hub>(hub);
         }
+
+        //public async Task<Result<IEnumerable<Hub>>> SearchAsync(SearchRequest request)
+        //{
+        //    var subject = await _context.Subjects.Where(x => x.LevelId == request.LevelId && x.Id == request.SubjectId).FirstOrDefaultAsync();
+        //    var 
+        //}
 
         public async Task<Result<Hub>> UpdateAsync(Hub hub)
         {
