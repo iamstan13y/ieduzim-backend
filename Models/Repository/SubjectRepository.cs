@@ -84,9 +84,40 @@ namespace IEduZimAPI.Models.Repository
             }
         }
 
-        public Task<Result<Subject>> AddToHubAsync(HubSubjectRequest request)
+        public async Task<Result<Subject>> AddToHubAsync(HubSubjectRequest request)
         {
+            var subject = await _appDbContext.Subjects.Where(x => x.Id == request.SubjectId).FirstOrDefaultAsync();
+            if (subject == null) return new Result<Subject>(false, "Invalid Subject Id provided.", null);
+            
+            var hub = await _appDbContext.Hubs.Where(x => x.Id == request.HubId).FirstOrDefaultAsync();
+            if (subject == null) return new Result<Subject>(false, "Invalid Hub Id provided.", null);
 
+            HubLessonSchedule schedule = null;
+
+            request.LessonDays.ForEach(x =>
+            {
+                var scheduleInDb = _appDbContext.HubLessonSchedules.Where(y => y.LessonDay == x && y.StartTime.ToString().Contains(request.StartTime) && y.EndTime.ToString().Contains(request.EndTime) && y.Id == request.HubId).FirstOrDefault();
+                if (scheduleInDb != null) schedule = scheduleInDb;
+            });
+
+            if (schedule != null) return new Result<Subject>(false, "Schedule is already taken.", null);
+            await _appDbContext.SaveChangesAsync();
+
+            request.LessonDays.ForEach(lessonDay =>
+            {
+                _appDbContext.HubLessonSchedules.Add(new HubLessonSchedule
+                {
+                    HubId = request.HubId,
+                    SubjectId = request.SubjectId,
+                    StartTime = DateTime.ParseExact(request.StartTime, "HH:mm", CultureInfo.InvariantCulture),
+                    EndTime = DateTime.ParseExact(request.EndTime, "HH:mm", CultureInfo.InvariantCulture),
+                    LessonDay = lessonDay
+                });
+            });
+
+            await _appDbContext.SaveChangesAsync();
+
+            return new Result<Subject>(subject);
         }
 
         public async Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync()
@@ -127,7 +158,7 @@ namespace IEduZimAPI.Models.Repository
             subjects.ForEach(x =>
             {
                 x.ZwlPrice = CalculateZwlPrice(x.Price);
- //               if (x.HubId != default) x.Hub = _appDbContext.Hubs.Find(x.HubId);
+                //               if (x.HubId != default) x.Hub = _appDbContext.Hubs.Find(x.HubId);
             });
 
             subjects.ForEach(x =>
@@ -155,7 +186,5 @@ namespace IEduZimAPI.Models.Repository
 
             return Math.Round(Convert.ToDouble(UsdPrice) * rate, 2);
         }
-
-
     }
 }
