@@ -22,7 +22,7 @@ namespace IEduZimAPI.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task<Result<Subject>> AddAsync(HubSubjectRequest request)
+        public async Task<Result<Subject>> AddAsync(SubjectRequest request)
         {
             try
             {
@@ -33,15 +33,8 @@ namespace IEduZimAPI.Models.Repository
                     LevelId = request.LevelId,
                     Name = request.Name,
                     Price = request.Price,
-                    LessonLocationId = request.LessonLocationId,
-                    HubId = request.HubId == default ? default : request.HubId
+                    LessonLocationId = request.LessonLocationId
                 };
-
-                if (request.HubId != default)
-                {
-                    var hub = await _appDbContext.Hubs.FindAsync(request.HubId);
-                    if (hub == null) return new Result<Subject>(false, "Invalid Hub Id provided.", null);
-                }
 
                 if (request.LessonLocationId == 1)
                 {
@@ -91,6 +84,11 @@ namespace IEduZimAPI.Models.Repository
             }
         }
 
+        public Task<Result<Subject>> AddToHubAsync(HubSubjectRequest request)
+        {
+
+        }
+
         public async Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync()
         {
             var subjects = await _appDbContext.Subjects.Include(x => x.Level).ToListAsync();
@@ -129,7 +127,7 @@ namespace IEduZimAPI.Models.Repository
             subjects.ForEach(x =>
             {
                 x.ZwlPrice = CalculateZwlPrice(x.Price);
-                if (x.HubId != default) x.Hub = _appDbContext.Hubs.Find(x.HubId);
+ //               if (x.HubId != default) x.Hub = _appDbContext.Hubs.Find(x.HubId);
             });
 
             subjects.ForEach(x =>
