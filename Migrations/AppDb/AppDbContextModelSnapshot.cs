@@ -80,6 +80,33 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.ToTable("Hubs");
                 });
 
+            modelBuilder.Entity("IEduZimAPI.Models.Data.HubLessonSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HubId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LessonDay")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HubLessonSchedules");
+                });
+
             modelBuilder.Entity("IEduZimAPI.Models.Data.HybridLessonSchedule", b =>
                 {
                     b.Property<int>("Id")
