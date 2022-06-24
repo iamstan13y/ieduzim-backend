@@ -69,6 +69,7 @@ namespace IEduZimAPI.Models.Repository
             if (subject != null) subject.ZwlPrice = CalculateZwlPrice(subject.Price);
 
             var schedules = await _context.HubLessonSchedules.Where(x => x.SubjectId == SubjectId).ToListAsync();
+           
             var response = new List<HubSearchResponse>();
 
             var hubIds = schedules.Select(x => x.HubId).Distinct().ToList();
