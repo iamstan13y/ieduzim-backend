@@ -68,7 +68,7 @@ namespace IEduZimAPI.Models.Repository
             {
                 response.Add(new HubSearchResponse
                 {
-                    Hub = _context.Hubs.Find(x),
+                    Hub = _context.Hubs.Include(u => u.Location).First(y => y.Id == x),
                     LessonSchedules = schedules.Where(y => y.HubId == x).ToList()
                 });
             });
