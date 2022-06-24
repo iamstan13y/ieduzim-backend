@@ -148,6 +148,37 @@ namespace IEduZimAPI.Models.Repository
             return Task.FromResult(new Paginator<Subject>(request, total, req));
         }
 
+        public async Task<Result<IEnumerable<Subject>>> GetHubSubjectsAsync(string userId, int levelId, int lessonLocationId)
+        {
+            var student = await _appDbContext.Students.Where(x => x.UserId == userId).FirstOrDefaultAsync();
+            if (student == null) return new Result<IEnumerable<Subject>>(false, "Student not found", null);
+            
+            var studentLocation = await _appDbContext.Locations.Where(x => x.Id == student.LocationId).FirstOrDefaultAsync();
+
+            var hubs = await _appDbContext.Hubs
+                .Where(x => x.Location.Area == studentLocation.Area)
+                .OrderBy(x => x.Location.Distance)
+                .Include(x => x.Location)
+                .ToListAsync();
+
+            List<Subject> subjects = new();
+            List<HubLessonSchedule> schedules = new();
+
+            hubs.ForEach(x =>
+            {
+                schedules.AddRange(_appDbContext.HubLessonSchedules.Where(y => y.HubId == x.Id).ToList());
+            });
+
+            schedules.ForEach(schedule =>
+            {
+                subjects.AddRange(_appDbContext.Subjects.Where(x => x.Id == schedule.SubjectId).ToList());
+            });
+
+            if (subjects.Count > 0) subjects = subjects.Select(x => x).Distinct().ToList();
+
+            return new Result<IEnumerable<Subject>>(subjects);
+        }
+
         public async Task<Result<IEnumerable<Subject>>> GetPageByCriteriaAsync(int levelId, int lessonLocationId)
         {
             var subjects = await _appDbContext.Subjects
