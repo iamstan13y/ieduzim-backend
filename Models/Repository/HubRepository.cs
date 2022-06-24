@@ -60,6 +60,14 @@ namespace IEduZimAPI.Models.Repository
 
         public async Task<Result<IEnumerable<HubSearchResponse>>> SearchAsync(int SubjectId)
         {
+            var subject = await _context.Subjects
+                .Include(x => x.Level)
+                .Include(x => x.LessonLocation)
+                .Where(x => x.Id == SubjectId)
+                .FirstOrDefaultAsync();
+
+            if (subject != null) subject.ZwlPrice = CalculateZwlPrice(subject.Price);
+
             var schedules = await _context.HubLessonSchedules.Where(x => x.SubjectId == SubjectId).ToListAsync();
             var response = new List<HubSearchResponse>();
 
@@ -69,7 +77,8 @@ namespace IEduZimAPI.Models.Repository
                 response.Add(new HubSearchResponse
                 {
                     Hub = _context.Hubs.Include(u => u.Location).First(y => y.Id == x),
-                    LessonSchedules = schedules.Where(y => y.HubId == x).ToList()
+                    LessonSchedules = schedules.Where(y => y.HubId == x).ToList(),
+                    Subject = subject
                 });
             });
 
@@ -82,6 +91,13 @@ namespace IEduZimAPI.Models.Repository
             await _context.SaveChangesAsync();
 
             return new Result<Hub>(hub);
+        }
+
+        private double CalculateZwlPrice(string UsdPrice)
+        {
+            var rate = _context.ExchangeRates.Where(x => x.CurrencyId == 2).FirstOrDefault().Rate;
+
+            return Math.Round(Convert.ToDouble(UsdPrice) * rate, 2);
         }
     }
 }
