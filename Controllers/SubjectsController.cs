@@ -33,7 +33,10 @@ namespace IEduZimAPI.Controllers
         [HttpGet("paged")]
         public Pagination<Paginator<Subject>> GetPaged([FromQuery] PageRequest request) => 
             Pagination<Paginator<Subject>>.FromObject(_subjectRepository.GetAllSubjectsPagedAsync(request).Result);
-        
+
+        [HttpGet("search-hubs")]
+        public async Task<IActionResult> Get(string userId, int levelId, int lessonLocationId) => Ok(await _subjectRepository.GetHubSubjectsAsync(userId, levelId, lessonLocationId));
+
         [HttpGet("search/{levelId}/{lessonLocationId}")]
         public async Task<IActionResult> Get(int levelId, int lessonLocationId) =>
             Ok(await _subjectRepository.GetPageByCriteriaAsync(levelId, lessonLocationId));
@@ -41,9 +44,8 @@ namespace IEduZimAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(SubjectRequest request)
         {
-            var result = await _subjectRepository.AddAsync(new HubSubjectRequest
+            var result = await _subjectRepository.AddAsync(new SubjectRequest
             {
-                HubId = default,
                 CurrencyId = request.CurrencyId,
                 EndTime = request.EndTime,
                 LessonDays = request.LessonDays,
@@ -61,7 +63,7 @@ namespace IEduZimAPI.Controllers
         [HttpPost("hub")]
         public async Task<IActionResult> Add(HubSubjectRequest request)
         {
-            var result = await _subjectRepository.AddAsync(request);
+            var result = await _subjectRepository.AddToHubAsync(request);
 
             if (!result.Succeeded) return BadRequest(result);
             return Ok(result);

@@ -4,14 +4,16 @@ using IEduZimAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IEduZimAPI.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220623214305_SubjectHubToDbIII")]
+    partial class SubjectHubToDbIII
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,8 +95,8 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.Property<int>("HubId")
                         .HasColumnType("int");
 
-                    b.Property<string>("LessonDay")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LessonDay")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");

@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Enums;
 using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,7 +23,7 @@ namespace IEduZimAPI.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task<Result<Subject>> AddAsync(HubSubjectRequest request)
+        public async Task<Result<Subject>> AddAsync(SubjectRequest request)
         {
             try
             {
@@ -33,15 +34,8 @@ namespace IEduZimAPI.Models.Repository
                     LevelId = request.LevelId,
                     Name = request.Name,
                     Price = request.Price,
-                    LessonLocationId = request.LessonLocationId,
-                    HubId = request.HubId == default ? default : request.HubId
+                    LessonLocationId = request.LessonLocationId
                 };
-
-                if (request.HubId != default)
-                {
-                    var hub = await _appDbContext.Hubs.FindAsync(request.HubId);
-                    if (hub == null) return new Result<Subject>(false, "Invalid Hub Id provided.", null);
-                }
 
                 if (request.LessonLocationId == 1)
                 {
@@ -91,6 +85,42 @@ namespace IEduZimAPI.Models.Repository
             }
         }
 
+        public async Task<Result<Subject>> AddToHubAsync(HubSubjectRequest request)
+        {
+            var subject = await _appDbContext.Subjects.Where(x => x.Id == request.SubjectId).FirstOrDefaultAsync();
+            if (subject == null) return new Result<Subject>(false, "Invalid Subject Id provided.", null);
+            
+            var hub = await _appDbContext.Hubs.Where(x => x.Id == request.HubId).FirstOrDefaultAsync();
+            if (subject == null) return new Result<Subject>(false, "Invalid Hub Id provided.", null);
+
+            HubLessonSchedule schedule = null;
+
+            request.LessonDays.ForEach(x =>
+            {
+                var scheduleInDb = _appDbContext.HubLessonSchedules.Where(y => y.LessonDay == x.ToString() && y.StartTime.ToString().Contains(request.StartTime) && y.EndTime.ToString().Contains(request.EndTime) && y.Id == request.HubId).FirstOrDefault();
+                if (scheduleInDb != null) schedule = scheduleInDb;
+            });
+
+            if (schedule != null) return new Result<Subject>(false, "Schedule is already taken.", null);
+            await _appDbContext.SaveChangesAsync();
+
+            request.LessonDays.ForEach(lessonDay =>
+            {
+                _appDbContext.HubLessonSchedules.Add(new HubLessonSchedule
+                {
+                    HubId = request.HubId,
+                    SubjectId = request.SubjectId,
+                    StartTime = DateTime.ParseExact(request.StartTime, "HH:mm", CultureInfo.InvariantCulture),
+                    EndTime = DateTime.ParseExact(request.EndTime, "HH:mm", CultureInfo.InvariantCulture),
+                    LessonDay = lessonDay.ToString()
+                });
+            });
+
+            await _appDbContext.SaveChangesAsync();
+
+            return new Result<Subject>(subject);
+        }
+
         public async Task<Result<IEnumerable<Subject>>> GetAllSubjectsAsync()
         {
             var subjects = await _appDbContext.Subjects.Include(x => x.Level).ToListAsync();
@@ -119,6 +149,37 @@ namespace IEduZimAPI.Models.Repository
             return Task.FromResult(new Paginator<Subject>(request, total, req));
         }
 
+        public async Task<Result<IEnumerable<Subject>>> GetHubSubjectsAsync(string userId, int levelId, int lessonLocationId)
+        {
+            var student = await _appDbContext.Students.Where(x => x.UserId == userId).FirstOrDefaultAsync();
+            if (student == null) return new Result<IEnumerable<Subject>>(false, "Student not found", null);
+            
+            var studentLocation = await _appDbContext.Locations.Where(x => x.Id == student.LocationId).FirstOrDefaultAsync();
+
+            var hubs = await _appDbContext.Hubs
+                .Where(x => x.Location.Area == studentLocation.Area)
+                .OrderBy(x => x.Location.Distance)
+                .Include(x => x.Location)
+                .ToListAsync();
+
+            List<Subject> subjects = new();
+            List<HubLessonSchedule> schedules = new();
+
+            hubs.ForEach(x =>
+            {
+                schedules.AddRange(_appDbContext.HubLessonSchedules.Where(y => y.HubId == x.Id).ToList());
+            });
+
+            schedules.ForEach(schedule =>
+            {
+                subjects.AddRange(_appDbContext.Subjects.Where(x => x.Id == schedule.SubjectId).ToList());
+            });
+
+            if (subjects.Count > 0) subjects = subjects.Select(x => x).Distinct().ToList();
+
+            return new Result<IEnumerable<Subject>>(subjects);
+        }
+
         public async Task<Result<IEnumerable<Subject>>> GetPageByCriteriaAsync(int levelId, int lessonLocationId)
         {
             var subjects = await _appDbContext.Subjects
@@ -129,7 +190,7 @@ namespace IEduZimAPI.Models.Repository
             subjects.ForEach(x =>
             {
                 x.ZwlPrice = CalculateZwlPrice(x.Price);
-                if (x.HubId != default) x.Hub = _appDbContext.Hubs.Find(x.HubId);
+                //               if (x.HubId != default) x.Hub = _appDbContext.Hubs.Find(x.HubId);
             });
 
             subjects.ForEach(x =>
@@ -157,7 +218,5 @@ namespace IEduZimAPI.Models.Repository
 
             return Math.Round(Convert.ToDouble(UsdPrice) * rate, 2);
         }
-
-
     }
 }

@@ -4,14 +4,16 @@ using IEduZimAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IEduZimAPI.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220623204532_SubjectHubToDbII")]
+    partial class SubjectHubToDbII
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,33 +80,6 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.HasIndex("LocationId");
 
                     b.ToTable("Hubs");
-                });
-
-            modelBuilder.Entity("IEduZimAPI.Models.Data.HubLessonSchedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("HubId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LessonDay")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HubLessonSchedules");
                 });
 
             modelBuilder.Entity("IEduZimAPI.Models.Data.HybridLessonSchedule", b =>
