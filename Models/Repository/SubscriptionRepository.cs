@@ -35,9 +35,16 @@ namespace IEduZimAPI.Models.Repository
                         lessonSchedule.SubscriptionId = subscription.Id;
                         subscription.LessonSchedules.Add(lessonSchedule);
                     }
-                    else
+                    else if (subscription.LessonLocationId == 3)
                     {
                         var lessonSchedule = _context.HybridLessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                        if (lessonSchedule == null) throw new ArgumentNullException(nameof(lessonSchedule));
+
+                        subscription.LessonSchedules.Add(lessonSchedule);
+                    }
+                    else
+                    {
+                        var lessonSchedule = _context.HubLessonSchedules.Where(x => x.Id == id).FirstOrDefault();
                         if (lessonSchedule == null) throw new ArgumentNullException(nameof(lessonSchedule));
 
                         subscription.LessonSchedules.Add(lessonSchedule);
