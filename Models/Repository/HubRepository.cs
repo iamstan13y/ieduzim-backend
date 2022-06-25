@@ -1,5 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Enums;
 using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -69,7 +70,12 @@ namespace IEduZimAPI.Models.Repository
             if (subject != null) subject.ZwlPrice = CalculateZwlPrice(subject.Price);
 
             var schedules = await _context.HubLessonSchedules.Where(x => x.SubjectId == SubjectId).ToListAsync();
-           
+            schedules.ForEach(x =>
+            {
+                Day day = (Day)Convert.ToInt32(x.LessonDay);
+                x.LessonDay = x.LessonDay == "1" ? day.ToString() : "Every " + day.ToString();
+            });
+
             var response = new List<HubSearchResponse>();
 
             var hubIds = schedules.Select(x => x.HubId).Distinct().ToList();
