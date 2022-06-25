@@ -93,8 +93,8 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.Property<int>("HubId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LessonDay")
-                        .HasColumnType("int");
+                    b.Property<string>("LessonDay")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
