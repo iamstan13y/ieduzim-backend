@@ -461,6 +461,9 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("LessonLocationId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PaymentId")
                         .HasColumnType("int");
 
