@@ -19,7 +19,6 @@ namespace IEduZimAPI.Models.Data
         public List<int> LessonScheduleIds { get; set; }
         [NotMapped]
         public List<object> LessonSchedules { get; set; }
-        [NotMapped]
         public int LessonLocationId { get; set; }
     }
 }
