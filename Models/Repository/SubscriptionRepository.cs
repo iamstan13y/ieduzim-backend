@@ -100,7 +100,8 @@ namespace IEduZimAPI.Models.Repository
             subscriptions.ForEach(sub =>
             {
                 sub.LessonSchedules = new();
-                sub.LessonScheduleIds = _context.StudentLessonSchedules.Where(x => x.StudentId == sub.StudentId).Select(x => x.LessonScheduleId).ToList();
+                sub.LessonScheduleIds = sub.LessonLocationId == 1 ? _context.LessonSchedules.Where(x => x.StudentId == sub.Id).Select(x => x.Id).ToList() : 
+                            _context.StudentLessonSchedules.Where(x => x.StudentId == sub.StudentId).Select(x => x.LessonScheduleId).ToList();
 
                 sub.LessonScheduleIds.ForEach(id => 
                 {
