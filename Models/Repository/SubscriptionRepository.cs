@@ -97,8 +97,35 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Payment)
                 .ToListAsync();
 
-            //WIP
-            //subscriptions.ForEach(x => 
+            subscriptions.ForEach(sub =>
+            {
+                sub.LessonSchedules = new();
+                sub.LessonScheduleIds = _context.StudentLessonSchedules.Where(x => x.StudentId == sub.StudentId).Select(x => x.LessonScheduleId).ToList();
+
+                sub.LessonScheduleIds.ForEach(id => 
+                {
+                    if (sub.LessonLocationId == 1)
+                    {
+                        var lessonSchedule = _context.LessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                        
+                        sub.LessonSchedules.Add(lessonSchedule);
+                    }
+                    else if (sub.LessonLocationId == 3)
+                    {
+                        var lessonSchedule = _context.HybridLessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                        
+                        sub.LessonSchedules.Add(lessonSchedule);
+                    }
+                    else
+                    {
+                        var lessonSchedule = _context.HubLessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                       
+                        sub.LessonSchedules.Add(lessonSchedule);
+                    }
+                });
+            });
+
+
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
