@@ -385,6 +385,24 @@ namespace IEduZimAPI.Migrations.AppDb
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("IEduZimAPI.Models.Data.StudentLessonSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LessonScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StudentLessonSchedules");
+                });
+
             modelBuilder.Entity("IEduZimAPI.Models.Data.Subject", b =>
                 {
                     b.Property<int>("Id")
