@@ -33,6 +33,7 @@ namespace IEduZimAPI.Models.Repository
                         if (lessonSchedule == null) throw new ArgumentNullException(nameof(lessonSchedule));
 
                         lessonSchedule.SubscriptionId = subscription.Id;
+
                         subscription.LessonSchedules.Add(lessonSchedule);
                     }
                     else if (subscription.LessonLocationId == 3)
@@ -49,6 +50,12 @@ namespace IEduZimAPI.Models.Repository
 
                         subscription.LessonSchedules.Add(lessonSchedule);
                     }
+
+                    _context.StudentLessonSchedules.Add(new StudentLessonSchedule
+                    {
+                        LessonScheduleId = id,
+                        StudentId = subscription.StudentId
+                    });
                 });
 
                 await _context.SaveChangesAsync();
