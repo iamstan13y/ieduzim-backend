@@ -90,6 +90,8 @@ namespace IEduZimAPI.Models.Repository
                 .Include(x => x.Payment)
                 .ToListAsync();
 
+            //WIP
+            //subscriptions.ForEach(x => 
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
 
