@@ -33,6 +33,7 @@ namespace IEduZimAPI.Models.Repository
                         if (lessonSchedule == null) throw new ArgumentNullException(nameof(lessonSchedule));
 
                         lessonSchedule.SubscriptionId = subscription.Id;
+
                         subscription.LessonSchedules.Add(lessonSchedule);
                     }
                     else if (subscription.LessonLocationId == 3)
@@ -49,6 +50,12 @@ namespace IEduZimAPI.Models.Repository
 
                         subscription.LessonSchedules.Add(lessonSchedule);
                     }
+
+                    _context.StudentLessonSchedules.Add(new StudentLessonSchedule
+                    {
+                        LessonScheduleId = id,
+                        StudentId = subscription.StudentId
+                    });
                 });
 
                 await _context.SaveChangesAsync();
@@ -89,6 +96,36 @@ namespace IEduZimAPI.Models.Repository
                 .Where(x => x.StudentId == studentId)
                 .Include(x => x.Payment)
                 .ToListAsync();
+
+            subscriptions.ForEach(sub =>
+            {
+                sub.LessonSchedules = new();
+                sub.LessonScheduleIds = sub.LessonLocationId == 1 ? _context.LessonSchedules.Where(x => x.StudentId == sub.Id).Select(x => x.Id).ToList() : 
+                            _context.StudentLessonSchedules.Where(x => x.StudentId == sub.StudentId).Select(x => x.LessonScheduleId).ToList();
+
+                sub.LessonScheduleIds.ForEach(id => 
+                {
+                    if (sub.LessonLocationId == 1)
+                    {
+                        var lessonSchedule = _context.LessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                        
+                        sub.LessonSchedules.Add(lessonSchedule);
+                    }
+                    else if (sub.LessonLocationId == 3)
+                    {
+                        var lessonSchedule = _context.HybridLessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                        
+                        sub.LessonSchedules.Add(lessonSchedule);
+                    }
+                    else
+                    {
+                        var lessonSchedule = _context.HubLessonSchedules.Where(x => x.Id == id).FirstOrDefault();
+                       
+                        sub.LessonSchedules.Add(lessonSchedule);
+                    }
+                });
+            });
+
 
             return new Result<IEnumerable<Subscription>>(subscriptions);
         }
