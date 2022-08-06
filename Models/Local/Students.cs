@@ -1,7 +1,4 @@
-﻿using IEduZimAPI.Models.Data;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace IEduZimAPI.Models.Local
+﻿namespace IEduZimAPI.Models.Local
 {
     public class Students
     {
