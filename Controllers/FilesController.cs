@@ -23,7 +23,6 @@ namespace FileServer.API.Controllers
         }
 
         [HttpPost("upload-file")]
-        [Authorize]
         [ProducesResponseType(typeof(Result<UploadFile>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result<UploadFile>), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UploadFileAsync(IFormFile file)
