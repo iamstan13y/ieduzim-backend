@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace IEduZimAPI.Models.Local
+﻿namespace IEduZimAPI.Models.Local
 {
     public class Teachers
     {
@@ -11,13 +9,13 @@ namespace IEduZimAPI.Models.Local
         public string Gender { get; set; }
         public string PhysicalAddress { get; set; }
         public string EducationalQualification { get; set; }
+        public string QualificationUrl { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string Occupation { get; set; }
+        public string BankAccount { get; set; }
         public string City { get; set; }
         public string UserId { get; set; }
         public bool Verified { get; set; }
         public bool Subscribed { get; set; }
     }
 }
-//Teachers
-//6.Bank Account details
