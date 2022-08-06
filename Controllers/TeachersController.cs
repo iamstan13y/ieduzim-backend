@@ -1,8 +1,11 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using IEduZimAPI.Models.Local;
+using IEduZimAPI.Models.Repository;
 using IEduZimAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace IEduZimAPI.Controllers
 {
@@ -12,13 +15,43 @@ namespace IEduZimAPI.Controllers
     public class TeachersController : BaseController<Teacher, Models.Local.Teachers>
     {
         private new TeacherService service;
-        public TeachersController(UserManager<IdentityUser> userManager) =>
+        private readonly ITeacherRepository _teacherRepository;
+
+        public TeachersController(UserManager<IdentityUser> userManager, ITeacherRepository teacherRepository)
+        {
             service = new TeacherService(userManager);
+            _teacherRepository = teacherRepository;
+        }
 
         [HttpGet]
         [Route("by-user-id/{userId}")]
         public Result<Teacher> Get(string userId) =>
             ExecutionService<Teacher>.Execute(() => service.GetByUserId(userId));
+
+        [HttpPost]
+        public override Result<Teacher> Post(Teachers request)
+        {
+            var result = _teacherRepository.AddAsync(new Teacher
+            {
+                BankAccount = request.BankAccount,
+                PhysicalAddress = request.PhysicalAddress,
+                City = request.City,
+                EducationalQualification = request.EducationalQualification,
+                Gender = request.Gender,
+                Name = request.Name,
+                Occupation = request.Occupation,
+                PhoneNumber = request.PhoneNumber,
+                ProfilePictureUrl = request.ProfilePictureUrl,
+                QualificationUrl = request.QualificationUrl,
+                Surname = request.Surname,
+                TitleId = request.TitleId,
+                UserId = request.UserId
+            }).Result;
+
+            if(!result.Succeeded) return result;
+
+            return result;
+        }
 
         [HttpGet]
         [Route("default")]
