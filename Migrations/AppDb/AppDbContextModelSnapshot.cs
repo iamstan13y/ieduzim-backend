@@ -484,6 +484,9 @@ namespace IEduZimAPI.Migrations.AppDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BankAccount")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
@@ -506,6 +509,9 @@ namespace IEduZimAPI.Migrations.AppDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QualificationUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Subscribed")
