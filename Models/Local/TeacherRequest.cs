@@ -1,7 +1,8 @@
 ﻿namespace IEduZimAPI.Models.Local
 {
-    public class Teachers
+    public class TeacherRequest
     {
+        public string UserId { get; set; }
         public string PhoneNumber { get; set; }
         public int TitleId { get; set; }
         public string Name { get; set; }
@@ -14,8 +15,5 @@
         public string Occupation { get; set; }
         public string BankAccount { get; set; }
         public string City { get; set; }
-        public string UserId { get; set; }
-        public bool Verified { get; set; }
-        public bool Subscribed { get; set; }
     }
 }
