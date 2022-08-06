@@ -26,10 +26,10 @@ namespace IEduZimAPI.Services
             {
                 string basePath = Path.Combine(Directory.GetCurrentDirectory() + "/Files/");
                 string fileName = Path.GetFileName(file.FileName);
-                string newFileName = string.Concat($"iedu-{DateTime.Now.Ticks.ToString()[12..]}-", fileName);
+                string newFileName = string.Concat($"iez-{DateTime.Now.Ticks.ToString()[12..]}-", fileName);
                 string filePath = string.Concat($"{basePath}", newFileName);
 
-                string url = $"{_configuration["Urls:ProdBaseUrl"]}/Files/{newFileName}";
+                string url = $"{_configuration["Urls:DevBaseUrl"]}/Files/{newFileName}";
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
