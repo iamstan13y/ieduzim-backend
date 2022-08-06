@@ -19,6 +19,8 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using IEduZimAPI.Models.Repository;
 using IEduZimAPI.Services;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace IEduZimAPI
 {
@@ -57,10 +59,12 @@ namespace IEduZimAPI
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IHubRepository, HubRepository>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<IFileRepository, FileRepository>();
 
             services.AddScoped<IPaynowService, PaynowService>();
             services.AddScoped<IHttpClientService, HttpClientService>();
             services.AddScoped<ISearchLocationsService, SearchLocationsService>();
+            services.AddScoped<IFileService, FileService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             configuration = Configuration;
@@ -182,6 +186,23 @@ namespace IEduZimAPI
             {
                 endpoints.MapControllers();
             });
+
+            app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                                        Path.Combine(Directory.GetCurrentDirectory(), "Files")),
+                RequestPath = "/Files"
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                            Path.Combine(Directory.GetCurrentDirectory(), "Files")),
+                RequestPath = "/Files"
+            });
+
             var service = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
             app.UseSpa(spa =>
             {
