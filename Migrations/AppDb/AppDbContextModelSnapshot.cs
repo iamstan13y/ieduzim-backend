@@ -358,6 +358,15 @@ namespace IEduZimAPI.Migrations.AppDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AcademicLevel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EnrolledSchool")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
@@ -365,6 +374,18 @@ namespace IEduZimAPI.Migrations.AppDb
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NextOfKin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NextOfKinContact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhysicalAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
