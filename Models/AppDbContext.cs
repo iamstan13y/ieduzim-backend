@@ -27,5 +27,6 @@ namespace IEduZimAPI.Models
         public DbSet<LocalAddress> Addresses { get; set; }
         public DbSet<LessonDay> LessonDays { get; set; }
         public DbSet<Hub> Hubs { get; set; }
+        public DbSet<UploadFile> UploadFiles { get; set; }
     }
 }
