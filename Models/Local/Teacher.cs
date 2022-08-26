@@ -13,9 +13,9 @@
         public string ProfilePictureUrl { get; set; }
         public string Occupation { get; set; }
         public string BankAccount { get; set; }
-        public string City { get; set; }
         public string UserId { get; set; }
         public bool Verified { get; set; }
         public bool Subscribed { get; set; }
+        public int LocationId { get; set; }
     }
 }
