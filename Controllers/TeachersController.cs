@@ -35,7 +35,7 @@ namespace IEduZimAPI.Controllers
             {
                 BankAccount = request.BankAccount,
                 PhysicalAddress = request.PhysicalAddress,
-                City = request.City,
+                LocationId = request.LocationId,
                 EducationalQualification = request.EducationalQualification,
                 Gender = request.Gender,
                 Name = request.Name,
