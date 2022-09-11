@@ -21,7 +21,7 @@ namespace IEduZimAPI.Services.AccountServices
 
         public LoginResult Login(Login login)
         {
-            var user = (IdentityUser)userManager.FindByNameAsync(login.Username).Result.ValidateUser(login.Username);
+            var user = userManager.FindByNameAsync(login.Username).Result.ValidateUser(login.Username);
             var tempPassword = new VerificationService(userManager).GetTempPassword(user);
             if (!userManager.IsEmailConfirmedAsync(user).Result)
                 throw new Exception($"Your account is not active");

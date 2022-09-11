@@ -16,8 +16,16 @@ namespace IEduZimAPI.Controllers.AccountManagement
         public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> manager) =>
             service = new AuthService(userManager, manager);
 
-        [HttpPost]
+        [HttpPost("login/mobile")]
         public Result<LoginResult> Login([FromBody] Login login) =>
+            ExecutionService<LoginResult>.Execute(() => service.Login(login));
+        
+        [HttpPost("login/admin")]
+        public Result<LoginResult> LoginAdmin([FromBody] Login login) =>
+            ExecutionService<LoginResult>.Execute(() => service.Login(login));
+        
+        [HttpPost("login/teacher")]
+        public Result<LoginResult> LoginTeacher([FromBody] Login login) =>
             ExecutionService<LoginResult>.Execute(() => service.Login(login));
 
         [HttpPost]
