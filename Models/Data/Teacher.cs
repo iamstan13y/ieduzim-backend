@@ -6,6 +6,7 @@ namespace IEduZimAPI.Models.Data
     {
         public int Id { get; set; }
         public virtual IdentityUser User { get; set; }
-        public virtual Title Title{ get; set;}
+        public virtual Title Title { get; set;}
+        public bool IsActive { get; set; } = false;
     }
 }
