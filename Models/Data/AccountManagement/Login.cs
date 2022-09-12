@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace IEduZimAPI.Models.Data
+﻿namespace IEduZimAPI.Models.Data
 {
     public class Login
     {
@@ -11,12 +9,12 @@ namespace IEduZimAPI.Models.Data
     public class LoginResult
     {
         public string Token { set; get; }
-        public IdentityUser User { get; set; }
+        public object UserAccount { get; set; }
 
-        public LoginResult(string token, IdentityUser user)
+        public LoginResult(string token, object userAccount)
         {
             Token = token;
-            User = user;
+            UserAccount = userAccount;
         }
     }
 }

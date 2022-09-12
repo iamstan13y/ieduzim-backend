@@ -13,20 +13,20 @@ namespace IEduZimAPI.Controllers.AccountManagement
     public class AuthController : ControllerBase
     {
         private AuthService service;
-        public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> manager) =>
-            service = new AuthService(userManager, manager);
+        public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> manager, AppDbContext context) =>
+            service = new AuthService(userManager, manager, context);
 
         [HttpPost("login/mobile")]
         public Result<LoginResult> Login([FromBody] Login login) =>
-            ExecutionService<LoginResult>.Execute(() => service.Login(login));
+            ExecutionService<LoginResult>.Execute(() => service.MobileLogin(login));
         
         [HttpPost("login/admin")]
         public Result<LoginResult> LoginAdmin([FromBody] Login login) =>
-            ExecutionService<LoginResult>.Execute(() => service.Login(login));
+            ExecutionService<LoginResult>.Execute(() => service.AdminLogin(login));
         
         [HttpPost("login/teacher")]
         public Result<LoginResult> LoginTeacher([FromBody] Login login) =>
-            ExecutionService<LoginResult>.Execute(() => service.Login(login));
+            ExecutionService<LoginResult>.Execute(() => service.TeacherLogin(login));
 
         [HttpPost]
         [Route("resetpassword")]
