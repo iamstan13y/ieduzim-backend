@@ -213,8 +213,8 @@ namespace IEduZimAPI
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-           // DatabaseService.Initialize(service.CreateScope().ServiceProvider);
-            //IdentityInitializer.SeedIdentityData(roleManager, userManager);
+            DatabaseService.Initialize(service.CreateScope().ServiceProvider);
+            IdentityInitializer.SeedIdentityData(roleManager, userManager);
         }
     }
 }
