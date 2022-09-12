@@ -3,6 +3,7 @@ using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Services.EmailServices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Web.Helpers;
@@ -24,7 +25,6 @@ namespace IEduZimAPI.Services.AccountServices
 
         public LoginResult MobileLogin(Login login)
         {
-
             var user = userManager.FindByNameAsync(login.Username).Result.ValidateUser(login.Username);
             var tempPassword = new VerificationService(userManager).GetTempPassword(user);
             
@@ -52,7 +52,7 @@ namespace IEduZimAPI.Services.AccountServices
                 }
             }
             else if (tempPassword != null) new VerificationService(userManager).DeleteTempPassword(tempPassword);
-            return new LoginResult(new TokenService(userManager).TokenBuilder(user), user);
+            return new LoginResult(new TokenService(userManager).TokenBuilder(user), account);
         }
 
         public LoginResult AdminLogin(Login login)
