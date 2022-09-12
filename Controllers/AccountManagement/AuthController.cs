@@ -13,8 +13,8 @@ namespace IEduZimAPI.Controllers.AccountManagement
     public class AuthController : ControllerBase
     {
         private AuthService service;
-        public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> manager) =>
-            service = new AuthService(userManager, manager);
+        public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> manager, AppDbContext context) =>
+            service = new AuthService(userManager, manager, context);
 
         [HttpPost("login/mobile")]
         public Result<LoginResult> Login([FromBody] Login login) =>
