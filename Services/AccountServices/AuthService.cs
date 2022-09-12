@@ -107,7 +107,7 @@ namespace IEduZimAPI.Services.AccountServices
                     user.PasswordHash = tempPassword.Password;
                     userManager.UpdateAsync(user);
                     new VerificationService(userManager).DeleteTempPassword(tempPassword);
-                    return new LoginResult(new TokenService(userManager).TokenBuilder(user), user);
+                    return new LoginResult(new TokenService(userManager).TokenBuilder(user), account);
                 }
             }
             else if (tempPassword != null) new VerificationService(userManager).DeleteTempPassword(tempPassword);
