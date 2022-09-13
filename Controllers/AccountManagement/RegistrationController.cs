@@ -25,7 +25,6 @@ namespace IEduZimAPI.Services.AccountServices
             ExecutionService.Execute(() => service.ActivateStudent(studentId), "Account activated.");
 
         [HttpPost]
-        [Authorize]
         [Route("activate/teacher/{teacherId}")]
         public Result<bool> ActivateTeacher(int teacherId) =>
             ExecutionService.Execute(() => service.ActivateTeacher(teacherId), "Account activated.");
