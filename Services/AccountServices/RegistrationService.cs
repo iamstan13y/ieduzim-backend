@@ -2,6 +2,7 @@
 using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Data.AccountManagement;
+using IEduZimAPI.Models.Local;
 using IEduZimAPI.Service;
 using IEduZimAPI.Services.EmailServices;
 using Microsoft.AspNetCore.Identity;
@@ -65,10 +66,14 @@ namespace IEduZimAPI.Services.AccountServices
             _context.SaveChanges();
         }
 
-        public void ActivateTeacher(string teacherId)
+        public void ActivateTeacher(int teacherId)
         {
-           // var user = userManager.FindByNameAsync(confirmation.Username).Result.ValidateUser(confirmation.Username);
-            //new VerificationService(userManager).CheckVerification(user, confirmation);
+            var account = _context.Teachers.Find(teacherId);
+            if (account == null) throw new Exception("Account not found");
+            account.IsActive = true;
+
+            _context.Teachers.Update(account);
+            _context.SaveChanges();
         }
     }
 }
