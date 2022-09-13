@@ -7,6 +7,7 @@ using IEduZimAPI.Services.EmailServices;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,11 +17,13 @@ namespace IEduZimAPI.Services.AccountServices
     {
         private UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
-        
-        public RegistrationService(UserManager<IdentityUser> uManager, RoleManager<IdentityRole> rManager)
+        private readonly AppDbContext _context;
+
+        public RegistrationService(UserManager<IdentityUser> uManager, RoleManager<IdentityRole> rManager, AppDbContext context)
         {
             userManager = uManager;
             roleManager = rManager;
+            _context = context;
         }
 
         public void Register(Register register)
@@ -52,10 +55,20 @@ namespace IEduZimAPI.Services.AccountServices
             EmailService.Send(Models.Enums.EmailType.ConfirmAccount, body);
         }
 
-        public void ActivateAccount(EmailConfirmation confirmation)
+        public void ActivateStudent(int studentId)
         {
-            var user = userManager.FindByNameAsync(confirmation.Username).Result.ValidateUser(confirmation.Username);
-            new VerificationService(userManager).CheckVerification(user, confirmation);
+            var account = _context.Students.Find(studentId);
+            if (account == null) throw new Exception("Account not found");
+            account.IsActive = true;
+
+            _context.Students.Update(account);
+            _context.SaveChanges();
+        }
+
+        public void ActivateTeacher(string teacherId)
+        {
+           // var user = userManager.FindByNameAsync(confirmation.Username).Result.ValidateUser(confirmation.Username);
+            //new VerificationService(userManager).CheckVerification(user, confirmation);
         }
     }
 }
