@@ -27,13 +27,15 @@ namespace IEduZimAPI.Services.AccountServices
             _context = context;
         }
 
-        public void Register(Register register)
+        public Result<IdentityUser> Register(Register register)
         {
             string password = register.Phonenumber[^6..];
             IdentityUser user = new() { UserName = register.Email, Email = register.Email, PhoneNumber = register.Phonenumber, EmailConfirmed = true};
             userManager.CreateAsync(user, password).Result.Validate();
             userManager.AddToRoleAsync(user, register.Role).Result.Validate();
             SendConfirmationEmail(GenerateConfirmationCode(userManager.FindByEmailAsync(user.Email).Result.Validate().Id), user, register.Role);
+
+            return new Result<IdentityUser>(user);
         }
 
         private string GenerateConfirmationCode(string userId)
