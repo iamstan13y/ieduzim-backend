@@ -11,13 +11,13 @@ namespace IEduZimAPI.Services.AccountServices
     [ApiController]
     public class RegistrationController : ControllerBase
     {
-        RegistrationService service;
+        readonly RegistrationService service;
         public RegistrationController(UserManager<IdentityUser> manager, RoleManager<IdentityRole> roleManager, AppDbContext context) =>
             service = new RegistrationService(manager, roleManager, context);
 
         [HttpPost]
-        public Result<bool> Register([FromBody] Register register) =>
-            ExecutionService.Execute(() => service.Register(register), "Account Creation Successful. Check your email for activation link.");
+        public Result<IdentityUser> Register([FromBody] Register register) =>
+            service.Register(register);
 
         [HttpPost]
         [Route("activate/student/{studentId}")]
