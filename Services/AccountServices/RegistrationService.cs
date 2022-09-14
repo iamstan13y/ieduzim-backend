@@ -2,11 +2,13 @@
 using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Data.AccountManagement;
+using IEduZimAPI.Models.Local;
 using IEduZimAPI.Service;
 using IEduZimAPI.Services.EmailServices;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,20 +18,24 @@ namespace IEduZimAPI.Services.AccountServices
     {
         private UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
-        
-        public RegistrationService(UserManager<IdentityUser> uManager, RoleManager<IdentityRole> rManager)
+        private readonly AppDbContext _context;
+
+        public RegistrationService(UserManager<IdentityUser> uManager, RoleManager<IdentityRole> rManager, AppDbContext context)
         {
             userManager = uManager;
             roleManager = rManager;
+            _context = context;
         }
 
-        public void Register(Register register)
+        public Result<IdentityUser> Register(Register register)
         {
             string password = register.Phonenumber[^6..];
             IdentityUser user = new() { UserName = register.Email, Email = register.Email, PhoneNumber = register.Phonenumber, EmailConfirmed = true};
             userManager.CreateAsync(user, password).Result.Validate();
             userManager.AddToRoleAsync(user, register.Role).Result.Validate();
             SendConfirmationEmail(GenerateConfirmationCode(userManager.FindByEmailAsync(user.Email).Result.Validate().Id), user, register.Role);
+
+            return new Result<IdentityUser>(user);
         }
 
         private string GenerateConfirmationCode(string userId)
@@ -52,10 +58,24 @@ namespace IEduZimAPI.Services.AccountServices
             EmailService.Send(Models.Enums.EmailType.ConfirmAccount, body);
         }
 
-        public void ActivateAccount(EmailConfirmation confirmation)
+        public void ActivateStudent(int studentId)
         {
-            var user = userManager.FindByNameAsync(confirmation.Username).Result.ValidateUser(confirmation.Username);
-            new VerificationService(userManager).CheckVerification(user, confirmation);
+            var account = _context.Students.Find(studentId);
+            if (account == null) throw new Exception("Account not found");
+            account.IsActive = true;
+
+            _context.Students.Update(account);
+            _context.SaveChanges();
+        }
+
+        public void ActivateTeacher(int teacherId)
+        {
+            var account = _context.Teachers.Find(teacherId);
+            if (account == null) throw new Exception("Account not found");
+            account.IsActive = true;
+
+            _context.Teachers.Update(account);
+            _context.SaveChanges();
         }
     }
 }

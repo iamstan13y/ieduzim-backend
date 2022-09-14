@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using Microsoft.AspNetCore.Authorization;
+using IEduZimAPI.Models;
 
 namespace IEduZimAPI.Services.AccountServices
 {
@@ -9,17 +11,22 @@ namespace IEduZimAPI.Services.AccountServices
     [ApiController]
     public class RegistrationController : ControllerBase
     {
-        RegistrationService service;
-        public RegistrationController(UserManager<IdentityUser> manager, RoleManager<IdentityRole> roleManager) =>
-            service = new RegistrationService(manager, roleManager);
+        readonly RegistrationService service;
+        public RegistrationController(UserManager<IdentityUser> manager, RoleManager<IdentityRole> roleManager, AppDbContext context) =>
+            service = new RegistrationService(manager, roleManager, context);
 
         [HttpPost]
-        public Result<bool> Register([FromBody] Register register) =>
-            ExecutionService.Execute(() => service.Register(register), "Account Creation Successful. Check your email for activation link.");
+        public Result<IdentityUser> Register([FromBody] Register register) =>
+            service.Register(register);
 
         [HttpPost]
-        [Route("activate")]
-        public Result<bool> ActivateAccount([FromBody] EmailConfirmation confirmation) =>
-            ExecutionService.Execute(() => service.ActivateAccount(confirmation), "Account activated.");
+        [Route("activate/student/{studentId}")]
+        public Result<bool> ActivateStudent(int studentId) =>
+            ExecutionService.Execute(() => service.ActivateStudent(studentId), "Account activated.");
+
+        [HttpPost]
+        [Route("activate/teacher/{teacherId}")]
+        public Result<bool> ActivateTeacher(int teacherId) =>
+            ExecutionService.Execute(() => service.ActivateTeacher(teacherId), "Account activated.");
     }
 }
