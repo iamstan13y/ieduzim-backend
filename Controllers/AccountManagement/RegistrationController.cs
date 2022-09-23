@@ -18,12 +18,7 @@ namespace IEduZimAPI.Services.AccountServices
         [HttpPost]
         public Result<IdentityUser> Register([FromBody] Register register) =>
             service.Register(register);
-
-        [HttpPost]
-        [Route("activate/student/{studentId}")]
-        public Result<bool> ActivateStudent(int studentId) =>
-            ExecutionService.Execute(() => service.ActivateStudent(studentId), "Account activated.");
-
+        
         [HttpPost]
         [Route("activate/teacher/{teacherId}")]
         public Result<bool> ActivateTeacher(int teacherId) =>
