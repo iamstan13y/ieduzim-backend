@@ -29,13 +29,21 @@ namespace IEduZimAPI.Services.AccountServices
 
         public Result<IdentityUser> Register(Register register)
         {
-            string password = register.Phonenumber[^6..];
-            IdentityUser user = new() { UserName = register.Email, Email = register.Email, PhoneNumber = register.Phonenumber, EmailConfirmed = true};
-            userManager.CreateAsync(user, password).Result.Validate();
-            userManager.AddToRoleAsync(user, register.Role).Result.Validate();
-            SendConfirmationEmail(GenerateConfirmationCode(userManager.FindByEmailAsync(user.Email).Result.Validate().Id), user, register.Role);
+            try
+            {
+                string password = register.Phonenumber[^6..];
+                IdentityUser user = new() { UserName = register.Email, Email = register.Email, PhoneNumber = register.Phonenumber, EmailConfirmed = true };
+                userManager.CreateAsync(user, password).Result.Validate();
+                userManager.AddToRoleAsync(user, register.Role).Result.Validate();
+                SendConfirmationEmail(GenerateConfirmationCode(userManager.FindByEmailAsync(user.Email).Result.Validate().Id), user, register.Role);
 
-            return new Result<IdentityUser>(user);
+                return new Result<IdentityUser>(user);
+            }
+            catch (Exception)
+            {
+                return new Result<IdentityUser>(false, "Failed to complete registration.", null);
+            }
+            
         }
 
         private string GenerateConfirmationCode(string userId)
@@ -56,16 +64,6 @@ namespace IEduZimAPI.Services.AccountServices
                 {"{subject}", "Account Verification Code"}
             };
             EmailService.Send(Models.Enums.EmailType.ConfirmAccount, body);
-        }
-
-        public void ActivateStudent(int studentId)
-        {
-            var account = _context.Students.Find(studentId);
-            if (account == null) throw new Exception("Account not found");
-            account.IsActive = true;
-
-            _context.Students.Update(account);
-            _context.SaveChanges();
         }
 
         public void ActivateTeacher(int teacherId)
