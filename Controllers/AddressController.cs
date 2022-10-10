@@ -1,8 +1,5 @@
-﻿using IEduZimAPI.CoreClasses;
-using IEduZimAPI.Models.Data;
-using IEduZimAPI.Models.Local;
+﻿using IEduZimAPI.Models.Local;
 using IEduZimAPI.Models.Repository;
-using IEduZimAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
