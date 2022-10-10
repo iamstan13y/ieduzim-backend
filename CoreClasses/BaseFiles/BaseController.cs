@@ -1,12 +1,11 @@
 ﻿using IEduZimAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace IEduZimAPI.CoreClasses
 {
-    public class BaseController<T, U> : ControllerBase where T: class, new() where U:class
+    public class BaseController<T, U> : ControllerBase where T : class, new() where U : class
     {
         public IRepository<T> service;
         public BaseController() : this(new IEduContext()) { }
@@ -26,14 +25,14 @@ namespace IEduZimAPI.CoreClasses
             ExecutionService<T>.Execute(() => service.Get(id));
 
         [HttpPost]
-        public virtual Result<T> Post([FromBody] U item) => 
+        public virtual Result<T> Post([FromBody] U item) =>
             ExecutionService<T>.Execute(() => service.Add(SetDBProperties(item), HttpContext.User?.Identity?.Name), $"{Regex.Replace(typeof(T).Name, "(\\B[A - Z])", " $1")} successfully added.");
 
         [HttpPut]
         [Route("{id}")]
-        public virtual Result<T> Update([FromBody] U item, int id)=>
+        public virtual Result<T> Update([FromBody] U item, int id) =>
            ExecutionService<T>.Execute(() => service.Update(id, SetDBProperties(item)), $"{Regex.Replace(typeof(T).Name, "(\\B[A - Z])", " $1")} successfully updated.");
-     
+
 
         [HttpDelete]
         [Route("{id}")]

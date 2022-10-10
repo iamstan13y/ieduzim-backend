@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using IEduZimAPI.CoreClasses;
+﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IEduZimAPI.Services.AccountServices
 {

@@ -1,6 +1,5 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Local;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -32,6 +31,6 @@ namespace IEduZimAPI.Services.AccountServices
 
         [HttpPut]
         public Result<IdentityUser> UpdateUserDetails([FromBody] User user) =>
-            ExecutionService<IdentityUser>.Execute(() => service.UpdateUserDetails(user)); 
+            ExecutionService<IdentityUser>.Execute(() => service.UpdateUserDetails(user));
     }
 }

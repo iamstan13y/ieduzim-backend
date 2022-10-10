@@ -7,6 +7,6 @@
         public string SortParam { get; set; }
         public bool Desc { get; set; }
         public bool Active { get; set; }
-        public string AdditionalData{ get; set; }
+        public string AdditionalData { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace IEduZimAPI.Controllers
             return Ok(result);
 
         }
-        
+
         [HttpGet("get-by-studentId/{studentId}")]
         [ProducesResponseType(typeof(Result<IEnumerable<Subscription>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByStudentId(int studentId)

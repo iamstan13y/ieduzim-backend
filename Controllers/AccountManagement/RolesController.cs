@@ -14,7 +14,7 @@ namespace IEduZimAPI.Services.AccountServices
 
         [HttpGet]
         public Result<IEnumerable<IdentityRole>> Get() =>
-            ExecutionService<IEnumerable<IdentityRole>>.Execute(()=>service.Get());
+            ExecutionService<IEnumerable<IdentityRole>>.Execute(() => service.Get());
 
     }
 }

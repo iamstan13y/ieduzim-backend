@@ -1,11 +1,11 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
-using Microsoft.AspNetCore.Mvc;
-using IEduZimAPI.Services;
-using System.Collections.Generic;
-using IEduZimAPI.Models.Repository;
-using System.Threading.Tasks;
 using IEduZimAPI.Models.Local;
+using IEduZimAPI.Models.Repository;
+using IEduZimAPI.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IEduZimAPI.Controllers
 {
@@ -31,7 +31,7 @@ namespace IEduZimAPI.Controllers
         public Result<IEnumerable<Subject>> Get() => _subjectRepository.GetAllSubjectsAsync().Result;
 
         [HttpGet("paged")]
-        public Pagination<Paginator<Subject>> GetPaged([FromQuery] PageRequest request) => 
+        public Pagination<Paginator<Subject>> GetPaged([FromQuery] PageRequest request) =>
             Pagination<Paginator<Subject>>.FromObject(_subjectRepository.GetAllSubjectsPagedAsync(request).Result);
 
         [HttpGet("search-hubs")]

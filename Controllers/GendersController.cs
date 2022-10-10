@@ -11,5 +11,5 @@ namespace IEduZimAPI.Controllers
     {
         public GendersController() : base(new BaseService<Gender>()) { }
     }
-    
+
 }

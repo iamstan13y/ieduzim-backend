@@ -58,7 +58,7 @@ namespace IEduZimAPI.Controllers
             var result = await _hubsRepository.UpdateAsync(new Hub
             {
                 Id = request.Id,
-                LocationId= request.LocationId,
+                LocationId = request.LocationId,
                 Name = request.Name
             });
 
