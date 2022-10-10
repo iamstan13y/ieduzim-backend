@@ -5,7 +5,6 @@ using IEduZimAPI.Models.Repository;
 using IEduZimAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace IEduZimAPI.Controllers
 {
@@ -48,7 +47,7 @@ namespace IEduZimAPI.Controllers
                 UserId = request.UserId
             }).Result;
 
-            if(!result.Succeeded) return result;
+            if (!result.Succeeded) return result;
 
             return result;
         }
@@ -78,4 +77,4 @@ namespace IEduZimAPI.Controllers
         //public Result<Teacher> UnSubscribedUpdate(Teacher teacher,string userId) =>
         //ExecutionService<Teacher>.Execute(() => service.UpdateSubscriptionStatus(teacher, userId));
     }
-} 
+}
