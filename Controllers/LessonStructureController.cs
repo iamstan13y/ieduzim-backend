@@ -1,8 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
-using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Repository;
-using IEduZimAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IEduZimAPI.Controllers
