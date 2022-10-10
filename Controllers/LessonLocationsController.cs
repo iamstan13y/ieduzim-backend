@@ -1,7 +1,6 @@
 ﻿using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Local;
 using IEduZimAPI.Models.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -40,7 +39,7 @@ namespace IEduZimAPI.Controllers
 
             if (result == null) return NotFound(result);
 
-            return Ok(result);  
+            return Ok(result);
         }
     }
 }
