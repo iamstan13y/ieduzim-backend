@@ -1,6 +1,5 @@
 ﻿using IEduZimAPI.Models.Local;
 using IEduZimAPI.Models.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -39,10 +38,10 @@ namespace IEduZimAPI.Controllers
 
         [HttpGet("get-by-studentId/{id}")]
         public async Task<IActionResult> Get(int id) => Ok(await _lessonRepository.GetByStudentIdAsync(id));
-        
+
         [HttpGet("get-by-teacherId/{id}")]
         public async Task<IActionResult> GetByTeacherId(int id) => Ok(await _lessonRepository.GetByTeacherIdAsync(id));
-        
+
         [HttpPut("teacher/update-status")]
         public async Task<IActionResult> UpdateLesson(UpdateLessonRequest request)
         {
@@ -50,7 +49,7 @@ namespace IEduZimAPI.Controllers
 
             return Ok(result);
         }
-        
+
         [HttpPut("student/update-status")]
         public async Task<IActionResult> StudentUpdateLesson(UpdateLessonRequest request)
         {
