@@ -1,5 +1,4 @@
 ﻿using IEduZimAPI.CoreClasses;
-using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Enums;
 using IEduZimAPI.Models.Local;
@@ -7,7 +6,6 @@ using IEduZimAPI.Models.Repository;
 using IEduZimAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IEduZimAPI.Controllers
