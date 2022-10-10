@@ -6,8 +6,8 @@
 
         public T Value
         {
-            get{ return _value; }
-            set{ _value = value; }
+            get { return _value; }
+            set { _value = value; }
         }
 
         public static implicit operator T(GenericProp<T> value)
