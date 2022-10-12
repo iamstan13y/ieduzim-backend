@@ -1,5 +1,4 @@
-﻿using IEduZimAPI.Migrations.AppDb;
-using IEduZimAPI.Models.Enums;
+﻿using IEduZimAPI.Models.Enums;
 using System.Collections.Generic;
 
 namespace IEduZimAPI.Models.Local
