@@ -1,5 +1,4 @@
 ﻿using IEduZimAPI.CoreClasses;
-using IEduZimAPI.Migrations.AppDb;
 using IEduZimAPI.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
