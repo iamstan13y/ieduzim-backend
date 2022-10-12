@@ -1,6 +1,5 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
-using IEduZimAPI.Models.Enums;
 using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using System;
