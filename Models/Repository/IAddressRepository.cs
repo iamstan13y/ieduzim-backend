@@ -1,5 +1,4 @@
 ﻿using IEduZimAPI.CoreClasses;
-using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Local;
 using System.Collections.Generic;
 using System.Threading.Tasks;
