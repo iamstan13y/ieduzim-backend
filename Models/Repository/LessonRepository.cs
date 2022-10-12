@@ -111,7 +111,7 @@ namespace IEduZimAPI.Models.Repository
         public async Task<Result<IEnumerable<Lesson>>> TeacherUpdateAsync(UpdateLessonRequest request)
         {
             List<Lesson> lessons = new();
-            foreach(var sub in request.SubscriptionIds)
+            foreach (var sub in request.SubscriptionIds)
             {
                 var lesson = await _context.Lessons.Where(x => x.SubscriptionId == sub).FirstOrDefaultAsync();
                 lesson.LessonStatus = request.LessonStatus;
