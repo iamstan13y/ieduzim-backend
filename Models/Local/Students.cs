@@ -14,6 +14,6 @@
         public string City { get; set; }
         public string NextOfKin { get; set; }
         public string NextOfKinContact { get; set; }
-        public int LocationId { get; set; } 
+        public int LocationId { get; set; }
     }
 }
