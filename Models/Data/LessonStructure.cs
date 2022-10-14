@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
-
-namespace IEduZimAPI.Models.Data
+﻿namespace IEduZimAPI.Models.Data
 {
-    public class LessonStructure:Local.LocalLessonStructure
+    public class LessonStructure : Local.LocalLessonStructure
     {
         public int Id { get; set; }
         public virtual Subject Subject { get; set; }
