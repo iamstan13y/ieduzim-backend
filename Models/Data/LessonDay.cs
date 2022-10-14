@@ -1,6 +1,4 @@
-﻿using IEduZimAPI.Models.Enums;
-
-namespace IEduZimAPI.Models.Data
+﻿namespace IEduZimAPI.Models.Data
 {
     public class LessonDay
     {
