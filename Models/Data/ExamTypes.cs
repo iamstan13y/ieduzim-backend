@@ -2,7 +2,7 @@
 
 namespace IEduZimAPI.Models.Data
 {
-    public class ExamTypes:BaseName
+    public class ExamTypes : BaseName
     {
     }
 }
