@@ -1,6 +1,6 @@
 ﻿namespace IEduZimAPI.Models.Data
 {
-    public class Address: Local.LocalAddress
+    public class Address : Local.LocalAddress
     {
         public int Id { get; set; }
         public virtual City City { get; set; }
