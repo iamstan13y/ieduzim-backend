@@ -2,7 +2,7 @@
 
 namespace IEduZimAPI.Models.Data
 {
-    public class Currencies:BaseName
+    public class Currencies : BaseName
     {
         public string Code { get; set; }
     }
