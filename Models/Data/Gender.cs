@@ -2,7 +2,7 @@
 
 namespace IEduZimAPI.Models.Data
 {
-    public class Gender: BaseName
+    public class Gender : BaseName
     {
     }
 }
