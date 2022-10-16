@@ -1,6 +1,4 @@
-﻿using IEduZimAPI.Models.Enums;
-
-namespace IEduZimAPI.Models.Local
+﻿namespace IEduZimAPI.Models.Local
 {
     public class PaymentStatusResponse
     {

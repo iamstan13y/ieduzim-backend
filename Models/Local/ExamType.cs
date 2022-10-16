@@ -1,6 +1,6 @@
 ﻿namespace IEduZimAPI.Models.Local
 {
-    public class ExamType:BaseName
+    public class ExamType : BaseName
     {
     }
 }

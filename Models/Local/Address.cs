@@ -1,5 +1,4 @@
 ﻿using IEduZimAPI.Models.Data;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IEduZimAPI.Models.Local

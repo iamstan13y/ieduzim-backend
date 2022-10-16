@@ -7,6 +7,6 @@ namespace IEduZimAPI.Models.Local
     {
         public Hub Hub { get; set; }
         public Subject Subject { get; set; }
-        public List<HubLessonSchedule> LessonSchedules {get; set;}
+        public List<HubLessonSchedule> LessonSchedules { get; set; }
     }
 }
