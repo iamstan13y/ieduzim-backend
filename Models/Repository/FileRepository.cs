@@ -10,7 +10,7 @@ namespace IEduZimAPI.Models.Repository
         private readonly AppDbContext _context;
 
         public FileRepository(AppDbContext context) => _context = context;
-      
+
         public async Task<Result<UploadFile>> AddAsync(UploadFile imageFile)
         {
             await _context.UploadFiles!.AddAsync(imageFile);
