@@ -7,7 +7,7 @@
         public int DistanceUpperRange { get; set; }
         public int CurrencyId { get; set; }
         public double Price { get; set; }
-        public virtual Currencies Currency{get; set;}
+        public virtual Currencies Currency { get; set; }
 
     }
 }

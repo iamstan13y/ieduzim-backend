@@ -1,5 +1,4 @@
-﻿using IEduZimAPI.Models.Enums;
-using System;
+﻿using System;
 
 namespace IEduZimAPI.Models.Data
 {

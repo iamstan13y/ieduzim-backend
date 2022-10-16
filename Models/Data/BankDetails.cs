@@ -2,7 +2,7 @@
 
 namespace IEduZimAPI.Models.Data
 {
-    public class BankDetails:Local.BankDetail
+    public class BankDetails : Local.BankDetail
     {
         public int Id { get; set; }
         public virtual IdentityUser User { get; set; }
