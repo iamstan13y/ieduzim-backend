@@ -26,7 +26,7 @@ namespace IEduZimAPI.Models.Repository
         public async Task<Result<Payment>> AddAsync(Payment payment)
         {
             var student = await _eduContext.Students.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == payment.StudentId);
-            
+
             switch (payment.PaymentMethod)
             {
                 case PaymentMethod.ecocash:
@@ -42,7 +42,7 @@ namespace IEduZimAPI.Models.Repository
                     }).Result;
 
                     payment.PollUrl = paynowPayment.Data.PollUrl;
-                    payment.PaymentStatus =  PaymentStatus.Initiated;
+                    payment.PaymentStatus = PaymentStatus.Initiated;
                     break;
                 default:
                     payment.PaymentStatus = PaymentStatus.Initiated;
@@ -52,7 +52,7 @@ namespace IEduZimAPI.Models.Repository
             payment.DateModified = DateTime.Now;
             await _context.Payments.AddAsync(payment);
             await _context.SaveChangesAsync();
-            
+
             return new Result<Payment>(payment);
         }
 
@@ -86,7 +86,7 @@ namespace IEduZimAPI.Models.Repository
                 var subscription = await _context.Subscriptions.Where(x => x.PaymentId == payment.Id).FirstOrDefaultAsync();
 
                 var lessonSchedules = await _context.LessonSchedules.Where(x => x.SubscriptionId == subscription.Id).ToListAsync();
-                
+
                 lessonSchedules.ForEach(x => x.Status = true);
                 _context.LessonSchedules.UpdateRange(lessonSchedules);
 

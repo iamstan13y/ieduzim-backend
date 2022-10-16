@@ -1,7 +1,6 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Data.AccountManagement;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Web.Helpers;
 
 namespace IEduZimAPI.Services.EmailServices
 {
-    public class VerificationService:BaseService<AspNetVerificationCode>
+    public class VerificationService : BaseService<AspNetVerificationCode>
     {
         private UserManager<IdentityUser> manager;
 
@@ -31,9 +30,9 @@ namespace IEduZimAPI.Services.EmailServices
             {
                 u.ConfirmationFailedCount = u.ConfirmationFailedCount + 1;
                 context.SaveChanges();
-                if(u.ConfirmationFailedCount <= 2)
+                if (u.ConfirmationFailedCount <= 2)
                     throw new Exception("Confirmation code mismatch");
-                if(u.ConfirmationFailedCount == 3)
+                if (u.ConfirmationFailedCount == 3)
                 {
                     RemoveVerificationCode(u);
                     RemoveUserFromRegistrations(user);
@@ -65,7 +64,7 @@ namespace IEduZimAPI.Services.EmailServices
         {
             var exists = context.AspNetTempPasswords.Find(user.Id);
             if (exists != null) throw new Exception("Password reset instructions already sent to your email.");
-            context.AspNetTempPasswords.Add(new AspNetTempPassword() { UserId = user.Id, Password = Crypto.HashPassword(password), Expiry = DateTime.Now.AddHours(2)}) ;
+            context.AspNetTempPasswords.Add(new AspNetTempPassword() { UserId = user.Id, Password = Crypto.HashPassword(password), Expiry = DateTime.Now.AddHours(2) });
             context.SaveChanges();
         }
 

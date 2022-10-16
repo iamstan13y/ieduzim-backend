@@ -1,26 +1,26 @@
+using IEduZimAPI.CoreClasses;
+using IEduZimAPI.CoreClasses.BaseFiles;
 using IEduZimAPI.Models;
+using IEduZimAPI.Models.Repository;
+using IEduZimAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IISIntegration;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using IEduZimAPI.CoreClasses;
-using IEduZimAPI.CoreClasses.BaseFiles;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using IEduZimAPI.Models.Repository;
-using IEduZimAPI.Services;
-using Microsoft.Extensions.FileProviders;
-using System.IO;
 
 namespace IEduZimAPI
 {
@@ -158,15 +158,17 @@ namespace IEduZimAPI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => {
+                app.UseSwaggerUI(c =>
+                {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "IEduZimAPI v1");
                     c.DocExpansion(DocExpansion.None);
-                }) ;
+                });
             }
 
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "IEduZimAPI v1");
                 c.DocExpansion(DocExpansion.None);
             });

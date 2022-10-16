@@ -12,7 +12,7 @@
 //{
 //    public class PaymentsService:BaseService<Payment>
 //    {
-        
+
 //        public Paginator<Payment> GetPagedByUser(PageRequest request, string userId)
 //        {
 //            if (request == null) request = new PageRequest() { PageNumber = 1, PageSize = 10 };

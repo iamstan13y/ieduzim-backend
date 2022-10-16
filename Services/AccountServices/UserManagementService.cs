@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace IEduZimAPI.Services.AccountServices
 {
-    public class UserManagementService: BaseService<IdentityUser>
+    public class UserManagementService : BaseService<IdentityUser>
     {
         private UserManager<IdentityUser> manager;
         private RoleManager<IdentityRole> rManager;
@@ -15,7 +15,7 @@ namespace IEduZimAPI.Services.AccountServices
             manager = userManager;
             rManager = roleManager;
         }
-            
+
         public IEnumerable<IdentityUser> GetByRole(string roleId)
         {
             var role = rManager.FindByIdAsync(roleId).Result;

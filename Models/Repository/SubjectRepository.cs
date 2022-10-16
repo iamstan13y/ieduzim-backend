@@ -1,6 +1,5 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
-using IEduZimAPI.Models.Enums;
 using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -89,7 +88,7 @@ namespace IEduZimAPI.Models.Repository
         {
             var subject = await _appDbContext.Subjects.Where(x => x.Id == request.SubjectId).FirstOrDefaultAsync();
             if (subject == null) return new Result<Subject>(false, "Invalid Subject Id provided.", null);
-            
+
             var hub = await _appDbContext.Hubs.Where(x => x.Id == request.HubId).FirstOrDefaultAsync();
             if (subject == null) return new Result<Subject>(false, "Invalid Hub Id provided.", null);
 
@@ -153,7 +152,7 @@ namespace IEduZimAPI.Models.Repository
         {
             var student = await _appDbContext.Students.Where(x => x.UserId == userId).FirstOrDefaultAsync();
             if (student == null) return new Result<IEnumerable<Subject>>(false, "Student not found", null);
-            
+
             var studentLocation = await _appDbContext.Locations.Where(x => x.Id == student.LocationId).FirstOrDefaultAsync();
 
             var hubs = await _appDbContext.Hubs

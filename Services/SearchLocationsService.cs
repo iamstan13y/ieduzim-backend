@@ -4,7 +4,6 @@ using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Local;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +60,7 @@ namespace IEduZimAPI.Services
                 .Where(a => a.LevelId == request.LevelId && a.LessonLocationId == request.LessonLocationId).AsQueryable();
 
             foreach (var subject in subjects) subject.Subject.ZwlPrice = CalculateZwlPrice(subject.Subject.Price);
-            
+
             return subjects.ToList();
         }
 
@@ -70,7 +69,7 @@ namespace IEduZimAPI.Services
         //    var sub = subjects.Include(c => c.Level).Include(b => b.Subject).Where(a => a.SubjectId == subjectId).ToList();
         //    if (examType != 0) sub = sub.Where(e => e.ExamTypeId.Contains(examType.ToString())).ToList();
         //    if (lessonLocation != 0) sub = sub.Where(l => l.LessonLocationId.Contains(lessonLocation.ToString())).ToList();
-            
+
         //    foreach(var subject in sub) subject.Subject.ZwlPrice = CalculateZwlPrice(subject.Subject.Price);
 
         //    return sub;
@@ -93,10 +92,10 @@ namespace IEduZimAPI.Services
             {
                 if (subjects.Exists(y => y.TeacherId == x.TeacherId))
                 {
-                //    x.Subjects = new List<LessonStructure>();
-                //    var subs = subjects.Where(z => z.TeacherId == x.TeacherId).AsQueryable();
-                //    x.Subjects.AddRange(subs);
-                //    addresses.ToList().Add(x);
+                    //    x.Subjects = new List<LessonStructure>();
+                    //    var subs = subjects.Where(z => z.TeacherId == x.TeacherId).AsQueryable();
+                    //    x.Subjects.AddRange(subs);
+                    //    addresses.ToList().Add(x);
                 }
             });
 

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using IEduZimAPI.Models.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using IEduZimAPI.Models.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
 
 namespace IEduZimAPI.Services.AccountServices
 {
@@ -32,7 +32,7 @@ namespace IEduZimAPI.Services.AccountServices
             var roles = userManager.GetRolesAsync(user).Result;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.configuration["Jwt:Key"]));
 
-            Student student = new() { Id = default};
+            Student student = new() { Id = default };
             if (roles[0] == "Student")
             {
                 student = _studentService.GetByUserId(user.Id);

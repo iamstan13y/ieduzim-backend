@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace IEduZimAPI.Services
 {
-    public class SubjectsService:BaseService<Subject>
+    public class SubjectsService : BaseService<Subject>
     {
         public Paginator<Subject> GetPagedByLevel(PageRequest request, int levelId)
         {

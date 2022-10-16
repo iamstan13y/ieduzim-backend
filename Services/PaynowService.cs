@@ -1,6 +1,5 @@
 ﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.CoreClasses.Utility;
-using IEduZimAPI.Models.Enums;
 using IEduZimAPI.Models.Local;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
@@ -37,7 +36,7 @@ namespace IEduZimAPI.Services
 
             var response = paynow.SendMobile(payment, request.AccountNumber, request.PaymentMethod.ToString());
 
-           var paynowResponse = new PaynowResponse()
+            var paynowResponse = new PaynowResponse()
             {
                 PollUrl = response.PollUrl(),
                 Success = response.Success(),
