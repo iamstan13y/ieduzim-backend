@@ -7,9 +7,9 @@ namespace IEduZimAPI.Migrations.AppDb
         protected override void Up(MigrationBuilder migrationBuilder)
         {
 
-          
 
-            
+
+
 
             migrationBuilder.AddColumn<int>(
                 name: "SubscriptionId",
