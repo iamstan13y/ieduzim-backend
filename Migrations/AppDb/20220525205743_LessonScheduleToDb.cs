@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace IEduZimAPI.Migrations.AppDb
 {
@@ -7,7 +7,7 @@ namespace IEduZimAPI.Migrations.AppDb
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
+
             migrationBuilder.CreateTable(
                 name: "LessonSchedules",
                 columns: table => new
