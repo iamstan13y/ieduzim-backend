@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IEduZimAPI.Models.Data
 {
-    public class RolePaymentsSettings:RolePaymentSetting
+    public class RolePaymentsSettings : RolePaymentSetting
     {
         public int Id { get; set; }
         public virtual PaymentPeriods PaymentPeriod { get; set; }

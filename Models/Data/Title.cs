@@ -2,7 +2,7 @@
 
 namespace IEduZimAPI.Models.Data
 {
-    public class Title:BaseName
+    public class Title : BaseName
     {
     }
 }
