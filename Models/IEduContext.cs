@@ -14,7 +14,7 @@ namespace IEduZimAPI.Models
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Book> Bookings { get; set; }
         public virtual DbSet<City> Cities { get; set; }
-        public virtual DbSet<LessonStructure> LessonStructures{ get; set; }
+        public virtual DbSet<LessonStructure> LessonStructures { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Student> Students { get; set; }
@@ -69,15 +69,15 @@ namespace IEduZimAPI.Models
                 .HasIndex(i => i.Name)
                 .IsUnique(true);
             builder.Entity<LessonStructure>()
-                .HasIndex(i => new { i.LevelId, i.SubjectId, i.TeacherId})
+                .HasIndex(i => new { i.LevelId, i.SubjectId, i.TeacherId })
                 .IsUnique(true);
             builder.Entity<AspNetVerificationCode>()
-                .HasKey(k => new { k.UserId, k.Code});
+                .HasKey(k => new { k.UserId, k.Code });
             builder.Entity<AspNetTempPassword>()
                 .HasKey(k => k.UserId);
-          //  builder.Entity<Address>()
-               // .HasIndex(k => k.UserId)
-                //.IsUnique(true);
+            //  builder.Entity<Address>()
+            // .HasIndex(k => k.UserId)
+            //.IsUnique(true);
             builder.Entity<Currencies>()
                 .HasIndex(k => k.Name)
                 .IsUnique(true);
