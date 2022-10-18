@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using IEduZimAPI.CoreClasses;
+﻿using IEduZimAPI.CoreClasses;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Data.AccountManagement;
 using IEduZimAPI.Service;
 using IEduZimAPI.Services.EmailServices;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 
 namespace IEduZimAPI.Services.AccountServices
 {
