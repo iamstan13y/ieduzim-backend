@@ -3,7 +3,6 @@ using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Services.EmailServices;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Web.Helpers;
@@ -27,17 +26,17 @@ namespace IEduZimAPI.Services.AccountServices
         {
             var user = userManager.FindByNameAsync(login.Username).Result.ValidateUser(login.Username);
             var tempPassword = new VerificationService(userManager).GetTempPassword(user);
-            
+
             var account = _context.Students.Where(x => x.UserId == user.Id).FirstOrDefault();
 
             if (!account.IsActive)
                 throw new Exception($"Your account is not active");
-            
+
             if (!userManager.CheckPasswordAsync(user, login.Password).Result)
             {
                 var t = Crypto.VerifyHashedPassword(user.PasswordHash, login.Password);
                 if (tempPassword == null || !Crypto.VerifyHashedPassword(tempPassword.Password, login.Password))
-                    throw new Exception($"Incorrect Password");             
+                    throw new Exception($"Incorrect Password");
                 if (tempPassword.Expiry < DateTime.Now)
                 {
                     new VerificationService(userManager).DeleteTempPassword(tempPassword);
@@ -64,7 +63,7 @@ namespace IEduZimAPI.Services.AccountServices
             {
                 var t = Crypto.VerifyHashedPassword(user.PasswordHash, login.Password);
                 if (tempPassword == null || !Crypto.VerifyHashedPassword(tempPassword.Password, login.Password))
-                    throw new Exception($"Incorrect Password");             
+                    throw new Exception($"Incorrect Password");
                 if (tempPassword.Expiry < DateTime.Now)
                 {
                     new VerificationService(userManager).DeleteTempPassword(tempPassword);
@@ -81,7 +80,7 @@ namespace IEduZimAPI.Services.AccountServices
             else if (tempPassword != null) new VerificationService(userManager).DeleteTempPassword(tempPassword);
             return new LoginResult(new TokenService(userManager).TokenBuilder(user), user);
         }
-        
+
         public LoginResult TeacherLogin(Login login)
         {
             var user = userManager.FindByNameAsync(login.Username).Result.ValidateUser(login.Username);
@@ -96,7 +95,7 @@ namespace IEduZimAPI.Services.AccountServices
             {
                 var t = Crypto.VerifyHashedPassword(user.PasswordHash, login.Password);
                 if (tempPassword == null || !Crypto.VerifyHashedPassword(tempPassword.Password, login.Password))
-                    throw new Exception($"Incorrect Password");             
+                    throw new Exception($"Incorrect Password");
                 if (tempPassword.Expiry < DateTime.Now)
                 {
                     new VerificationService(userManager).DeleteTempPassword(tempPassword);
