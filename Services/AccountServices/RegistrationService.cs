@@ -2,15 +2,11 @@
 using IEduZimAPI.Models;
 using IEduZimAPI.Models.Data;
 using IEduZimAPI.Models.Data.AccountManagement;
-using IEduZimAPI.Models.Local;
 using IEduZimAPI.Service;
 using IEduZimAPI.Services.EmailServices;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace IEduZimAPI.Services.AccountServices
 {
@@ -43,7 +39,7 @@ namespace IEduZimAPI.Services.AccountServices
             {
                 return new Result<IdentityUser>(false, "Failed to complete registration.", null);
             }
-            
+
         }
 
         private string GenerateConfirmationCode(string userId)
