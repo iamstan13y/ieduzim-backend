@@ -2,12 +2,11 @@
 using IEduZimAPI.Models.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 
 namespace IEduZimAPI.Services
 {
-    public class TeacherService: BaseService<Teacher>
+    public class TeacherService : BaseService<Teacher>
     {
         private UserManager<IdentityUser> userManager;
         public TeacherService(UserManager<IdentityUser> userManager)
@@ -17,18 +16,18 @@ namespace IEduZimAPI.Services
         }
 
         public Teacher GetByUserId(string userId) =>
-            context.Teachers.Include(i=> i.Title).Include(u=> u.User).FirstOrDefault(a => a.UserId == userId);
+            context.Teachers.Include(i => i.Title).Include(u => u.User).FirstOrDefault(a => a.UserId == userId);
 
-        public override Teacher Update<TKey>(TKey id,Teacher item, string user)
+        public override Teacher Update<TKey>(TKey id, Teacher item, string user)
         {
             var u = userManager.FindByIdAsync(item.UserId).Result;
             u.PhoneNumber = item.PhoneNumber;
             userManager.UpdateAsync(u);
-            return base.Update(id ,item, user);
+            return base.Update(id, item, user);
         }
 
 
-        public Teacher GetDefault() => context.Teachers.FirstOrDefault(a => a.Name == "Default"  && a.Surname == "User");
+        public Teacher GetDefault() => context.Teachers.FirstOrDefault(a => a.Name == "Default" && a.Surname == "User");
 
         public void AddTeacher()
         {
